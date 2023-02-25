@@ -2,7 +2,7 @@ package tn.esprit.spring.Services.Classes;
 
 import org.springframework.web.bind.annotation.RestController;
 import tn.esprit.spring.DAO.Entities.Credits;
-import tn.esprit.spring.Repositories.CreditsRepository;
+import tn.esprit.spring.DAO.Repositories.CreditsRepository;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 
 import java.util.List;
