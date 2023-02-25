@@ -1,4 +1,4 @@
-package tn.esprit.spring.Services.Interfaces;
+package tn.esprit.spring.Services.interfaces;
 
 public interface ICreditService {
 }
