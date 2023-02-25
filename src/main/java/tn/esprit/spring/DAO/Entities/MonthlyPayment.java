@@ -10,7 +10,7 @@ public class MonthlyPayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long numPayment;
+    int numPayment;
 
     Date paymentDate;
     @ManyToOne

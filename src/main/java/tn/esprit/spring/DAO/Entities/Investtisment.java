@@ -14,7 +14,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name= "Investtisment")
+@Table(name= "Investisment")
 
 public class Investtisment implements Serializable {
     @Id
