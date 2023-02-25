@@ -1,8 +1,7 @@
 package tn.esprit.spring.Services.Classes;
 
-import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.MonthlyPayment;
-import tn.esprit.spring.Repositories.MonthlyPaymentRepository;
+import tn.esprit.spring.DAO.Repositories.MonthlyPaymentRepository;
 import tn.esprit.spring.Services.Interfaces.IMonthlyPayment;
 
 import java.util.List;
