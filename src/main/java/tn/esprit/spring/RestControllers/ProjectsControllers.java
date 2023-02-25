@@ -1,7 +1,7 @@
 package tn.esprit.spring.RestControllers;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.Projects;
 import tn.esprit.spring.Services.interfaces.IProjectsServices;
 
@@ -10,20 +10,20 @@ import java.util.List;
 @RestController
 public class ProjectsControllers {
     private IProjectsServices iProjectsServices;
+
     @GetMapping("/afficherProjects")
-    public List< > afficherProjects() {
+    public List<Projects> afficherProjects() {
         return iProjectsServices.selectAll();
     }
 
-    @PostMapping("ajouterCredit")
-    public Credits ajouterCredit(@RequestBody Credits credits ){
-        return iCreditService.add(credits);
+    @PostMapping("ajouterProjects")
+    public Projects ajouterProjects(@RequestBody Projects projects) {
+        return iProjectsServices.add(projects);
     }
 
-    @GetMapping("afficherCreditAvecId/{id}")
-    public Credits afficherCreditAvecId(@PathVariable int id){
-        return iCreditService.selectById(id);
+    @GetMapping("afficherProjectsAvecId/{id}")
+    public Projects afficherProjectsAvecId(@PathVariable int id) {
+        return iProjectsServices.selectById(id);
 
     }
-
 }
