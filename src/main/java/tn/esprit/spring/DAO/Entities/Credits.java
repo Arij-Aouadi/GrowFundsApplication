@@ -35,6 +35,8 @@ public class Credits implements Serializable {
     Account account ;
     @ManyToMany
     List<Packs> packsList;
+    @OneToMany(mappedBy = "credit")
+    List<MonthlyPayment> monthlyPaymentList;
 
 
 }
