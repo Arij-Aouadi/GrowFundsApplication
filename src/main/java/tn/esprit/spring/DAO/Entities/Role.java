@@ -23,8 +23,6 @@ public class Role implements Serializable {
     int idRole ;
     @Enumerated(EnumType.STRING)
     TypeRole typeRole ;
-    @OneToMany(mappedBy = "role")
-    List<User> userList ;
 
 
 

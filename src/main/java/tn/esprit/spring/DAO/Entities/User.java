@@ -23,8 +23,8 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int cin;
-    String firstName ;
-    String secondName ;
+    String userName ;
+
     @Temporal(TemporalType.DATE )
     Date birthDate;
      int phoneNum ;
@@ -34,8 +34,8 @@ public class User implements Serializable {
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
-     @ManyToOne
-    Role role;
+     @ManyToMany
+      List<Role> listRole;
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
      @OneToMany(mappedBy = "user")
@@ -44,7 +44,10 @@ public class User implements Serializable {
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
-
+   /* @ManyToOne
+    User user ;
+    @OneToMany(mappedBy = "user")
+    List<User> listUser ;*/
 
 
 }
