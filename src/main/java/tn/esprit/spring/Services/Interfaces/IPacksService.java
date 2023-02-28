@@ -14,4 +14,6 @@ public interface IPacksService {
     void delete(Packs a);
     List<Packs> addAll(List<Packs> list);
     void deleteAll(List<Packs> list);
+    List<Packs> selectBytypepack (String type);
+
 }

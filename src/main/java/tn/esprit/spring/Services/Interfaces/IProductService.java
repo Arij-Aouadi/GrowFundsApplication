@@ -14,4 +14,6 @@ public interface IProductService {
     void delete(Product a);
     List<Product> addAll(List<Product> list);
     void deleteAll(List<Product> list);
+    List<Product> selectbynom (String nom);
+    List<Product> selectbyprice (Float a,Float b);
 }
