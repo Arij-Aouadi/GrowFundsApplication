@@ -8,6 +8,7 @@ import tn.esprit.spring.Services.Interfaces.IPacksService;
 
 import java.util.List;
 @RestController
+@RequestMapping("/packs")
 @AllArgsConstructor
 public class PackController {
     private IPacksService iPacksService;
@@ -26,4 +27,6 @@ public class PackController {
         return iPacksService.selectById(id);
     }
 
+    @PostMapping("/addall")
+    public List<Packs> affichertout(@RequestBody List<Packs> packs) {return iPacksService.addAll(packs);}
 }
