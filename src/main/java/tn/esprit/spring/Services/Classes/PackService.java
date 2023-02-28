@@ -36,22 +36,29 @@ public class PackService implements IPacksService {
 
     @Override
     public void deleteById(int idPack) {
-
+        packRepository.deleteById(idPack);
     }
 
     @Override
     public void delete(Packs a) {
+        packRepository.delete(a);
 
     }
 
 
     @Override
     public List<Packs> addAll(List<Packs> list) {
-        return null;
+        return packRepository.saveAll(list);
     }
 
     @Override
     public void deleteAll(List<Packs> list) {
+        packRepository.deleteAll(list);
 
+    }
+
+    @Override
+    public List<Packs> selectBytypepack(String type) {
+        return packRepository.findByTypepack(type);
     }
 }
