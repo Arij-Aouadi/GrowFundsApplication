@@ -1,11 +1,14 @@
 package tn.esprit.spring.Services.Classes;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Projects;
-import tn.esprit.spring.Repositories.ProjectsRepository;
+import tn.esprit.spring.DAO.Repositories.ProjectsRepository;
 import tn.esprit.spring.Services.interfaces.IProjectsServices;
 
 import java.util.List;
-
+@Service
+@AllArgsConstructor
 public class ProjectsServices implements IProjectsServices {
     private ProjectsRepository projectsRepository;
     @Override

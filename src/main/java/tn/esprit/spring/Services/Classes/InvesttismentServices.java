@@ -1,10 +1,14 @@
 package tn.esprit.spring.Services.Classes;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Investtisment;
-import tn.esprit.spring.Repositories.InvesttismentRepository;
+import tn.esprit.spring.DAO.Repositories.InvesttismentRepository;
 import tn.esprit.spring.Services.interfaces.IInvesttismentServices;
 
 import java.util.List;
+@Service
+@AllArgsConstructor
 
 public class InvesttismentServices implements IInvesttismentServices {
     private InvesttismentRepository investtismentRepository ;
@@ -35,8 +39,8 @@ public class InvesttismentServices implements IInvesttismentServices {
     }
 
     @Override
-    public void delete(Investtisment a) {
-  investtismentRepository.delete(a);
+    public void delete(Investtisment i) {
+  investtismentRepository.delete(i);
     }
 
     @Override

@@ -10,7 +10,7 @@ public interface IInvesttismentServices {
     List<Investtisment> selectAll();
     Investtisment selectById(int idinvesttisment);
     void deleteById(int idinvesttisment);
-    void delete(Investtisment a);
+    void delete(Investtisment i);
     List<Investtisment> addAll(List<Investtisment> list);
     void deleteAll(List<Investtisment> list);
 }
