@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.PaymentMethod;
 import tn.esprit.spring.DAO.Entities.TypePayment;
+import tn.esprit.spring.DAO.Repositories.PaymentMethodRepository;
+import tn.esprit.spring.Services.Interfaces.IPaymentMethodService;
 
 import java.util.List;
 

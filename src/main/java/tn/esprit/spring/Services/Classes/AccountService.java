@@ -1,9 +1,13 @@
 package tn.esprit.spring.Services.Classes;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Account;
+import tn.esprit.spring.DAO.Repositories.AccountRepository;
+import tn.esprit.spring.Services.Interfaces.IAccountService;
 
-import java.util.List;AllArgsConstructor //injection par constructeur
+import java.util.List;
+@AllArgsConstructor //injection par constructeur
 @Service
 
 public class AccountService implements IAccountService {
