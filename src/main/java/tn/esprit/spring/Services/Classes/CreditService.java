@@ -50,4 +50,14 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
     public void deleteAll(List<Credits> list) {
         creditsRepository.deleteAll(list);
     }
+
+    @Override
+    public List<Credits> GetCreditsByStatus(String status) {
+        return creditsRepository.findCreditsByStatus(status);
+    }
+
+    @Override
+    public boolean CreditExists(int accountNum) {
+        return creditsRepository.existsCreditsByAccount_AccountNum(accountNum);
+    }
 }

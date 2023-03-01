@@ -1,10 +1,15 @@
 package tn.esprit.spring.Services.Classes;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.MonthlyPayment;
 import tn.esprit.spring.DAO.Repositories.MonthlyPaymentRepository;
 import tn.esprit.spring.Services.Interfaces.IMonthlyPayment;
 
 import java.util.List;
+
+@Service
+@AllArgsConstructor
 
 public class MonthlyPaymentService implements IMonthlyPayment {
     private MonthlyPaymentRepository monthlyPaymentRepository;
