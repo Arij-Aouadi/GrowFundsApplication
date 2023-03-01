@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.Projects;
-import tn.esprit.spring.Services.interfaces.IProjectsServices;
+import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 
 import java.util.List;
 

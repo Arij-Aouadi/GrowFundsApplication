@@ -1,8 +1,10 @@
-package tn.esprit.spring.Services.interfaces;
+package tn.esprit.spring.Services.Interfaces;
 
 import tn.esprit.spring.DAO.Entities.Credits;
 
 import java.util.List;
+
+
 
 public interface ICreditService {
 
@@ -14,4 +16,6 @@ public interface ICreditService {
     void deleteById(int idCredit);
     List<Credits> addAll(List<Credits> List);
     void deleteAll(List<Credits> list);
+    List<Credits> GetCreditsByStatus(String status);
+    boolean CreditExists(int accountNum);
 }
