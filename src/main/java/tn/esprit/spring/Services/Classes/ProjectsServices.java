@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Projects;
 import tn.esprit.spring.DAO.Repositories.ProjectsRepository;
-import tn.esprit.spring.Services.interfaces.IProjectsServices;
+import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 
 import java.util.List;
 @Service

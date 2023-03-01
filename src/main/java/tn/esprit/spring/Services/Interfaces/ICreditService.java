@@ -1,4 +1,4 @@
-package tn.esprit.spring.Services.interfaces;
+package tn.esprit.spring.Services.Interfaces;
 
 import tn.esprit.spring.DAO.Entities.Credits;
 
