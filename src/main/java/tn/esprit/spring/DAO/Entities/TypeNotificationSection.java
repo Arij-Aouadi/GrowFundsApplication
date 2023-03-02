@@ -1,5 +1,5 @@
 package tn.esprit.spring.DAO.Entities;
 
-public enum TypeNotifcatoinSection {
+public enum TypeNotificationSection {
     ACCOUNT,PROJECT,CREDIT,TRANSACTION,OTHER
 }

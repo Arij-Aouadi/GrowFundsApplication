@@ -1,5 +1,5 @@
 package tn.esprit.spring.DAO.Entities;
 
-public enum TypeNotification {
+public enum TypeNotificationStatus {
     Read,UNREAD,PENDING
 }

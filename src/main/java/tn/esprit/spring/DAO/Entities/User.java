@@ -4,7 +4,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import javax.swing.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -44,6 +43,9 @@ public class User implements Serializable {
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
+
+    @OneToMany (mappedBy = "user")
+    List<Notification> notifications;
 
 
 
