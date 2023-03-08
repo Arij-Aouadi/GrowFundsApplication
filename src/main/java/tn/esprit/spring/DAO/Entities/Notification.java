@@ -23,6 +23,7 @@ public class Notification {
     Long idNotification; //a unique identifier for each notification
     @ManyToOne
     User user;//the user for whom the notification is intended
+    Boolean toAll;
 
     String message; //the content of the notification that will be displayed to the user
 

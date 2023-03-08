@@ -1,19 +1,25 @@
 package tn.esprit.spring.Services.Classes;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.DAO.Entities.Notification;
-import tn.esprit.spring.DAO.Entities.TypeNotificationStatus;
-import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.DAO.Entities.*;
 import tn.esprit.spring.DAO.Repositories.NotificationRepository;
 import tn.esprit.spring.Services.Interfaces.INotificationService;
 
 import java.util.List;
 
-@AllArgsConstructor //injection par constructeur
 @Service
-public class NotificationService  implements INotificationService {
+public class NotificationService implements INotificationService {
+    private final SimpMessagingTemplate messagingTemplate;
+    @Autowired
     private NotificationRepository notificationRepository;
+
+
+    @Autowired
+    public NotificationService(SimpMessagingTemplate messagingTemplate) {
+        this.messagingTemplate = messagingTemplate;
+    }
     @Override
     public Notification add(Notification n) {
         return notificationRepository.save(n);
@@ -25,8 +31,9 @@ public class NotificationService  implements INotificationService {
     }
 
     @Override
-    public Notification markAsRead(Notification n) {
-        n.setStatus(TypeNotificationStatus.Read);
+    public Notification markAsRead(long id) {
+        Notification n = notificationRepository.findById(id).get();
+        n.setStatus(TypeNotificationStatus.READ);
         return notificationRepository.save(n);
     }
 
@@ -41,21 +48,31 @@ public class NotificationService  implements INotificationService {
     }
 
     @Override
-    public void delete(Notification n) {
+    public void delete(long id) {
+        Notification n = notificationRepository.findById(id).get();
         notificationRepository.delete(n);
 
     }
 
-
     @Override
-    public List<Notification> getNotificationsByUserId(int idUser) {
-        User u = new User(); // this will be replaced when user repository is ready
-        return (List<Notification>)notificationRepository.findByUser(u);
+    public List<Notification> getNotificationsByUserId(long idUser) {
+        return (List<Notification>)notificationRepository.getNotificationByUser(idUser);
     }
 
     @Override
-    public List<Notification> getSentNotificationsByUserId(int idUser) {
-        User u = new User(); // this will be replaced when user repository is ready
-        return (List<Notification>)notificationRepository.findSentByUser(u);
+    public List<Notification> getSentNotificationsByUserId(long idUser) {
+        return (List<Notification>)notificationRepository.getSentNotificationByUser(idUser);
+    }
+    @Override
+    public void sendGlobalNotification() {
+        WSResponseMessage message = new WSResponseMessage("Global Notification");
+
+        messagingTemplate.convertAndSend("/topic/global-notifications", message);
+    }
+    @Override
+    public void sendPrivateNotification(final String userId) {
+        WSResponseMessage message = new WSResponseMessage("Private Notification");
+
+        messagingTemplate.convertAndSendToUser(userId,"/topic/private-notifications", message);
     }
 }

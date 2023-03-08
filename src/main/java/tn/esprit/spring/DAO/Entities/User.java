@@ -1,9 +1,12 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
+import javax.swing.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +24,16 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int cin;
-    String firstName ;
-    String secondName ;
+        long id;
+
+    String cin;
+
+    String userName ;
+
     @Temporal(TemporalType.DATE )
     Date birthDate;
+    @Temporal(TemporalType.DATE )
+    Date ceratedDate;
      int phoneNum ;
      String email ;
      String adresse ;
@@ -33,8 +41,13 @@ public class User implements Serializable {
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
-     @ManyToOne
-    Role role;
+     @NotNull
+     @Size(min = 8,max = 50)
+     String password ;
+
+
+     @ManyToMany
+      List<Role> listRole;
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
      @OneToMany(mappedBy = "user")
@@ -43,10 +56,10 @@ public class User implements Serializable {
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
-
-    @OneToMany (mappedBy = "user")
-    List<Notification> notifications;
-
+    @ManyToOne
+    User user ;
+    @OneToMany(mappedBy = "user")
+    List<User> listUsers ;
 
 
 }
