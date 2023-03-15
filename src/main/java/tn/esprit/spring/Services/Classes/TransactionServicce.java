@@ -16,35 +16,14 @@ import java.util.List;
 public class TransactionServicce implements ITransactionService {
     private TransactionRepository transactionRepository ;
     private IAccountService iAccountService;
-    @Override
-    public Transactions add(Transactions s) {
-
-            Long source = s.getRibsource();
-            Long des = s.getRibrecipient();
-            List<Account> accountList = iAccountService.selectAll();
-            for (Account account : accountList)
-            {
-                if (account.getRib()==source) {
-                    float sold = account.getSolde();
-                    account.setSolde(sold+ -s.getAmount());
-                    iAccountService.add(account);}
-                else if (account.getRib()==des) {
-                        float a = account.getSolde();
-
-                        account.setSolde(a +s.getAmount());
-                    iAccountService.edit(account);}
-                }
-
-           return transactionRepository.save(s);
-
-        }
 
 
 
-    @Override
-    public Transactions edit(Transactions t) {
-        return transactionRepository.save(t);
-    }
+
+   // @Override
+    //public Transactions edit(Transactions t) {
+        //return transactionRepository.save(t);
+    //}
 
     @Override
     public List<Transactions> selectAll() {
@@ -68,10 +47,10 @@ public class TransactionServicce implements ITransactionService {
 
     }
 
-    @Override
-    public List<Transactions> addAll(List<Transactions> list) {
-        return transactionRepository.saveAll(list);
-    }
+    //@Override
+    //public List<Transactions> addAll(List<Transactions> list) {
+       // return transactionRepository.saveAll(list);
+    //}
     //************************Supprimer toutes les Transaction****************
     @Override
     public void deleteAll(List<Transactions> list) {
@@ -85,7 +64,27 @@ public class TransactionServicce implements ITransactionService {
         return transactionRepository.findByRibsource(ribsource);
     }
 
+    @Override
+    public Transactions addTransaction(Transactions s) {
+        Long source = s.getRibsource();
+        Long des = s.getRibrecipient();
+        List<Account> accountList = iAccountService.selectAll();
+        for (Account account : accountList)
+        {
+            if (account.getRib()==source) {
+                float sold = account.getSolde();
+                account.setSolde(sold+ -s.getAmount());
+                iAccountService.add(account);}
 
+            else if (account.getRib()==des) {
+                float a = account.getSolde();
+
+                account.setSolde(a+s.getAmount());
+                iAccountService.edit(account);}
+        }
+
+        return transactionRepository.save(s);
+    }
 
 
 }

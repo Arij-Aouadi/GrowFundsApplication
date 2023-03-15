@@ -19,7 +19,7 @@ public class TransactionRestController {
     }
     @PostMapping("/ajouterTransaction")
     public Transactions ajouter(@RequestBody Transactions transactions){
-        return iTransactionService.add(transactions);
+        return iTransactionService.addTransaction(transactions);
 
     }
     @GetMapping("/afficherTransactionAvecId/{id}")
@@ -27,14 +27,14 @@ public class TransactionRestController {
     {
         return iTransactionService.selectById(id);
     }
-    @PostMapping("/ajouterallTransaction")
+    //@PostMapping("/ajouterallTransaction")
 
-    public List<Transactions> addAll (List<Transactions>list){
-        return iTransactionService.addAll(list);
-    }
-    @PutMapping ("/modifierTransaction")
-    public Transactions edit(@RequestBody Transactions transaction){
-        return iTransactionService.edit(transaction);}
+    //public List<Transactions> addAll (List<Transactions>list){
+     //   return iTransactionService.addAll(list);
+    //}
+    //@PutMapping ("/modifierTransaction")
+    //public Transactions edit(@RequestBody Transactions transaction){
+        //return iTransactionService.edit(transaction);}
 
     @DeleteMapping ("/deleteTransactionbyid")
     public void deletebyid (@RequestParam int id){
