@@ -1,5 +1,13 @@
 package tn.esprit.spring.DAO.Entities;
 
-public enum TypeRole {
-    CLIENT,GARANT,AGENT,INVESTOR,PARTNER
+import org.springframework.security.core.GrantedAuthority;
+
+public enum TypeRole implements GrantedAuthority
+{
+    Admin,CLIENT,AGENT;
+
+    @Override
+    public String getAuthority() {
+        return null;
+    }
 }
