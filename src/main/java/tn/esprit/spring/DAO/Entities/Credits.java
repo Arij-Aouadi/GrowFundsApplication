@@ -27,16 +27,17 @@ public class Credits implements Serializable {
     Date dateDebut;
     @Temporal(TemporalType.DATE )
     Date dateFin;
-    Float paymentMounthly ;
     Float interestRate ;
     String status ;
     String typeCredit ;
+    String Judgment;
     @ManyToOne
     Account account ;
     @ManyToMany
     List<Packs> packsList;
     @OneToMany(mappedBy = "credit")
     List<MonthlyPayment> monthlyPaymentList;
-
+    @OneToOne
+    User guarant;
 
 }

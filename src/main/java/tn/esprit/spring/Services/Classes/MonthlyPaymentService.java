@@ -6,6 +6,7 @@ import tn.esprit.spring.DAO.Entities.MonthlyPayment;
 import tn.esprit.spring.DAO.Repositories.MonthlyPaymentRepository;
 import tn.esprit.spring.Services.Interfaces.IMonthlyPayment;
 
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -52,4 +53,14 @@ public class MonthlyPaymentService implements IMonthlyPayment {
     public void deleteAll(List<MonthlyPayment> list) {
         monthlyPaymentRepository.deleteAll(list);
     }
+
+    @Override
+    public MonthlyPayment CalculateDueDate(MonthlyPayment mp) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(mp.getCredit().getDateDebut());
+        cal.add(Calendar.DATE, mp.getIdPayment()*30);
+        mp.setPaymentSupposedDate(cal.getTime());
+        return mp;
+    }
+
 }

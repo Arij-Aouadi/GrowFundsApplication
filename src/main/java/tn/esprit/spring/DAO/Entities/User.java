@@ -29,11 +29,13 @@ public class User implements Serializable {
     Date birthDate;
      int phoneNum ;
      String email ;
-     String adresse ;
-     Float salaire ;
+     String address ;
+     Float salary ;
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
+     int stabilityYears ;
+     int numberPastCredit;
      @ManyToOne
     Role role;
      @OneToMany(mappedBy = "user")
@@ -44,6 +46,8 @@ public class User implements Serializable {
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
+    @OneToOne(mappedBy = "guarant")
+    Credits creditGuarant;
 
 
 
