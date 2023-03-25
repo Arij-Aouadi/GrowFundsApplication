@@ -1,35 +1,37 @@
 package tn.esprit.spring.payload.request;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.mapping.Set;
+import tn.esprit.spring.DAO.Entities.Role;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
 public class SignupRequest {
-    //@NotBlank
-//@Size(min = 3, max = 20)
+    @NotNull
+@Size(min = 3, max = 20)
 private String username;
 
-    //@NotBlank
-    //@Size(max = 50)
-    //@Email
+    @NotNull
+    @Size(max = 50)
+    @Email
     private String email;
 
 
-
-    //@NotBlank
-    //@Size(min = 6, max = 40)
+    @NotNull
+    @Size(min = 8, max = 40)
     private String password;
+    String cin ;
+    List<String> role;
 
 
 
-
-
-
-
-
-
-   }
+}
 
 

@@ -1,16 +1,26 @@
 package tn.esprit.spring.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import tn.esprit.spring.DAO.Entities.Role;
+import tn.esprit.spring.DAO.Entities.TypeRole;
 import tn.esprit.spring.DAO.Entities.User;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
-
 @Getter
+
 @Setter
-public class UserDetailsImpl {	private static final long serialVersionUID = 1L;
+public class UserDetailsImpl implements UserDetails {
+    private static final long serialVersionUID = 1L;
 
     private Long id;
 
@@ -20,10 +30,8 @@ public class UserDetailsImpl {	private static final long serialVersionUID = 1L;
 
     @JsonIgnore
     private String password;
-
-    //private Collection<? extends GrantedAuthority> authorities;
-
-  /*  public UserDetailsImpl(Long id, String username, String email, String password,
+    private Collection<? extends GrantedAuthority> authorities;
+    public UserDetailsImpl(Long id, String username, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
@@ -33,22 +41,38 @@ public class UserDetailsImpl {	private static final long serialVersionUID = 1L;
     }
 
 
+    public static UserDetailsImpl build(User user) {
+        List<GrantedAuthority> authorities = user.getRole().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getTypeRole().name()))
+                .collect(Collectors.toList());
 
+        return new UserDetailsImpl(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                authorities);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return authorities;
+       return  this.authorities;
     }
 
-
+    public Long getId() {
+        return this.id;
+    }
+    public String getEmail() {
+        return this.email;
+    }
 
     @Override
     public String getPassword() {
-        return password;
+        return this.password;
     }
 
     @Override
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     @Override
@@ -70,7 +94,6 @@ public class UserDetailsImpl {	private static final long serialVersionUID = 1L;
     public boolean isEnabled() {
         return true;
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -79,5 +102,5 @@ public class UserDetailsImpl {	private static final long serialVersionUID = 1L;
             return false;
         UserDetailsImpl user = (UserDetailsImpl) o;
         return Objects.equals(id, user.id);
-    }*/
+    }
 }

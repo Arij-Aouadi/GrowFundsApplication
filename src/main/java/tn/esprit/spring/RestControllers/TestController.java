@@ -1,6 +1,7 @@
 package tn.esprit.spring.RestControllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,19 +13,19 @@ public class TestController {
         return "Public Content.";
     }
     @GetMapping("/user")
-    //@PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT') or hasRole('ADMIN')")
     public String userAccess() {
-        return "User Content.";
+        return "Client Content.";
     }
 
-    @GetMapping("/mod")
-    //@PreAuthorize("hasRole('MODERATOR')")
-    public String moderatorAccess() {
-        return "Moderator Board.";
+    @GetMapping("/Agent")
+    @PreAuthorize("hasRole('AGENT')")
+    public String AgentAccess() {
+        return "Agent Board.";
     }
 
     @GetMapping("/admin")
-    //@PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
         return "Admin Board.";
     }

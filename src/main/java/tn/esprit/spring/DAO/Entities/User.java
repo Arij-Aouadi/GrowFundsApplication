@@ -1,13 +1,16 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import javax.swing.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -22,11 +25,12 @@ import java.util.List;
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int cin;
-    String userName ;
-
+        long id;
+    String username ;
+     String cin;
     @Temporal(TemporalType.DATE )
     Date birthDate;
+
      int phoneNum ;
      String email ;
      String adresse ;
@@ -34,8 +38,13 @@ public class User implements Serializable {
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
-     @ManyToMany
-      List<Role> listRole;
+     @NotNull
+     @Size(min = 8,max = 50)
+     String password ;
+
+
+     @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+     Set<Role> role;
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
      @OneToMany(mappedBy = "user")
@@ -44,10 +53,13 @@ public class User implements Serializable {
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
-   /* @ManyToOne
+    @ManyToOne
     User user ;
     @OneToMany(mappedBy = "user")
-    List<User> listUser ;*/
+    List<User> listUsers ;
 
 
+    public User(String username, String email, String encode) {
+
+    }
 }
