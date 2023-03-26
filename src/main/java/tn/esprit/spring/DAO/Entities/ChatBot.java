@@ -13,16 +13,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name= "Likes")
-
-public class Likes implements Serializable {
+@Table(name= "ChatBot")
+public class ChatBot implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    int id;
 
-    @Column(name = "userId")
-    private int userId;
 
-    @Column(name = "packageId")
-    private int packageId;
+     String Questions;
+
+
+     String Responses;
+
+
 }
