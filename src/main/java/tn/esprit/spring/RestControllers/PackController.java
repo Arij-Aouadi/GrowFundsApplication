@@ -71,6 +71,10 @@ public class PackController {
         Packs mostLikedPackage = iPacksService.getMostLikedPackage();
         return mostLikedPackage;
     }
+    @PostMapping("/addPack/{idPack}/{idProduct}")
+    public Packs createandaffect(@PathVariable("idPack") int idpack, @PathVariable("idProduct") List<Integer> id) {
+        return iPacksService.createandaffect(idpack,id);
 
+    }
 
 }
