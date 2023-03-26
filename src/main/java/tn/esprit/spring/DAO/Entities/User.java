@@ -38,10 +38,9 @@ public class User implements Serializable {
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
+     String questions;
      int stabilityYears ;
      int numberPastCredit;
-     @ManyToOne
-    Role role;
      @NotNull
      @Size(min = 8,max = 50)
      String password ;
