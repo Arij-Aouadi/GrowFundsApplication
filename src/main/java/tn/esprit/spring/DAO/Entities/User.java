@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -38,9 +39,15 @@ public class User implements Serializable {
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
-     String questions;
-     int stabilityYears ;
-     int numberPastCredit;
+     String NewQuestions;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "Likes",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "packageId"))
+    private List<Packs> likedPackages;
+
      @NotNull
      @Size(min = 8,max = 50)
      String password ;
