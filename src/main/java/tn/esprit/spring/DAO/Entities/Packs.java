@@ -32,6 +32,7 @@ public class Packs implements Serializable {
 
     @ManyToMany(cascade = CascadeType.ALL)
     private Set<Product> product_pack;
+    @JsonIgnore
 
     @ManyToMany(mappedBy = "likedPackages")
     private List<User> likedByUsers;

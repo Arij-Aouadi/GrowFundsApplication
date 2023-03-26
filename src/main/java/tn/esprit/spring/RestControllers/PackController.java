@@ -57,4 +57,20 @@ public class PackController {
 
     @PostMapping("/AddAll")
     public List<Packs> affichertout(@RequestBody List<Packs> packs) {return iPacksService.addAll(packs);}
+
+
+    @GetMapping("/likes-count/{packageId}")
+    public int countLikesByPackageId(@PathVariable int packageId) {
+        return iPacksService.getLikesCountByPackage(packageId);
+
+
+    }
+
+    @GetMapping("/most-liked")
+    public Packs getMostLikedPackage() {
+        Packs mostLikedPackage = iPacksService.getMostLikedPackage();
+        return mostLikedPackage;
+    }
+
+
 }
