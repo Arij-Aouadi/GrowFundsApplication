@@ -45,6 +45,10 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
 
+    public String getMail() {
+        return email;
+    }
+
 
 
 }

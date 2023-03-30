@@ -2,6 +2,7 @@ package tn.esprit.spring.Services.Interfaces;
 
 import tn.esprit.spring.DAO.Entities.Transactions;
 
+import javax.mail.MessagingException;
 import java.util.List;
 
 public interface ITransactionService {
@@ -14,5 +15,11 @@ public interface ITransactionService {
     //List<Transactions> addAll(List<Transactions> list);
     void deleteAll(List<Transactions> list);
     List<Transactions> selectByRibsource(long ribsource);
-    Transactions addTransaction(Transactions s );
+    //Transactions addTransaction(Transactions s );
+    int  addTransaction(Transactions s ) throws MessagingException;
+    //String  approveTransaction(Transactions s) throws MessagingException;
+    int sendAttachmentEmail(String ReciverEmail) throws MessagingException;
+
+    String  approveTransactionAng(Transactions s, Long code ) throws MessagingException;
+
 }
