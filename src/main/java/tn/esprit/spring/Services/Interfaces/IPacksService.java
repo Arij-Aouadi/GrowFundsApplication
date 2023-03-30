@@ -15,5 +15,8 @@ public interface IPacksService {
     List<Packs> addAll(List<Packs> list);
     void deleteAll(List<Packs> list);
     List<Packs> selectBytypepack (String type);
+    int getLikesCountByPackage (int p);
+    Packs getMostLikedPackage();
+    Packs createandaffect(int pr, List<Integer> p);
 
 }
