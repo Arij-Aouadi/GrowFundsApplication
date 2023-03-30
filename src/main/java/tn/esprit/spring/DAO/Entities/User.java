@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,6 +11,7 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -25,15 +27,11 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
         long id;
-
-    String cin;
-
-    String userName ;
-
+    String username ;
+     String cin;
     @Temporal(TemporalType.DATE )
     Date birthDate;
-    @Temporal(TemporalType.DATE )
-    Date ceratedDate;
+
      int phoneNum ;
      String email ;
      String adresse ;
@@ -41,13 +39,22 @@ public class User implements Serializable {
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
+     String NewQuestions;
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "Likes",
+            joinColumns = @JoinColumn(name = "userId"),
+            inverseJoinColumns = @JoinColumn(name = "packageId"))
+    private List<Packs> likedPackages;
+
      @NotNull
      @Size(min = 8,max = 50)
      String password ;
 
 
-     @ManyToMany
-      List<Role> listRole;
+     @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
+     Set<Role> role;
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
      @OneToMany(mappedBy = "user")
@@ -62,4 +69,7 @@ public class User implements Serializable {
     List<User> listUsers ;
 
 
+    public User(String username, String email, String encode) {
+
+    }
 }

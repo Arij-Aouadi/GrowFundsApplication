@@ -1,16 +1,17 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,10 +26,16 @@ public class Packs implements Serializable {
     String typepack ;
     String descriptionpack;
     Float price ;
-    @ManyToMany(mappedBy = "packsList")
-    List<Credits> creditsList;
     @ManyToMany
-    List<Product> productList;
+    List<Credits> creditsList;
+    @JsonIgnore
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    private Set<Product> product_pack;
+    @JsonIgnore
+
+    @ManyToMany(mappedBy = "likedPackages")
+    private List<User> likedByUsers;
 
 
 }
