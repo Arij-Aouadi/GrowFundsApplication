@@ -7,9 +7,10 @@ import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IUserService;
 
 import java.util.List;
-@Service
-@AllArgsConstructor
 
+
+@AllArgsConstructor
+@Service
 public class UserService implements IUserService {
     private UserRepository userRepository;
     @Override
@@ -21,11 +22,6 @@ public class UserService implements IUserService {
     public User add(User user) {
         return userRepository.save(user);
     }
-
-@AllArgsConstructor
-@Service
-public class UserService implements IUserService {
-    private UserRepository userRepository;
     @Override
     public User edit(User user) {
         return userRepository.save(user);
