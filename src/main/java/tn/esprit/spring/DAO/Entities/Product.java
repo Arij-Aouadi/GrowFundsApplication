@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,6 +24,7 @@ public class Product implements Serializable {
     int idProduct;
     String nameProdcut;
     Float priceProduct;
-    @ManyToMany(mappedBy = "productList")
-    List<Packs> packsList ;
+    @JsonIgnore
+    @ManyToMany(mappedBy="product_pack", cascade = CascadeType.ALL)
+    private List<Packs> packs;
 }

@@ -5,27 +5,24 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name= "Role")
+@Table(name= "Likes")
 
-public class Role implements Serializable {
+public class Likes implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int idRole ;
-    @Enumerated(EnumType.STRING)
-    TypeRole typeRole ;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
 
+    @Column(name = "userId")
+    private int userId;
 
-
-
-
+    @Column(name = "packageId")
+    private int packageId;
 }
