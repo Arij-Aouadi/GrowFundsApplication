@@ -20,5 +20,5 @@ public interface UserRepository extends JpaRepository<User,Long> {
 
     //@Query(value = "SELECT u.* FROM user u join role r on u.role_id_role=r.id_role ",nativeQuery = true)
     //List<User> selectUsersByRoleType(Long idRole);
-
+    //@Query (value = "SELECT user from user u join account a on u.id=)
 }
