@@ -7,6 +7,8 @@ import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -18,8 +20,13 @@ public class CreditController {
         return iCreditService.selectAll();
     }
 
-    @GetMapping("/affichercreditsactive")
-    public List<Credits> afficherCreditActive(@RequestParam String status) {
+    @GetMapping("/afficheweights")
+    public Double afficherWeights(@RequestParam int idCredit) throws IOException {
+        return iCreditService.predict(idCredit);
+    }
+
+    @GetMapping("/afficherCreditsParStatus")
+    public List<Credits> afficherCreditStatus(@RequestParam String status) {
         return iCreditService.GetCreditsByStatus(status);
     }
 

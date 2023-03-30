@@ -2,6 +2,10 @@ package tn.esprit.spring.Services.Interfaces;
 
 import tn.esprit.spring.DAO.Entities.Credits;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,5 +22,5 @@ public interface ICreditService {
     void deleteAll (List<Credits> list);
     List<Credits> GetCreditsByStatus (String status);
     boolean CreditExists (int accountNum);
-    void predict (Credits c);
+    Double predict (int idCredit) throws IOException;
 }

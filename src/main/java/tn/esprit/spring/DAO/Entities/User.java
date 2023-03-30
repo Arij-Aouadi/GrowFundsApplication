@@ -40,6 +40,8 @@ public class User implements Serializable {
      String relationWithClient ;
      String Profession ;
      String NewQuestions;
+
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -59,7 +61,7 @@ public class User implements Serializable {
      List<Account> accountList ;
      @OneToMany(mappedBy = "user")
      List<Projects> projectsList;
-     @OneToMany(mappedBy = "user")
+     @OneToMany(mappedBy = "investor")
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
