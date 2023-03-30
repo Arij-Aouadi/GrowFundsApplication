@@ -24,6 +24,7 @@ public class Product implements Serializable {
     int idProduct;
     String nameProdcut;
     Float priceProduct;
+    int Quantity ;
     @JsonIgnore
     @ManyToMany(mappedBy="product_pack", cascade = CascadeType.ALL)
     private List<Packs> packs;

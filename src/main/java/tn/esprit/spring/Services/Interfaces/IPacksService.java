@@ -3,6 +3,7 @@ package tn.esprit.spring.Services.Interfaces;
 import tn.esprit.spring.DAO.Entities.Packs;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IPacksService {
 
@@ -17,6 +18,6 @@ public interface IPacksService {
     List<Packs> selectBytypepack (String type);
     int getLikesCountByPackage (int p);
     Packs getMostLikedPackage();
-    Packs createandaffect(int pr, List<Integer> p);
+    Boolean createandaffect(int pr, Map<Integer, Integer> products);
 
 }

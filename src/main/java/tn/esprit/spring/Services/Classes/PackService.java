@@ -1,5 +1,7 @@
 package tn.esprit.spring.Services.Classes;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import javafx.util.Pair;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Packs;
@@ -8,10 +10,7 @@ import tn.esprit.spring.DAO.Repositories.PackRepository;
 import tn.esprit.spring.DAO.Repositories.ProductRepository;
 import tn.esprit.spring.Services.Interfaces.IPacksService;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
@@ -82,14 +81,21 @@ public class PackService implements IPacksService {
     }
 
     @Override
-    public Packs createandaffect(int pr, List<Integer> p) {
+    public Boolean createandaffect(int pr, Map<Integer, Integer> products) {
         Set<Product> prod=new HashSet<Product>();
         float price=0;
-        for(int idp:p) {
-            Product product= productRepository.findById(idp).orElse(null) ;
-            prod.add(product);
+        for(Map.Entry<Integer, Integer>  idp:products.entrySet()) {
+            System.out.println(idp.getKey());
+            System.out.println(idp.getValue());
+            Product product= productRepository.findById(idp.getKey()).orElse(null) ;
+            int a=product.getQuantity();
+            product.setQuantity(a-idp.getValue());
+            if ( product.getQuantity()<=0 ){return false ;}
+            else
+            { prod.add(product);}
 
         }
+        System.out.println(prod);
         Packs pro =packRepository.findByIdPack(pr);
         pro.setProduct_pack(prod);
         for (Product produit:prod) {
@@ -97,8 +103,8 @@ public class PackService implements IPacksService {
             price = price + produit.getPriceProduct() ;
         }
         pro.setPrice(price);
-
-        return packRepository.save(pro);
+        packRepository.save(pro);
+        return true;
     }
 
 }
