@@ -1,23 +1,24 @@
 package tn.esprit.spring.Services.Classes;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import javafx.util.Pair;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Packs;
 import tn.esprit.spring.DAO.Entities.Product;
 import tn.esprit.spring.DAO.Repositories.PackRepository;
 import tn.esprit.spring.DAO.Repositories.ProductRepository;
+import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IPacksService;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @AllArgsConstructor
 @Service
 public class PackService implements IPacksService {
     private PackRepository packRepository ;
   private ProductRepository productRepository;
+  private UserRepository userRepository;
 
     @Override
     public Packs add(Packs a) {
@@ -82,14 +83,21 @@ public class PackService implements IPacksService {
     }
 
     @Override
-    public Packs createandaffect(int pr, List<Integer> p) {
+    public Boolean createandaffect(int pr, Map<Integer, Integer> products) {
         Set<Product> prod=new HashSet<Product>();
         float price=0;
-        for(int idp:p) {
-            Product product= productRepository.findById(idp).orElse(null) ;
-            prod.add(product);
+        for(Map.Entry<Integer, Integer>  idp:products.entrySet()) {
+            System.out.println(idp.getKey());
+            System.out.println(idp.getValue());
+            Product product= productRepository.findById(idp.getKey()).orElse(null) ;
+            int a=product.getQuantity();
+            product.setQuantity(a-idp.getValue());
+            if ( product.getQuantity()<=0 ){return false ;}
+            else
+            { prod.add(product);}
 
         }
+        System.out.println(prod);
         Packs pro =packRepository.findByIdPack(pr);
         pro.setProduct_pack(prod);
         for (Product produit:prod) {
@@ -97,8 +105,59 @@ public class PackService implements IPacksService {
             price = price + produit.getPriceProduct() ;
         }
         pro.setPrice(price);
-
-        return packRepository.save(pro);
+        packRepository.save(pro);
+        return true;
     }
+
+    @Override
+    public List<Packs> getRecommendedPacks(int userId) {
+        // 1. Récupérer le typePack le plus liké par l'utilisateur
+        String favoriteTypePack = getFavoriteTypePack(userId);
+
+        // 2. Récupérer tous les packs qui ont le même typePack que le typePack préféré
+        List<Packs> packsWithFavoriteType = getPacksByTypePack(favoriteTypePack);
+
+        // 3. Retourner les packs recommandés
+        return packsWithFavoriteType;
+
+    }
+
+    @Override
+    public String getFavoriteTypePack(int userId) {
+        // Récupérer tous les packs likés par l'utilisateur
+        List<Packs> likedPacks = userRepository.findById((long) userId).get().getLikedPackages();
+
+        // Créer une map pour stocker le nombre de likes par typePack
+        Map<String, Integer> typePackLikes = new HashMap<>();
+
+        // Parcourir tous les packs likés par l'utilisateur
+        for (Packs pack : likedPacks) {
+            // Récupérer le typePack du pack
+            String typePack = pack.getTypepack();
+
+            // Incrémenter le compteur de likes pour ce typePack
+            typePackLikes.put(typePack, typePackLikes.getOrDefault(typePack, 0) + 1);
+        }
+
+        // Trouver le typePack avec le plus de likes
+        String favoriteTypePack = null;
+        int maxLikes = 0;
+        for (Map.Entry<String, Integer> entry : typePackLikes.entrySet()) {
+            if (entry.getValue() > maxLikes) {
+                maxLikes = entry.getValue();
+                favoriteTypePack = entry.getKey();
+            }
+        }
+
+        // Retourner le typePack préféré
+        return favoriteTypePack;
+    }
+
+    @Override
+    public List<Packs> getPacksByTypePack(String typePack) {
+        // Récupérer tous les packs avec le typePack donné
+        return packRepository.findByTypepack(typePack);
+    }
+
 
 }
