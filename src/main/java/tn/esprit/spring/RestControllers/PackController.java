@@ -78,5 +78,10 @@ public class PackController {
         return iPacksService.createandaffect(idpack,products);
 
     }
+    @GetMapping("/packs/{userId}/recommended-packs")
+    public List<Packs> getRecommendedPacksByUserId(@PathVariable int userId) {
+        return iPacksService.getRecommendedPacks(userId);
+    }
+
 
 }

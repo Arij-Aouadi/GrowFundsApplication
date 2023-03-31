@@ -19,5 +19,7 @@ public interface IPacksService {
     int getLikesCountByPackage (int p);
     Packs getMostLikedPackage();
     Boolean createandaffect(int pr, Map<Integer, Integer> products);
-
+     List<Packs> getRecommendedPacks(int userId);
+     String getFavoriteTypePack(int userId);
+     List<Packs> getPacksByTypePack(String typePack);
 }

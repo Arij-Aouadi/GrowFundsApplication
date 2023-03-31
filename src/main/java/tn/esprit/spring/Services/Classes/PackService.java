@@ -8,6 +8,7 @@ import tn.esprit.spring.DAO.Entities.Packs;
 import tn.esprit.spring.DAO.Entities.Product;
 import tn.esprit.spring.DAO.Repositories.PackRepository;
 import tn.esprit.spring.DAO.Repositories.ProductRepository;
+import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IPacksService;
 
 import java.util.*;
@@ -17,6 +18,7 @@ import java.util.*;
 public class PackService implements IPacksService {
     private PackRepository packRepository ;
   private ProductRepository productRepository;
+  private UserRepository userRepository;
 
     @Override
     public Packs add(Packs a) {
@@ -106,5 +108,56 @@ public class PackService implements IPacksService {
         packRepository.save(pro);
         return true;
     }
+
+    @Override
+    public List<Packs> getRecommendedPacks(int userId) {
+        // 1. Récupérer le typePack le plus liké par l'utilisateur
+        String favoriteTypePack = getFavoriteTypePack(userId);
+
+        // 2. Récupérer tous les packs qui ont le même typePack que le typePack préféré
+        List<Packs> packsWithFavoriteType = getPacksByTypePack(favoriteTypePack);
+
+        // 3. Retourner les packs recommandés
+        return packsWithFavoriteType;
+
+    }
+
+    @Override
+    public String getFavoriteTypePack(int userId) {
+        // Récupérer tous les packs likés par l'utilisateur
+        List<Packs> likedPacks = userRepository.findById((long) userId).get().getLikedPackages();
+
+        // Créer une map pour stocker le nombre de likes par typePack
+        Map<String, Integer> typePackLikes = new HashMap<>();
+
+        // Parcourir tous les packs likés par l'utilisateur
+        for (Packs pack : likedPacks) {
+            // Récupérer le typePack du pack
+            String typePack = pack.getTypepack();
+
+            // Incrémenter le compteur de likes pour ce typePack
+            typePackLikes.put(typePack, typePackLikes.getOrDefault(typePack, 0) + 1);
+        }
+
+        // Trouver le typePack avec le plus de likes
+        String favoriteTypePack = null;
+        int maxLikes = 0;
+        for (Map.Entry<String, Integer> entry : typePackLikes.entrySet()) {
+            if (entry.getValue() > maxLikes) {
+                maxLikes = entry.getValue();
+                favoriteTypePack = entry.getKey();
+            }
+        }
+
+        // Retourner le typePack préféré
+        return favoriteTypePack;
+    }
+
+    @Override
+    public List<Packs> getPacksByTypePack(String typePack) {
+        // Récupérer tous les packs avec le typePack donné
+        return packRepository.findByTypepack(typePack);
+    }
+
 
 }
