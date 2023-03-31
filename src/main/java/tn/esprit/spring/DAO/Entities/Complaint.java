@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,7 +22,7 @@ import java.util.List;
 public class Complaint implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int idComplaint ;
+    Long idComplaint ;
     //User Information
     @ManyToOne
     User user ;
@@ -40,7 +41,7 @@ public class Complaint implements Serializable{
 
     //Type of Complaint: Categorize the type of complaint received, such as account-related issues,
     // transaction disputes, billing discrepancies, fraud, or service-related complaints
-    String type;
+    String objet;
 
     //Description of Complaint: A detailed description of the complaint,
     // including the date and time of the issue, and any relevant account or transaction details.

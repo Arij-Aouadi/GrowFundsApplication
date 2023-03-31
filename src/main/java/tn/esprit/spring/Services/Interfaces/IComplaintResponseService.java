@@ -9,6 +9,5 @@ public interface IComplaintResponseService {
     ComplaintResponse add(ComplaintResponse c);
     ComplaintResponse edit(ComplaintResponse c);
     List<ComplaintResponse> getAllByComplaint(Complaint c);
-    void delete(Complaint c);
-    void deleteById(int idComplaint);
+    void delete(Long id);
 }

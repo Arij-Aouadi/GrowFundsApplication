@@ -8,9 +8,9 @@ public interface IComplaintService {
     Complaint add(Complaint c);
     Complaint edit(Complaint c);
     List<Complaint> getAll();
-    Complaint selectById(int idComplaint);
+    Complaint selectById(Long idComplaint);
     void delete(Complaint c);
-    void deleteById(int idComplaint);
-    List<Complaint> getComplaintsByClient(int idClient);
+    void deleteById(Long idComplaint);
+    List<Complaint> getComplaintsByClient(Long idClient);
 
 }

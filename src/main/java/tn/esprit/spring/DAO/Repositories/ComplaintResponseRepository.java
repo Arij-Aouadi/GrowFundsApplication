@@ -8,8 +8,8 @@ import tn.esprit.spring.DAO.Entities.ComplaintResponse;
 
 import java.util.List;
 
-public interface ComplaintResponseRepository extends JpaRepository<ComplaintResponse,Integer> {
+public interface ComplaintResponseRepository extends JpaRepository<ComplaintResponse,Long> {
 
     @Query("SELECT  cr FROM ComplaintResponse cr  WHERE cr.complaint.idComplaint=:id")
-    List<ComplaintResponse> getResponsesByComplaint(@Param("id") int id);
+    List<ComplaintResponse> getResponsesByComplaint(@Param("id") Long id);
 }

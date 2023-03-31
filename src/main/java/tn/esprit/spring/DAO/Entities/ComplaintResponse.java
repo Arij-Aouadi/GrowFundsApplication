@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -20,8 +21,9 @@ import java.util.List;
 public class ComplaintResponse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int idComplaint ;
+    Long idResponse;
     //User Information
+
     @ManyToOne
     User user ;
     //Description of Complaint: A detailed description of the complaint,
@@ -30,6 +32,7 @@ public class ComplaintResponse {
     //Date of creation
     @Temporal(TemporalType.DATE)
     Date dateResponse ;
+    @JsonIgnore
     @ManyToOne
     Complaint complaint;
 

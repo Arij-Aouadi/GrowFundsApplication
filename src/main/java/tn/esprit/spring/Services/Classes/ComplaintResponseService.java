@@ -32,12 +32,9 @@ public class ComplaintResponseService implements IComplaintResponseService  {
     }
 
     @Override
-    public void delete(Complaint c) {
-
+    public void delete(Long id){
+        complaintResponseRepository.deleteById(id);
     }
 
-    @Override
-    public void deleteById(int idComplaint) {
 
-    }
 }

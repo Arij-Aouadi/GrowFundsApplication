@@ -7,7 +7,7 @@ import tn.esprit.spring.DAO.Entities.Complaint;
 
 import java.util.List;
 
-public interface ComplaintRepository extends JpaRepository<Complaint,Integer> {
+public interface ComplaintRepository extends JpaRepository<Complaint,Long> {
     @Query("SELECT  c FROM Complaint c  WHERE c.user.id=:id")
-    List<Complaint> getComplaintByClient(@Param("id") int id);
+    List<Complaint> getComplaintByClient(@Param("id") Long id);
 }

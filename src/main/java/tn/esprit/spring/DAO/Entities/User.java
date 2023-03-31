@@ -31,6 +31,8 @@ public class User implements Serializable {
      String cin;
     @Temporal(TemporalType.DATE )
     Date birthDate;
+    @Temporal(TemporalType.DATE )
+    Date createdDate;
 
      int phoneNum ;
      String email ;
@@ -61,6 +63,7 @@ public class User implements Serializable {
      List<Projects> projectsList;
      @OneToMany(mappedBy = "user")
     List<Investtisment> investtismentList;
+     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
     @ManyToOne

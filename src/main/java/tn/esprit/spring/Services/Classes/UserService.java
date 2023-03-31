@@ -21,4 +21,9 @@ public class UserService implements IUserService {
     public User add(User user) {
         return userRepository.save(user);
     }
+
+    //TO Be changed later
+    public User getConnectedUser(){
+        return userRepository.findById(1L).get();
+    }
 }

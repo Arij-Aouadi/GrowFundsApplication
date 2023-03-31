@@ -31,7 +31,7 @@ public class ComplaintService implements IComplaintService {
 
 
     @Override
-    public Complaint selectById(int idComplaint) {
+    public Complaint selectById(Long idComplaint) {
         return complaintRepository.findById(idComplaint).get();
     }
 
@@ -41,12 +41,12 @@ public class ComplaintService implements IComplaintService {
     }
 
     @Override
-    public void deleteById(int idComplaint) {
+    public void deleteById(Long idComplaint) {
         complaintRepository.deleteById(idComplaint);
     }
 
     @Override
-    public List<Complaint> getComplaintsByClient(int idClient) {
+    public List<Complaint> getComplaintsByClient(Long idClient) {
         return complaintRepository.getComplaintByClient(idClient);
     }
 

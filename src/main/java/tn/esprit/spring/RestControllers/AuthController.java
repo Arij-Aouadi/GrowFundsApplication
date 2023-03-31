@@ -26,10 +26,7 @@ import tn.esprit.spring.security.services.UserDetailsImpl;
 
 
 import javax.validation.Valid;
-import java.util.Base64;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -101,6 +98,7 @@ public class AuthController {
         user1.setUsername(signUpRequest.getUsername());
         user1.setPassword(encoder.encode(signUpRequest.getPassword()));
         user1.setCin(signUpRequest.getCin());
+        user1.setCreatedDate(new Date());
 
         List<String> strRoles = signUpRequest.getRole();
 
@@ -140,5 +138,6 @@ public class AuthController {
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!" + signUpRequest.getUsername()));
     }
+
 
 }
