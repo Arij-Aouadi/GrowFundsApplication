@@ -8,8 +8,9 @@ import tn.esprit.spring.DAO.Entities.Notification;
 import java.util.List;
 
 public interface NotificationRepository extends JpaRepository<Notification,Long> {
-    @Query("SELECT  n FROM Notification n  WHERE n.user.id=:id or n.toAll=true and n.sentDate>n.user.createdDate")
+    @Query("SELECT  n FROM Notification n  WHERE n.user.id=:id")
     List<Notification> getNotificationByUser(@Param("id") long id);
-    @Query("SELECT  n FROM Notification n  WHERE n.user.id=:id or n.toAll=true and n.sentDate>n.user.createdDate and n.status != 'PENDING'")
+    @Query("SELECT  n FROM Notification n  WHERE n.user.id=:id  and n.status != 'PENDING'")
     List<Notification> getSentNotificationByUser(@Param("id") long id);
+
 }

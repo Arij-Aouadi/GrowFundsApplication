@@ -9,6 +9,7 @@ import org.springframework.web.util.HtmlUtils;
 import tn.esprit.spring.DAO.Entities.WSMessage;
 import tn.esprit.spring.DAO.Entities.WSResponseMessage;
 import tn.esprit.spring.Services.Classes.NotificationService;
+import tn.esprit.spring.Services.Classes.PublicNotificationService;
 
 import java.security.Principal;
 
@@ -17,11 +18,14 @@ public class MessageController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private PublicNotificationService publicNotificationService;
+
     @MessageMapping("/message")
     @SendTo("/topic/messages")
     public WSResponseMessage getMessage(final WSMessage message) throws InterruptedException {
         Thread.sleep(1000);
-        notificationService.sendGlobalNotification();
+        publicNotificationService.sendGlobalNotification();
         return new WSResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
     }
 

@@ -14,7 +14,6 @@ public interface INotificationService {
     void delete(long id);
     List<Notification> getNotificationsByUserId(long idUser);
     List<Notification> getSentNotificationsByUserId(long idUser);
-    public void sendGlobalNotification();
     public void sendPrivateNotification(final String userId);
 
 }

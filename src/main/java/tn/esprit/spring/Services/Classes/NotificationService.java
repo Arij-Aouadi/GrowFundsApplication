@@ -1,5 +1,7 @@
 package tn.esprit.spring.Services.Classes;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -8,9 +10,10 @@ import tn.esprit.spring.DAO.Repositories.NotificationRepository;
 import tn.esprit.spring.Services.Interfaces.INotificationService;
 
 import java.util.List;
-
+@AllArgsConstructor
 @Service
 public class NotificationService implements INotificationService {
+
     private final SimpMessagingTemplate messagingTemplate;
     @Autowired
     private NotificationRepository notificationRepository;
@@ -63,12 +66,7 @@ public class NotificationService implements INotificationService {
     public List<Notification> getSentNotificationsByUserId(long idUser) {
         return (List<Notification>)notificationRepository.getSentNotificationByUser(idUser);
     }
-    @Override
-    public void sendGlobalNotification() {
-        WSResponseMessage message = new WSResponseMessage("Global Notification");
 
-        messagingTemplate.convertAndSend("/topic/global-notifications", message);
-    }
     @Override
     public void sendPrivateNotification(final String userId) {
         WSResponseMessage message = new WSResponseMessage("Private Notification");
