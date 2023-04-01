@@ -10,6 +10,8 @@ import tn.esprit.spring.Services.Interfaces.IPacksService;
 
 
 import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/Packs")
 
@@ -72,9 +74,14 @@ public class PackController {
         return mostLikedPackage;
     }
     @PostMapping("/addPack/{idPack}/{idProduct}")
-    public Packs createandaffect(@PathVariable("idPack") int idpack, @PathVariable("idProduct") List<Integer> id) {
-        return iPacksService.createandaffect(idpack,id);
+    public Boolean createandaffect(@PathVariable("idPack") int idpack, @RequestBody Map<Integer, Integer> products ) {
+        return iPacksService.createandaffect(idpack,products);
 
     }
+    @GetMapping("/packs/{userId}/recommended-packs")
+    public List<Packs> getRecommendedPacksByUserId(@PathVariable int userId) {
+        return iPacksService.getRecommendedPacks(userId);
+    }
+
 
 }
