@@ -2,6 +2,7 @@ package tn.esprit.spring.DAO.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import tn.esprit.spring.DAO.Entities.User;
 
 import java.util.List;
@@ -18,7 +19,13 @@ public interface UserRepository extends JpaRepository<User,Long> {
     boolean existsUserByUsername(String userName);
     boolean existsUserByEmail(String email);
 
+
     //@Query(value = "SELECT u.* FROM user u join role r on u.role_id_role=r.id_role ",nativeQuery = true)
     //List<User> selectUsersByRoleType(Long idRole);
-    //@Query (value = "SELECT user from user u join account a on u.id=)
+
+    //----Sarra---
+    @Query (value = "SELECT email from User u join Account a on u.cin = a.user_cin where account_num=:num", nativeQuery = true)
+    String retrieveEmailByAccounNum(@Param("num") int num );
+
+
 }

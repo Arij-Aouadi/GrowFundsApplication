@@ -5,6 +5,6 @@ import tn.esprit.spring.DAO.Entities.Account;
 import tn.esprit.spring.DAO.Entities.User;
 
 public interface AccountRepository extends JpaRepository<Account,Integer> {
-    User findByAccountNum(int numAcc);
+   Account findByAccountNum(int numAcc);
 
 }

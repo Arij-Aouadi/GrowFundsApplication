@@ -1,5 +1,5 @@
 package tn.esprit.spring.DAO.Entities;
 
-public enum TypeTrans {
+public enum Typetrans {
     VIREMENT,VERSEMENT
 }

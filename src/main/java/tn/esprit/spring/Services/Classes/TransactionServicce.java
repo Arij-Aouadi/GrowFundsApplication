@@ -9,6 +9,7 @@ import tn.esprit.spring.DAO.Entities.Transactions;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.AccountRepository;
 import tn.esprit.spring.DAO.Repositories.TransactionRepository;
+import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IAccountService;
 import tn.esprit.spring.Services.Interfaces.ITransactionService;
 
@@ -25,6 +26,7 @@ public class TransactionServicce implements ITransactionService {
     private IAccountService iAccountService;
     private AccountRepository accountRepository;
     public JavaMailSender emailSender;
+    private UserRepository userRepository;
 
 
 
@@ -82,8 +84,10 @@ public class TransactionServicce implements ITransactionService {
             //if (s.getAmount() < account.getSolde()) {
             if (account.getRib() == s.getRibsource()) {
                 //accountRepository.findByAccountNum(account.getAccountNum()).getEmail()
+                String mail=userRepository.retrieveEmailByAccounNum(account.getAccountNum());
 
-                code_tr = sendAttachmentEmail(accountRepository.findByAccountNum(account.getAccountNum()).getEmail());
+
+                code_tr = sendAttachmentEmail(mail);
                 //this.code=code_tr;
                 //account.getUser().getEmail()
                 float sold = account.getSolde();
