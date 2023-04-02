@@ -3,7 +3,7 @@ package tn.esprit.spring.RestControllers;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.DAO.Entities.Investtisment;
-import tn.esprit.spring.Services.interfaces.IInvesttismentServices;
+import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
 
 import java.util.List;
 

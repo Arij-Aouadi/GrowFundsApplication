@@ -27,8 +27,11 @@ public class Credits implements Serializable {
     Date dateDebut;
     @Temporal(TemporalType.DATE )
     Date dateFin;
+    Float paymentMounthly ;
     Float interestRate ;
     String status ;
+    @Enumerated(EnumType.STRING)
+    TypeCredit typeCredit ;
     String typeCredit ;
     String Judgment;
 

@@ -72,6 +72,10 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user")
     List<User> listUsers ;
 
+    public String getMail() {
+        return email;
+    }
+
 
     public User(String username, String email, String encode) {
 

@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -22,17 +23,21 @@ public class Transactions implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int idTrans;
-    @Enumerated(EnumType.STRING)
-    TypeTrans typeTrans;
     @Temporal(TemporalType.DATE )
-    Date birthDate;
+    Date transactionDate;
     Long ribsource;
     Long ribrecipient ;
     Float amount ;
-    String status ;
+    @Enumerated(EnumType.STRING)
+    Typetrans typetrans;
+    @Enumerated(EnumType.STRING)
+    Category category ;
     @ManyToMany
+    @JsonIgnore
     List<Account> accountList;
     @ManyToOne
+
+    @JsonIgnore
     Account account ;
 
 }
