@@ -32,7 +32,6 @@ public class Credits implements Serializable {
     String status ;
     @Enumerated(EnumType.STRING)
     TypeCredit typeCredit ;
-    String typeCredit ;
     String Judgment;
 
     /*   Attribute 1:  Status of Existing Checking Account
@@ -68,7 +67,7 @@ public class Credits implements Serializable {
     int purpose;
 
     //   Attribute 5: Credit amount
-    long creditAmount;
+    //long creditAmount;
 
     /*   Attribute 6: Savings account/bonds
 	     1 :          ... <  100 Dt
