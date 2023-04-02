@@ -1,9 +1,9 @@
 package tn.esprit.spring.Services.Classes;
 
+import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Credits;
-import tn.esprit.spring.DAO.Entities.CsvClass;
 import tn.esprit.spring.DAO.Entities.Packs;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.CreditsRepository;
@@ -78,47 +78,11 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
         return creditsRepository.existsCreditsByAccount_AccountNum(accountNum);
     }
 
-    @Override
-    public Double predict(int idCredit) throws IOException {
-
-        //prepare client features to be predicted
-        Credits credit= creditsRepository.getReferenceById(idCredit);
-        List<Integer> features = new ArrayList<>();
-        features.add(credit.getCheckingAccount());
-        features.add(credit.getDuration());
-        features.add(credit.getCreditHistory());
-        features.add(credit.getPurpose());
-        features.add(credit.getBondsStatus());
-        features.add(credit.getEmploymentYears());
-        features.add(credit.getInstallmentRate());
-        features.add(credit.getStatusAndSex());
-        features.add(credit.getGurantOrCoapplicant());
-        features.add(credit.getResidenceSince());
-        features.add(credit.getProperty());
-        features.add(credit.getAge());
-        features.add(credit.getOtherPlans());
-        features.add(credit.getHousing());
-        features.add(credit.getNumOfExistingCredits());
-        features.add(credit.getJob());
-
-        //load model weights from the csv file
-        CsvClass csv = new CsvClass();
-        String line= "";
-        BufferedReader br= new BufferedReader(new FileReader("src/main/resources/theta.csv"));
-        line= br.readLine();
-        String[] data= line.split(",");
-        csv.setWeights(Arrays.stream(data)
-                .map(Double::parseDouble)
-                .collect(Collectors.toList()));
-
-        //predict using sigmoid function
-        Double z = 0.0;
-        for (int i = 0; i < features.size(); i++) {
-            z = csv.weights.get(i) * features.get(i);
-        }
-        double prediction= 1.0 / (1.0 + Math.exp(-z));
-        return prediction;
+  /*  @Override
+    public Json predict(int idCredit)  {
 
 
-    }
+
+
+    }*/
 }

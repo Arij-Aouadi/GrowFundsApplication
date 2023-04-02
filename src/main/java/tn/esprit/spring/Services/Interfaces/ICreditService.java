@@ -1,5 +1,6 @@
 package tn.esprit.spring.Services.Interfaces;
 
+import io.swagger.v3.core.util.Json;
 import tn.esprit.spring.DAO.Entities.Credits;
 
 import java.io.FileNotFoundException;
@@ -22,5 +23,5 @@ public interface ICreditService {
     void deleteAll (List<Credits> list);
     List<Credits> GetCreditsByStatus (String status);
     boolean CreditExists (int accountNum);
-    Double predict (int idCredit) throws IOException;
+   // Json predict (int idCredit) ;
 }

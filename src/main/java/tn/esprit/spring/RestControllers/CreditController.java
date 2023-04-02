@@ -1,9 +1,14 @@
 package tn.esprit.spring.RestControllers;
 
 
+import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import tn.esprit.spring.DAO.Entities.Credits;
+import tn.esprit.spring.DAO.Entities.PostModel;
+import tn.esprit.spring.Services.Classes.PostService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 
@@ -20,9 +25,11 @@ public class CreditController {
         return iCreditService.selectAll();
     }
 
-    @GetMapping("/afficheweights")
-    public Double afficherWeights(@RequestParam int idCredit) throws IOException {
-        return iCreditService.predict(idCredit);
+    private PostService postService;
+    @PostMapping("/predict")
+    public PostModel showPredictions(@RequestBody PostModel postModel) {
+        PostModel predictions= postService.getPredictionByCreditId(postModel);
+        return predictions;
     }
 
     @GetMapping("/afficherCreditsParStatus")
