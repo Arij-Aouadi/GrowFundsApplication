@@ -30,7 +30,8 @@ public class Credits implements Serializable {
     Float paymentMounthly ;
     Float interestRate ;
     String status ;
-    String typeCredit ;
+    @Enumerated(EnumType.STRING)
+    TypeCredit typeCredit ;
     @ManyToOne
     Account account ;
     @ManyToMany
