@@ -34,12 +34,14 @@ public class User implements Serializable {
 
      int phoneNum ;
      String email ;
-     String adresse ;
-     Float salaire ;
+     String address ;
+     Float salary ;
      Float investmentAmount ;
      String relationWithClient ;
      String Profession ;
      String NewQuestions;
+
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -59,10 +61,12 @@ public class User implements Serializable {
      List<Account> accountList ;
      @OneToMany(mappedBy = "user")
      List<Projects> projectsList;
-     @OneToMany(mappedBy = "user")
+     @OneToMany(mappedBy = "investor")
     List<Investtisment> investtismentList;
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
+    @OneToOne(mappedBy = "guarant")
+    Credits creditGuarant;
     @ManyToOne
     User user ;
     @OneToMany(mappedBy = "user")

@@ -15,4 +15,6 @@ public interface IMonthlyPayment {
     List<MonthlyPayment> addAll (List<MonthlyPayment> List);
     void deleteAll(List<MonthlyPayment> list);
 
+    MonthlyPayment CalculateDueDate(MonthlyPayment mp);
+
 }

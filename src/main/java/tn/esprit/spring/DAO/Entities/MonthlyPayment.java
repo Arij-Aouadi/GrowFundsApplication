@@ -20,7 +20,9 @@ public class MonthlyPayment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int numPayment;
+    int idPayment;
+
+    Date paymentSupposedDate;
 
     Date paymentDate;
     @ManyToOne

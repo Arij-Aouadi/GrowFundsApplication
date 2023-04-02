@@ -45,4 +45,9 @@ public class MonthlyPaymentController {
     @DeleteMapping ("/deletemonthlypayment")
     public void deletebyobjectbyid (@RequestBody MonthlyPayment monthlyPayment){
         iMonthlyPayment.delete(monthlyPayment);}
+
+    @PostMapping("/paymentSupposedPayment")
+    public MonthlyPayment showPayment (@RequestBody MonthlyPayment monthlyPayment){
+       return iMonthlyPayment.CalculateDueDate(monthlyPayment);
+    }
 }

@@ -1,19 +1,36 @@
 package tn.esprit.spring.Services.Classes;
 
+import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Credits;
+import tn.esprit.spring.DAO.Entities.Packs;
+import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.CreditsRepository;
+import java.io.BufferedReader;
+import tn.esprit.spring.DAO.Repositories.UserRepository;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @AllArgsConstructor
 public class CreditService implements tn.esprit.spring.Services.Interfaces.ICreditService {
+
+
     private CreditsRepository creditsRepository;
+    private UserRepository userRepository;
     @Override
-    public Credits add(Credits c) {
-        return creditsRepository.save(c);
+    public Credits add(Credits c){
+        return  creditsRepository.save(c);
     }
+
 
     @Override
     public Credits edit(Credits c) {
@@ -60,4 +77,12 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
     public boolean CreditExists(int accountNum) {
         return creditsRepository.existsCreditsByAccount_AccountNum(accountNum);
     }
+
+  /*  @Override
+    public Json predict(int idCredit)  {
+
+
+
+
+    }*/
 }

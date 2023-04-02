@@ -26,7 +26,7 @@ public class Investtisment implements Serializable {
     String Profession ;
     Float amount ;
     @ManyToOne
-    User user ;
+    User investor ;
 
 
 }

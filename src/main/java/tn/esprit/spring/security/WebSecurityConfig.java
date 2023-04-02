@@ -54,11 +54,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/signin","/convert/**","https://www.xe.com/currencyconverter/convert/").permitAll()
+                .authorizeRequests().antMatchers("/api/auth/signin","/convert/**","https://www.xe.com/currencyconverter/convert/","http://localhost:1005/product/AfficherProduct","http://arij123.pythonanywhere.com").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
     }
+
 }
