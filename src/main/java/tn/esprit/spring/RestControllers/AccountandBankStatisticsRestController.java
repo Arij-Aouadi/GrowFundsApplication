@@ -28,9 +28,14 @@ public class AccountandBankStatisticsRestController {
     public List<Float> monthlyspendingsscategorized(@RequestParam int rib, @RequestParam int month){
         return iAccountandBankStatistics.monthlyspendingsscategorized(rib, month);
     }
-    @GetMapping("/BankNetIncome")
-    public float netincome(){
-        return iAccountandBankStatistics.netincome();
+    //----------------ROA----------------
+    @GetMapping("/ReturnOnAssets(ROA)")
+   public double returnOnAssets(){
+        return iAccountandBankStatistics.returnOnAssets();
+    }
+    @GetMapping("/MostProfitableLoan")
+    public String mostprofitableloans(){
+        return iAccountandBankStatistics.mostprofitableloans();
     }
 
 }
