@@ -21,9 +21,7 @@ public class Investtisment implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int idinvesttisment ;
 
-    String name;
-    String secondName;
-    String Profession ;
+    int TauxInvesttisment ;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               ;
     Float amount ;
     @ManyToOne
     User investor ;
