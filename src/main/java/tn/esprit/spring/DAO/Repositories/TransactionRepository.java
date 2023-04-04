@@ -12,4 +12,5 @@ public interface TransactionRepository extends JpaRepository<Transactions,Intege
     List<Transactions> findByRibsource(long ribsource);
     @Query(value = "SELECT count(*) from Transactions  ", nativeQuery = true)
     float nombredetrans();
+
 }
