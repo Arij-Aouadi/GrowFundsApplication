@@ -27,8 +27,8 @@ public class CreditController {
 
     private PostService postService;
     @PostMapping("/predict")
-    public PostModel showPredictions(@RequestBody PostModel postModel) {
-        PostModel predictions= postService.getPredictionByCreditId(postModel);
+    public PostModel showPredictions(@RequestParam int idCredit) {
+        PostModel predictions= postService.getPredictionByCreditId(idCredit);
         return predictions;
     }
 

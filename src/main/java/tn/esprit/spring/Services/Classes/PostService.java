@@ -31,10 +31,13 @@ public class PostService implements IPostService {
 
     CreditsRepository creditsRepository;
     @Override
-    public PostModel getPredictionByCreditId(PostModel postModel) {
+    public PostModel getPredictionByCreditId(int idCredit) {
 
-        PostModel modelPrediction= null;
-        Credits credit=creditsRepository.findCreditsByIdCredit(postModel.getIdCredit());
+        PostModel postModel= new PostModel();
+        Credits credit=creditsRepository.findCreditsByIdCredit(idCredit);
+        postModel.setInput(credit.ToString());
+        postModel.setIdCredit(idCredit);
+
         restTemplate.getMessageConverters().add(new AbstractJsonHttpMessageConverter() {
             @Override
             protected Object readInternal(Type resolvedType, Reader reader) throws Exception {
@@ -53,9 +56,7 @@ public class PostService implements IPostService {
         HttpEntity<PostModel> httpEntity= new HttpEntity<>(postModel, headers);
         ResponseEntity<PostModel> result= restTemplate.postForEntity("http://arij123.pythonanywhere.com", httpEntity,PostModel.class);
         credit.setJudgment(result.toString());
-       // if (result.getStatusCode() == HttpStatus.CREATED) {
-           // modelPrediction = result.getBody();
-       // }
+
 
         return result.getBody();
     }
