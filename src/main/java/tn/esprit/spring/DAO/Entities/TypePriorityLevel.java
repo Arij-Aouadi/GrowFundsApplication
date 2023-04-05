@@ -10,7 +10,6 @@ import javax.persistence.Table;
 public enum TypePriorityLevel {
     LOW,
     MEDIUM,
-    HIGH,
-    URGENT
+    HIGH
 
 }

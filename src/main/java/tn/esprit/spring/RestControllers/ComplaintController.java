@@ -160,5 +160,31 @@ public class ComplaintController {
     }
 
 
+    @GetMapping("/admin/complaints/c/{id}/priority")
+    public String pickPriority(@PathVariable Long id) {
+        Complaint c = iComplaintService.selectById(id);
+        OutputDto out = null;
+        try {
+            out = chatgptService.sendPrompt("We have a complaint from a customer of our bank." +
+                    " We need you to choose one of these priority levels (LOW, MEDIUM, HIGH)" +
+                    " depending on the situation detailed in the complaint. " +
+                    " This priority level will help our team to solve the most urgent and critic complaint first: " + c.getDescription());
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        String answer = out.getAnswer();
+        if (answer.toUpperCase().contains("LOW")){
+            c.setPriorityLevel(TypePriorityLevel.LOW);
+        }else if (answer.toUpperCase().contains("MEDIUM")){
+            c.setPriorityLevel(TypePriorityLevel.MEDIUM);
+        }else if (answer.toUpperCase().contains("LOW")){
+            c.setPriorityLevel(TypePriorityLevel.HIGH);
+        }
+        iComplaintService.edit(c);
+        return out.getAnswer();
+    }
+
+
 
 }
