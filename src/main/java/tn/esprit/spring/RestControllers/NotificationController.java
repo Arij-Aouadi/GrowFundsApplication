@@ -13,8 +13,14 @@ import tn.esprit.spring.Services.Interfaces.INotificationService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
@@ -55,7 +61,7 @@ public class NotificationController {
         n.setMessage(message);
         n.setSection(TypeNotificationSection.valueOf(section));
         n.setStatus(TypeNotificationStatus.UNREAD);
-        n.setSentDate(new Date());
+        n.setSentDate(LocalDateTime.now().plusHours(1));
         User u =userService.getById(userId);
         n.setUser(u);
         wsService.notifyUser(userId + "", section + " - " + message);
@@ -66,47 +72,54 @@ public class NotificationController {
     public Notification addScheduledNotification(
             @RequestParam String message,
             @RequestParam String section,
-            @RequestParam String d,
+            @RequestParam String date,
             @RequestParam long userId
     ) {
         Notification n = new Notification();
         n.setMessage(message);
         n.setSection(TypeNotificationSection.valueOf(section));
-        n.setStatus(TypeNotificationStatus.UNREAD);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(d);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        n.setSentDate(date);
+        n.setStatus(TypeNotificationStatus.PENDING);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime newDate = null;
+        newDate = LocalDateTime.parse(date, formatter);
         User u =userService.getById(userId);
         n.setUser(u);
+        //Sending
+        LocalDateTime now = LocalDateTime.now();
+        long secondsToWait = now.until(newDate, ChronoUnit.SECONDS);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(() -> {
             wsService.notifyUser(userId + "", section + " - " + message);
+            n.setStatus(TypeNotificationStatus.UNREAD);
+            iNotificationService.edit(n);
+        }, secondsToWait, TimeUnit.SECONDS);
+
+
+        newDate= newDate.plusHours(1);
+        n.setSentDate(newDate);
 
         return iNotificationService.add(n);
     }
 
     @PutMapping("/admin/notifications/n/{id}/edit") //editing notification by admin
-    public Notification editNotification(@PathVariable long id, @RequestParam String message, @RequestParam String section, @RequestParam String d) {
+    public Notification editNotification(@PathVariable long id, @RequestParam String message, @RequestParam String section, @RequestParam String date) {
         Notification n = iNotificationService.selectById(id);
         n.setMessage(message);
         n.setSection(TypeNotificationSection.valueOf(section));
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = dateFormat.parse(d);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
-        n.setSentDate(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime newDate = null;
+        newDate = LocalDateTime.parse(date, formatter);
+        newDate= newDate.plusHours(1);
+        n.setSentDate(newDate);
         return iNotificationService.edit(n);
     }
 
     @PutMapping("/notifications/read/{id}") //editing notification by user {change status to Read }
     public void markNotificationAsRead(@PathVariable long id) {
-        iNotificationService.markAsRead(id);
+        User connectedUser = userService.getConnectedUser();
+        Notification n = iNotificationService.selectById(id);
+        if(n.getUser()==connectedUser)iNotificationService.markAsRead(id);
     }
 
     @DeleteMapping("/admin/ notifications/n/{id}/delete") // deleting notification by admin

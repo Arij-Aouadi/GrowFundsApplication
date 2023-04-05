@@ -1,4 +1,4 @@
-package tn.esprit.spring.webstocket;
+package tn.esprit.spring.websocket;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;

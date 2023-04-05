@@ -10,8 +10,15 @@ import tn.esprit.spring.Services.Interfaces.IPublicNotificationService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
@@ -36,7 +43,7 @@ public class PublicNotificationController {
     public PublicNotification addInstantNotification(@RequestParam String message ) {
         PublicNotification n = new PublicNotification();
         n.setMessage(message);
-        n.setSentDate(new Date());
+        n.setSentDate(LocalDateTime.now().plusHours(1));
         wsService.notifyFrontend(message);
         return publicNotificationService.add(n);
     }
@@ -44,22 +51,31 @@ public class PublicNotificationController {
     public PublicNotification addInstantPublicNotification(@RequestParam String message,@RequestParam String date ) {
         PublicNotification n = new PublicNotification();
         n.setMessage(message);
-        n.setSentDate(new Date());
-        wsService.notifyFrontend(message);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime newDate = null;
+        newDate = LocalDateTime.parse(date, formatter);
+
+
+        //Sending
+        LocalDateTime now = LocalDateTime.now();
+        long secondsToWait = now.until(newDate, ChronoUnit.SECONDS);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.schedule(() -> wsService.notifyFrontend(message), secondsToWait, TimeUnit.SECONDS);
+        newDate= newDate.plusHours(1);
+        n.setSentDate(newDate);
         return publicNotificationService.add(n);
     }
+
+
 
     @PutMapping("/admin/publicnotif/n/{id}/edit")
     public PublicNotification editNotification(@PathVariable long id,@RequestParam String message,@RequestParam String date){
         PublicNotification n = publicNotificationService.getById(id);
         n.setMessage(message);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Date newDate = null;
-        try {
-            newDate = dateFormat.parse(date);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime newDate = null;
+        newDate = LocalDateTime.parse(date, formatter);
+        newDate= newDate.plusHours(1);
         n.setSentDate(newDate);
         return publicNotificationService.edit(n);}
 

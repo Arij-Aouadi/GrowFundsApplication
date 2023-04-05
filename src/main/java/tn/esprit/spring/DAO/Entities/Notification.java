@@ -3,8 +3,10 @@ package tn.esprit.spring.DAO.Entities;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +28,8 @@ public class Notification {
 
     String message; //the content of the notification that will be displayed to the user
 
-    @Temporal(TemporalType.DATE )
-    Date sentDate; //the date the notification was sent
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime sentDate; //the date the notification was sent
     @Enumerated(EnumType.STRING)
     TypeNotificationStatus status; // the status of the notification (read, unread, pending)
     @Enumerated(EnumType.STRING)

@@ -2,6 +2,7 @@ package tn.esprit.spring.Services.Classes;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
@@ -13,6 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 
 public class UserService implements IUserService {
+
+    @Autowired
     private UserRepository userRepository;
     @Override
     public List<User> selectall() {

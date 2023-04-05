@@ -28,6 +28,7 @@ public class ComplaintResponse {
     User user ;
     //Description of Complaint: A detailed description of the complaint,
     //including the date and time of the issue, and any relevant account or transaction details.
+    @Column(name = "description", length = 3000)
     String description;
     //Date of creation
     @Temporal(TemporalType.DATE)
