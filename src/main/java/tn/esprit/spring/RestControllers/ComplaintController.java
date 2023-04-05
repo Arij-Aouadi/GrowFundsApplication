@@ -147,6 +147,18 @@ public class ComplaintController {
     }
 
 
+    @GetMapping("/admin/complaints/c/{id}/translate")
+    public String translateComplaint(@PathVariable Long id) {
+        Complaint c = iComplaintService.selectById(id);
+        OutputDto out = null;
+        try {
+            out = chatgptService.sendPrompt("translate this to french : " + c.getDescription());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return out.getAnswer();
+    }
+
 
 
 }
