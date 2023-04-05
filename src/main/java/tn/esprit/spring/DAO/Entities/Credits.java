@@ -5,13 +5,14 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
@@ -149,4 +150,26 @@ public class Credits implements Serializable {
     @OneToOne
     User guarant;
 
+    public String ToString (){
+        List<Integer> features= new ArrayList<>();
+        features.add(this.getCheckingAccount());
+        features.add(this.getDuration());
+        features.add(this.getCreditHistory());
+        features.add(this.getPurpose());
+        features.add(this.getBondsStatus());
+        features.add(this.getEmploymentYears());
+        features.add(this.getInstallmentRate());
+        features.add(this.statusAndSex);
+        features.add(this.getGurantOrCoapplicant());
+        features.add(this.getResidenceSince());
+        features.add(this.getProperty());
+        features.add(this.getAge());
+        features.add(this.getOtherPlans());
+        features.add(this.getHousing());
+        features.add(this.getNumOfExistingCredits());
+        features.add(this.getJob());
+        String input= features.stream().map(String::valueOf)
+                .collect(Collectors.joining(","));
+        return input;
+    }
 }
