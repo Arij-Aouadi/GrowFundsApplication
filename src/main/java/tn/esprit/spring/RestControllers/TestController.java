@@ -13,7 +13,7 @@ public class TestController {
         return "Public Content.";
     }
     @GetMapping("/user")
-    @PreAuthorize("hasRole('CLIENT') or hasRole('AGENT') or hasRole('ADMIN')")
+    @PreAuthorize(" hasRole('CLIENT') ")
     public String userAccess() {
         return "Client Content.";
     }
