@@ -21,8 +21,9 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
 
     @Override
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
-        userService=new UserService();
-        final Long id = userService.getConnectedUser().getId();
+//        userServ  ice=new UserService();
+//        final Long id = userService.getConnectedUser().getId();
+        final Long id =2L;
         LOG.info("User with ID '{}' opened the page", id);
 
         return new UserPrincipal(id+"");
