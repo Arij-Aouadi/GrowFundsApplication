@@ -5,5 +5,5 @@ import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.PostModel;
 
 public interface IPostService {
-    public PostModel getPredictionByCreditId(PostModel postModel);
+    public PostModel getPredictionByCreditId(int idCredit);
 }

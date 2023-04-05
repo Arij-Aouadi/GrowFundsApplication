@@ -23,5 +23,5 @@ public interface ICreditService {
     void deleteAll (List<Credits> list);
     List<Credits> GetCreditsByStatus (String status);
     boolean CreditExists (int accountNum);
-   // Json predict (int idCredit) ;
+
 }
