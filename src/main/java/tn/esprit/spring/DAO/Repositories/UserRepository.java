@@ -24,8 +24,18 @@ public interface UserRepository extends JpaRepository<User,Long> {
     //List<User> selectUsersByRoleType(Long idRole);
 
     //----Sarra---
-    @Query (value = "SELECT email from User u join Account a on u.cin = a.user_cin where account_num=:num", nativeQuery = true)
+    @Query (value = "SELECT email from User u join Account a on u.cin = a.user_id where account_num=:num", nativeQuery = true)
     String retrieveEmailByAccounNum(@Param("num") int num );
+//    @Query (value = "SELECT username from User u join Account a on u.cin = a.user_id where a.rib=:num", nativeQuery = true)
+//    String retrieveUsernameByAccounNum(@Param("num") long num );
+//    @Query (value = "SELECT username from User u  where u.cin=:num", nativeQuery = true)
+//    String retrieveUsernameBycin(@Param("num") String num );
+//    @Query (value = "SELECT cin from User u join Account a on u.cin = a.user_id where a.rib=:num", nativeQuery = true)
+//    String retrievecinByAccounNum(@Param("num") long num );
+//
+//    @Query (value = "SELECT profession from User u join Account a on u.cin = a.user_id where a.rib=:num", nativeQuery = true)
+//    String retrieveProfessionByAccounNum(@Param("num") long num );
+
 
 
 }
