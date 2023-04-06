@@ -57,6 +57,7 @@ public class ProjectsControllers {
 
         return iProjectsServices.Get_projects_by_User(idUser);
     }*/
+    //http://localhost:1009/search
     @GetMapping("/search")
     public ResponseEntity<List<Projects>> searchPosts(@RequestParam("query") String query) {
         List<Projects> matchingPosts = iProjectsServices.Searchprojects(query);
@@ -64,13 +65,15 @@ public class ProjectsControllers {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(matchingPosts);
+
     }
+    //http://localhost:1009/getProjectsByInvestor/{{investorId}}
     @GetMapping("/getProjectsByInvestor/{investorId}")
     public List<Projects> getProjectsByInvestor(@PathVariable Long investorId) {
         User investor = new User();
         investor.setId(investorId);
         return iProjectsServices.getProjectsByInvestor(investor);
-    }
+    }//http://localhost:1009/suggestInvestorsForProject/{{investor}}
     @GetMapping("/suggestInvestorsForProject/{investor}")
     public Projects suggestInvestorsForProject(@PathVariable User investor) {
         return iProjectsServices.suggestInvestorsForProject(investor);
