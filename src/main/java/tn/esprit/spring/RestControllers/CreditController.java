@@ -8,6 +8,7 @@ import org.springframework.http.*;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import tn.esprit.spring.DAO.Entities.Amortisement;
 import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.PostModel;
 import tn.esprit.spring.Services.Classes.PostService;
@@ -40,7 +41,6 @@ public class CreditController {
 
     private PostService postService;
     @PostMapping("/predictClientClassAndSetInterestRate")
-    @PreAuthorize("hasRole('AGENT')")
     public PostModel showPredictions(@RequestParam int idCredit) {
         PostModel predictions= postService.getPredictionByCreditId(idCredit);
         return predictions;
@@ -54,6 +54,11 @@ public class CreditController {
     @GetMapping("/selectCreditByAccountNum")
     public boolean doesCreditExist(@RequestParam int numAccount) {
         return iCreditService.CreditExists(numAccount);
+    }
+
+    @GetMapping("/getAmortisementTable")
+    public List<Amortisement> TABLE(@RequestParam int idCredit) {
+        return iCreditService.amortisement(idCredit);
     }
 
     @GetMapping("/pdf/generateAmortissement")

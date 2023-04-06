@@ -1,6 +1,7 @@
 package tn.esprit.spring.Services.Interfaces;
 
 import io.swagger.v3.core.util.Json;
+import tn.esprit.spring.DAO.Entities.Amortisement;
 import tn.esprit.spring.DAO.Entities.Credits;
 
 import javax.servlet.http.HttpServlet;
@@ -29,6 +30,8 @@ public interface ICreditService {
     float calculeMonthlyPayment(int credit);
 
     void export(HttpServletResponse response,int idCredit) throws IOException;
+
+    List<Amortisement> amortisement(int idCredit);
 
 
 }

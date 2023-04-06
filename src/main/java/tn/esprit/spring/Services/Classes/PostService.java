@@ -21,6 +21,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -56,6 +57,18 @@ public class PostService implements IPostService {
         HttpEntity<PostModel> httpEntity= new HttpEntity<>(postModel, headers);
         ResponseEntity<PostModel> result= restTemplate.postForEntity("http://arij123.pythonanywhere.com", httpEntity,PostModel.class);
         credit.setJudgment(result.toString());
+
+        if (Objects.requireNonNull(result.getBody()).getDefaultProba()>=50){
+            credit.setJudgment("DENIED : High default probability");
+            credit.setStatus("DENIED");
+        }
+        if (Objects.requireNonNull(result.getBody()).getDefaultProba()<50){
+            credit.setJudgment("APPROVED : Low default probability");
+            credit.setStatus("APPROVED");
+            credit.setInterestRate((float)(result.getBody().getDefaultProba()*40)/50);
+        }
+
+
 
 
         return result.getBody();
