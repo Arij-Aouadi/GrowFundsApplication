@@ -78,11 +78,4 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
         return creditsRepository.existsCreditsByAccount_AccountNum(accountNum);
     }
 
-  /*  @Override
-    public Json predict(int idCredit)  {
-
-
-
-
-    }*/
 }

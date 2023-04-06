@@ -10,7 +10,8 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transactions,Integer> {
     //select all from Abonnement where typeAbonn=..
     List<Transactions> findByRibsource(long ribsource);
-    @Query(value = "SELECT count(*) from Transactions  ", nativeQuery = true)
-    float nombredetrans();
+    @Query (value = "SELECT COUNT(*) from transactions", nativeQuery = true)
+    int nombredetrans();
+
 
 }

@@ -25,12 +25,14 @@ public class Account implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int accountNum;
     int cin;
+    private Boolean state;
     @Enumerated(EnumType.STRING)
      TypeAccount typeAcc ;
     Float solde;
     Long rib;
     @Temporal(TemporalType.DATE )
     Date date;
+
     @ManyToOne
     User user ;
     @OneToMany(mappedBy = "account")
