@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
@@ -14,6 +16,9 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class UserService implements IUserService {
     private UserRepository userRepository;
     @Override
@@ -68,5 +73,17 @@ public class UserService implements IUserService {
         else {
             return "no user";
         }
+    }
+
+    @Override
+    public User getById(long id) {
+        return userRepository.findById(id).get();
+    }
+
+
+
+    //TO Be changed later
+    public User getConnectedUser(){
+        return userRepository.findById(1L).get();
     }
 }

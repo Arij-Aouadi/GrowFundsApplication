@@ -31,6 +31,8 @@ public class User implements Serializable {
      String cin;
     @Temporal(TemporalType.DATE )
     Date birthDate;
+    @Temporal(TemporalType.DATE )
+    Date createdDate;
 
      int phoneNum ;
      String email ;
@@ -40,6 +42,8 @@ public class User implements Serializable {
      String relationWithClient ;
      String Profession ;
      String NewQuestions;
+     String TypeProjets;
+     String TheuserNumber;
 
 
     @JsonIgnore
@@ -59,19 +63,21 @@ public class User implements Serializable {
      Set<Role> role;
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
-     @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @OneToMany(mappedBy = "user")
      List<Projects> projectsList;
+    @JsonIgnore
      @OneToMany(mappedBy = "investor")
     List<Investtisment> investtismentList;
+     @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
     @OneToOne(mappedBy = "guarant")
     Credits creditGuarant;
-    @ManyToOne
-    User user ;
-    @OneToMany(mappedBy = "user")
-    List<User> listUsers ;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "investor")
+    List<Projects> projectsListI;
     public String getMail() {
         return email;
     }

@@ -7,10 +7,10 @@ import java.util.List;
 public interface IComplaintService {
     Complaint add(Complaint c);
     Complaint edit(Complaint c);
-    List<Complaint> selectAll();
-    Complaint selectById(int idComplaint);
+    List<Complaint> getAll();
+    Complaint selectById(Long idComplaint);
     void delete(Complaint c);
-    void deleteById(int idComplaint);
-    List<Complaint> addAll(List<Complaint> list);
-    void deleteAll(List<Complaint> list);
+    void deleteById(Long idComplaint);
+    List<Complaint> getComplaintsByClient(Long idClient);
+
 }
