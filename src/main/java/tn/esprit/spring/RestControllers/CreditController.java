@@ -1,6 +1,7 @@
 package tn.esprit.spring.RestControllers;
 
 
+import com.fasterxml.jackson.databind.util.StdDateFormat;
 import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
 import org.springframework.http.*;
@@ -13,8 +14,12 @@ import tn.esprit.spring.Services.Classes.PostService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -49,6 +54,18 @@ public class CreditController {
     @GetMapping("/selectCreditByAccountNum")
     public boolean doesCreditExist(@RequestParam int numAccount) {
         return iCreditService.CreditExists(numAccount);
+    }
+
+    @GetMapping("/pdf/generateAmortissement")
+    public void generatePdf(HttpServletResponse response, int idCredit) throws IOException {
+        response.setContentType("application/pdf");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey ="Content-Disposition";
+        String headerValue ="attachment; filename=Tableau_Credit_N_"+idCredit+".pdf";
+        response.setHeader(headerKey, headerValue);
+        iCreditService.export(response,idCredit);
     }
 
     @PostMapping("/addCredit")

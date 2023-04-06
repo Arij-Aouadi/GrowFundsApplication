@@ -28,7 +28,7 @@ public interface ICreditService {
 
     float calculeMonthlyPayment(int credit);
 
-    void export(HttpServletResponse response) throws IOException;
+    void export(HttpServletResponse response,int idCredit) throws IOException;
 
 
 }

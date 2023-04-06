@@ -1,7 +1,6 @@
 package tn.esprit.spring.Services.Classes;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.PageSize;
+import com.lowagie.text.*;
 import com.lowagie.text.pdf.PdfWriter;
 import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
@@ -95,9 +94,19 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
     }
 
     @Override
-    public void export(HttpServletResponse response) throws IOException {
+    public void export(HttpServletResponse response,int idCredit) throws IOException {
+        Credits credits= creditsRepository.findCreditsByIdCredit(idCredit);
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
+
+        document.open();
+        Font fontTitle= FontFactory.getFont(FontFactory.HELVETICA_BOLD);
+        fontTitle.setSize(18);
+
+        Paragraph paragraph= new Paragraph("Tableau d''Amortissement "+String.valueOf(idCredit),fontTitle);
+        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+        document.add(paragraph);
+        document.close();
     }
 
 
