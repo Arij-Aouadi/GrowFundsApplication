@@ -37,5 +37,10 @@ public class AccountandBankStatisticsRestController {
     public String mostprofitableloans(){
         return iAccountandBankStatistics.mostprofitableloans();
     }
+    @GetMapping("Loan_to_Deposit_Ratio_(LDR)")
+        public float Loan_to_Deposit_Ratio(){
+
+        return iAccountandBankStatistics.Loan_to_Deposit_Ratio();
+    }
 
 }

@@ -10,6 +10,7 @@ public interface IAccountandBankStatistics  {
     double netincome();
     double avergetotalassets();
     String mostprofitableloans();
+    float Loan_to_Deposit_Ratio();
 
             //Revenus totaux =benefice of loans + pourcentage de amount investment
     //Bénéfice net = Revenus totaux - Charges totales

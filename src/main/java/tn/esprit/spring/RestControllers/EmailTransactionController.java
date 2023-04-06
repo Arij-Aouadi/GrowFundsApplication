@@ -17,7 +17,7 @@ public class EmailTransactionController {
     public JavaMailSender emailSender;
 
 
-    // http://localhost:8083/bkfin/sendAttachmentEmail/emna.lazzez@esprit.tn
+
     @ResponseBody
     @GetMapping("/sendAttachmentEmailTransaction/{ReciverEmail}")
     public String sendAttachmentEmail(@PathVariable("ReciverEmail") String ReciverEmail) throws MessagingException {
