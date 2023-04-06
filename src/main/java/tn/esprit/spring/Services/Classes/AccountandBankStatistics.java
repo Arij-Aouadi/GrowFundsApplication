@@ -182,6 +182,21 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
         //return Collections.max(profits);
     }
 
+    @Override
+    public float Loan_to_Deposit_Ratio() {
+        float total_loans=0;
+        float total_deposits=0;
+        for (Credits credits : iCreditService.selectAll()){
+            total_loans= total_loans+credits.getAmount();
+            total_deposits=total_deposits+(credits.getAmount()*(credits.getInterestRate()/100)+credits.getAmount());
+
+        }
+        return total_loans/total_deposits;
+
+    }
+
+    //Loan-to-Deposit Ratio (LDR) = Total Loans / Total Deposits
+
 
 
 

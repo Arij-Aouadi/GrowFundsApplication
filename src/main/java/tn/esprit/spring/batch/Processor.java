@@ -1,4 +1,4 @@
-/*package tn.esprit.spring.bach;
+/* package tn.esprit.spring.batch;
 
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
@@ -45,6 +45,6 @@ public class Processor implements ItemProcessor<Account, Account> {
         return item;
     }
 
-}
+}*/
 
- */
+

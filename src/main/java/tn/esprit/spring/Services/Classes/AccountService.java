@@ -20,8 +20,37 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account edit(Account a) { return accountRepository.save(a);
+    public void alimenteAcc(long rib, float amount) {
+        Account c = accountRepository.findByRib(rib);
+        c.setSolde(c.getSolde()+amount);
+        accountRepository.save(c);
 
+    }
+
+    @Override
+    public Account edit(Account a) {
+//        Account  account = accountRepository.findByRib(rib);
+//        account.setSolde(a.getSolde());
+//        account.setCin(a.getCin());
+//        account.setState(a.getState());
+//        account.setTypeAcc(a.getTypeAcc());
+//        account.setAccountNum(a.getAccountNum());
+//        accountRepository.save(account) ;
+//        return a;
+        return accountRepository.save(a);
+
+    }
+
+    @Override
+    public Account update(Account a, long rib) {
+               Account  account = accountRepository.findByRib(rib);
+        account.setSolde(a.getSolde());
+        account.setCin(a.getCin());
+        account.setState(a.getState());
+        account.setTypeAcc(a.getTypeAcc());
+        account.setAccountNum(a.getAccountNum());
+        accountRepository.save(account) ;
+        return a;
     }
 
     @Override
