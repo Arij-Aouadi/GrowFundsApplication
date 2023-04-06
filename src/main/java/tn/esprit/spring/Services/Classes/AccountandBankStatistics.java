@@ -68,13 +68,6 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
             }
 
             }
-//        liste.add(course);
-//        liste.add(fuel);
-//        liste.add(transport);
-//        liste.add(entertaiment);
-//        liste.add(education);
-//        liste.add(credit_loans);
-//        liste.add(uncategorized);
           liste.addAll(Arrays.asList(course,fuel,transport,entertaiment,education,credit_loans,uncategorized));
         return liste ;
 
@@ -90,12 +83,23 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
         //float fraidepassement=0;
         //Somme totale à rembourser = Capital + Intérêts
         //Intérêts = Capital x Taux d'intérêt x Durée du crédit
+//        for (Credits credits : iCreditService.selectAll()){
+//            LocalDate start =credits.getDateDebut().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//            LocalDate fin =credits.getDateFin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//            Period period = Period.between(start,fin);
+//
+//             benefice = (credits.getAmount() * (credits.getInterestRate()/100) * period.toTotalMonths());
+//        }
         for (Credits credits : iCreditService.selectAll()){
-            LocalDate start =credits.getDateDebut().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            LocalDate fin =credits.getDateFin().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            Period period = Period.between(start,fin);
+            Calendar cal1 = Calendar.getInstance();
+            cal1.setTime(credits.getDateDebut());
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(credits.getDateFin());
+            int yearDiff = (cal2.get(Calendar.YEAR) - cal1.get(Calendar.YEAR)) * 12;
+            int monthDiff = cal2.get(Calendar.MONTH) - cal1.get(Calendar.MONTH);
+           int period= yearDiff + monthDiff;
+            benefice = (credits.getAmount() * (credits.getInterestRate()/100) * period);
 
-             benefice = (credits.getAmount() * (credits.getInterestRate()/100) * period.toTotalMonths());
         }
         for (Investtisment inves : iInvesttismentServices.selectAll()){
 
@@ -132,6 +136,7 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
     }
     @Override
     public double returnOnAssets() {
+
         return netincome()/avergetotalassets();
     }
 
@@ -176,6 +181,21 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
         return "The most profitable loans are:  "+ typecredit.get(index)+" With "+max +" Benefits "    ;
         //return Collections.max(profits);
     }
+
+    @Override
+    public float Loan_to_Deposit_Ratio() {
+        float total_loans=0;
+        float total_deposits=0;
+        for (Credits credits : iCreditService.selectAll()){
+            total_loans= total_loans+credits.getAmount();
+            total_deposits=total_deposits+(credits.getAmount()*(credits.getInterestRate()/100)+credits.getAmount());
+
+        }
+        return total_loans/total_deposits;
+
+    }
+
+    //Loan-to-Deposit Ratio (LDR) = Total Loans / Total Deposits
 
 
 
