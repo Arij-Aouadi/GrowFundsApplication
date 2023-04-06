@@ -2,11 +2,14 @@ package tn.esprit.spring.Services.Classes;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.MonthlyPayment;
+import tn.esprit.spring.DAO.Repositories.CreditsRepository;
 import tn.esprit.spring.DAO.Repositories.MonthlyPaymentRepository;
 import tn.esprit.spring.Services.Interfaces.IMonthlyPayment;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -14,6 +17,7 @@ import java.util.List;
 
 public class MonthlyPaymentService implements IMonthlyPayment {
     private MonthlyPaymentRepository monthlyPaymentRepository;
+    private CreditsRepository creditsRepository;
     @Override
     public MonthlyPayment add(MonthlyPayment mp) {
         return monthlyPaymentRepository.save(mp);
@@ -61,6 +65,29 @@ public class MonthlyPaymentService implements IMonthlyPayment {
         cal.add(Calendar.DATE, mp.getIdPayment()*30);
         mp.setPaymentSupposedDate(cal.getTime());
         return mp;
+    }
+
+    @Override
+    public int calculateLateDays(int idCredit) {
+
+        Credits credit = creditsRepository.findCreditsByIdCredit(idCredit);
+
+        int numberOfLateDays = 0;
+
+        List<MonthlyPayment> ListMonthlyPayments = monthlyPaymentRepository.getCredit_DuesHistory(idCredit);
+
+        for (MonthlyPayment payment : ListMonthlyPayments) {
+            Date actualPaymentDate=payment.getPaymentDate();
+            Date dueDate=payment.getPaymentSupposedDate();
+
+            int monthlyDelay = (int)( ( dueDate.getTime()-actualPaymentDate.getTime())
+                    / (1000 * 60 * 60 * 24) );
+            numberOfLateDays=numberOfLateDays+monthlyDelay;
+            credit.setCreditHistory(3);
+
+
+        }
+        return numberOfLateDays;
     }
 
 }

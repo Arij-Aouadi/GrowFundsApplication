@@ -6,8 +6,9 @@ public enum TypeRole implements GrantedAuthority
 {
     ADMIN,CLIENT,AGENT;
 
+
     @Override
     public String getAuthority() {
-        return null;
+        return this.name();
     }
 }

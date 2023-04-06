@@ -16,4 +16,6 @@ public interface IUserService {
     void deleteAll(List<User> list);
 
     User getById(long id);
+
+    String getCurrentUser();
 }

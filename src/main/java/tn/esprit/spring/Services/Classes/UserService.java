@@ -1,6 +1,9 @@
 package tn.esprit.spring.Services.Classes;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +12,9 @@ import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IUserService;
 
 import java.util.List;
+
+
+@AllArgsConstructor
 @Service
 @AllArgsConstructor
 @NoArgsConstructor
@@ -55,6 +61,18 @@ public class UserService implements IUserService {
     @Override
     public void deleteAll(List<User> list) {
         userRepository.deleteAll(list);
+    }
+
+    @Override
+    public String getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String currentUserName = authentication.getName();
+            User user= userRepository.findByUsername(currentUserName).get();
+            return user.getCin();}
+        else {
+            return "no user";
+        }
     }
 
     @Override

@@ -1,5 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -145,6 +146,7 @@ public class Credits implements Serializable {
     Account account ;
     @ManyToMany
     List<Packs> packsList;
+    @JsonIgnore
     @OneToMany(mappedBy = "credit")
     List<MonthlyPayment> monthlyPaymentList;
     @OneToOne

@@ -25,9 +25,6 @@ public class UserController {
 
     }
 
-
-
-
     @PutMapping ("/modifierUser")
     public User edit(@RequestBody User user){
         return iUserService.edit(user);}
@@ -38,4 +35,8 @@ public class UserController {
     public void deletebyobject (@RequestBody User user){
         iUserService.delete(user);}
 
+    @GetMapping("/currentUser")
+    public  String current (){
+        return iUserService.getCurrentUser();
+    }
 }
