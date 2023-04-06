@@ -53,10 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/signin","/convert/**","https://www.xe.com/currencyconverter/convert/","http://localhost:1005/product/AfficherProduct","http://arij123.pythonanywhere.com").permitAll()
-                .antMatchers("/api/test/**").permitAll()
-                .antMatchers("/**").permitAll()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
+                .authorizeRequests().antMatchers("/convert/**","https://www.xe.com/currencyconverter/convert/","http://localhost:1005/product/AfficherProduct","http://arij123.pythonanywhere.com").authenticated()
+                .antMatchers("/api/test/**").authenticated().antMatchers("/api/auth/signin","/api/auth/signup").permitAll()
+                .antMatchers("/credit/predict").hasRole("AGENT").antMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll().
+                and().authorizeRequests()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

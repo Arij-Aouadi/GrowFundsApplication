@@ -4,6 +4,7 @@ package tn.esprit.spring.RestControllers;
 import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
 import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import tn.esprit.spring.DAO.Entities.Credits;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/credit")
 public class CreditController {
     private ICreditService iCreditService;
     @GetMapping("/affichercredits")
@@ -27,6 +29,7 @@ public class CreditController {
 
     private PostService postService;
     @PostMapping("/predict")
+    @PreAuthorize("hasRole('AGENT')")
     public PostModel showPredictions(@RequestParam int idCredit) {
         PostModel predictions= postService.getPredictionByCreditId(idCredit);
         return predictions;
