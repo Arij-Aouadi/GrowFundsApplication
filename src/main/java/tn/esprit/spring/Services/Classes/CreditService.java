@@ -1,5 +1,8 @@
 package tn.esprit.spring.Services.Classes;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.pdf.PdfWriter;
 import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,6 +13,7 @@ import tn.esprit.spring.DAO.Repositories.CreditsRepository;
 import java.io.BufferedReader;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -77,5 +81,24 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
     public boolean CreditExists(int accountNum) {
         return creditsRepository.existsCreditsByAccount_AccountNum(accountNum);
     }
+
+    @Override
+    public float calculeMonthlyPayment(int idcredit) {
+
+        Credits credit = creditsRepository.findCreditsByIdCredit(idcredit);
+
+        float mensuelIntrestRate=credit.getInterestRate()/12;
+
+        float mensuelPayment =(float) ((credit.getAmount()*mensuelIntrestRate)/(1-(Math.pow((1+mensuelIntrestRate),-credit.getDuration()))));
+
+        return mensuelPayment;
+    }
+
+    @Override
+    public void export(HttpServletResponse response) throws IOException {
+        Document document = new Document(PageSize.A4);
+        PdfWriter.getInstance(document, response.getOutputStream());
+    }
+
 
 }

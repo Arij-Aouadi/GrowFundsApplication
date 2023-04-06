@@ -22,56 +22,62 @@ import java.util.List;
 @RequestMapping("/credit")
 public class CreditController {
     private ICreditService iCreditService;
-    @GetMapping("/affichercredits")
-    public List<Credits> afficherCredits() {
+    @GetMapping("/showAllCredits")
+    public List<Credits> showCredits()
+    {
         return iCreditService.selectAll();
     }
 
+    @GetMapping("/mensuelPayment")
+    public float calculateMonthlyPayment(@RequestParam int idCredit) {
+        return iCreditService.calculeMonthlyPayment(idCredit);
+    }
+
     private PostService postService;
-    @PostMapping("/predict")
+    @PostMapping("/predictClientClassAndSetInterestRate")
     @PreAuthorize("hasRole('AGENT')")
     public PostModel showPredictions(@RequestParam int idCredit) {
         PostModel predictions= postService.getPredictionByCreditId(idCredit);
         return predictions;
     }
 
-    @GetMapping("/afficherCreditsParStatus")
-    public List<Credits> afficherCreditStatus(@RequestParam String status) {
+    @GetMapping("/showCreditByStatus")
+    public List<Credits> showCreditByStatus(@RequestParam String status) {
         return iCreditService.GetCreditsByStatus(status);
     }
 
-    @GetMapping("/affichercreditparnumcompte")
-    public boolean afficherCreditExiste(@RequestParam int numAccount) {
+    @GetMapping("/selectCreditByAccountNum")
+    public boolean doesCreditExist(@RequestParam int numAccount) {
         return iCreditService.CreditExists(numAccount);
     }
 
-    @PostMapping("/ajoutercredit")
-    public Credits ajouter(@RequestBody Credits credits){
+    @PostMapping("/addCredit")
+    public Credits addCredit (@RequestBody Credits credits){
         return iCreditService.add(credits);
 
     }
-    @GetMapping("/affichercreditid/{id}")
-    public Credits afficherAvecId(@PathVariable int id){
+    @GetMapping("/selectCreditById/{id}")
+    public Credits selectCreditById(@PathVariable int id){
         return iCreditService.selectById(id);
     }
 
-    @PostMapping("/ajouterlistcredit")
+    @PostMapping("/addlistOfCredits")
 
     public List<Credits> addAllCredit (@RequestBody List<Credits> list){
 
         return iCreditService.addAll(list);
     }
-    @PutMapping ("/modifiercredit")
+    @PutMapping ("/updateCredit")
     public Credits editCredit (@RequestBody Credits credits){
         return iCreditService.edit(credits);}
 
-    @DeleteMapping ("/deletecreditbyid")
+    @DeleteMapping ("/deleteCreditById")
     public void deletebyidCredit (@RequestParam int id){
         iCreditService.deleteById(id);
     }
 
 
-    @DeleteMapping ("/deletecredit")
+    @DeleteMapping ("/deleteCredit")
     public void deletebyobjectbyid (@RequestBody Credits credits){
         iCreditService.delete(credits);}
 

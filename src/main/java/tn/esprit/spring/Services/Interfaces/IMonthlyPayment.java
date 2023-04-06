@@ -17,4 +17,6 @@ public interface IMonthlyPayment {
 
     MonthlyPayment CalculateDueDate(MonthlyPayment mp);
 
+    int calculateLateDays (int idCredit);
+
 }

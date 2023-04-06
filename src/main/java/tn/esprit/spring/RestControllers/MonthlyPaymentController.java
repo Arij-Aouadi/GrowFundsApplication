@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.DAO.Entities.MonthlyPayment;
 import tn.esprit.spring.Services.Interfaces.IMonthlyPayment;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -46,8 +47,10 @@ public class MonthlyPaymentController {
     public void deletebyobjectbyid (@RequestBody MonthlyPayment monthlyPayment){
         iMonthlyPayment.delete(monthlyPayment);}
 
-    @PostMapping("/paymentSupposedPayment")
-    public MonthlyPayment showPayment (@RequestBody MonthlyPayment monthlyPayment){
-       return iMonthlyPayment.CalculateDueDate(monthlyPayment);
+
+    @GetMapping("/getLateDays")
+    public int LateDays (@RequestParam int idCredit){
+        return iMonthlyPayment.calculateLateDays(idCredit);
     }
+
 }

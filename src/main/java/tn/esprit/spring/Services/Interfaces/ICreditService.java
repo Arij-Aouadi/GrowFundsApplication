@@ -3,6 +3,8 @@ package tn.esprit.spring.Services.Interfaces;
 import io.swagger.v3.core.util.Json;
 import tn.esprit.spring.DAO.Entities.Credits;
 
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletResponse;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -23,5 +25,10 @@ public interface ICreditService {
     void deleteAll (List<Credits> list);
     List<Credits> GetCreditsByStatus (String status);
     boolean CreditExists (int accountNum);
+
+    float calculeMonthlyPayment(int credit);
+
+    void export(HttpServletResponse response) throws IOException;
+
 
 }

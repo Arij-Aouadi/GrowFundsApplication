@@ -40,7 +40,11 @@
             <artifactId>spring-boot-starter-mail</artifactId>
 
         </dependency>
-
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>1.3.8</version>
+        </dependency>
         <dependency>
             <groupId>com.mysql</groupId>
             <artifactId>mysql-connector-j</artifactId>

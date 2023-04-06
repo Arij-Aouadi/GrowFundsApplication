@@ -1,6 +1,7 @@
 package tn.esprit.spring.DAO.Entities;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -22,9 +23,11 @@ public class MonthlyPayment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int idPayment;
 
+    @Temporal(TemporalType.DATE )
     Date paymentSupposedDate;
-
+    @Temporal(TemporalType.DATE )
     Date paymentDate;
+    @JsonIgnore
     @ManyToOne
     Credits credit;
 }
