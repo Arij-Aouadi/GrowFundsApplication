@@ -1,5 +1,7 @@
 package tn.esprit.spring.DAO.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -23,10 +25,18 @@ public class Projects implements Serializable {
     String name;
     String type;
      Float budget ;
+     @JsonIgnore
      @ManyToOne
      User user ;
+    @JsonIgnore
+    @ManyToOne
+    User investor;
+
      @ManyToOne
     Investtisment investtisment;
+
+    @Enumerated(EnumType.STRING)
+    leTypeInvestor leTypeInvestor;
 
 
 
