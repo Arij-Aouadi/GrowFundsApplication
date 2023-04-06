@@ -14,4 +14,8 @@ public interface IInvesttismentServices {
     void delete(Investtisment i);
     List<Investtisment> addAll(List<Investtisment> list);
     void deleteAll(List<Investtisment> list);
+
+    void finalAmount();
+    void CalculateAmoutOfInves(int idInvestesment);
+
 }

@@ -26,5 +26,7 @@ public class Investtisment implements Serializable {
     @ManyToOne
     User investor ;
 
+    @Enumerated(EnumType.STRING)
+    leTypeInvestor leTypeInvestor;
 
 }

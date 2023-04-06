@@ -7,6 +7,9 @@ import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import tn.esprit.spring.DAO.Entities.Investtisment;
 import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.DAO.Repositories.InvesttismentRepository;
+import tn.esprit.spring.Services.Classes.InvesttismentServices;
+import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
 
 
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +21,8 @@ import java.util.List;
 
 public class InvestissmentPdfexport {
     private List<Investtisment> listInvestesment;
+
+
     public InvestissmentPdfexport(List<Investtisment> listInvestesment) {
         this.listInvestesment = listInvestesment;
     }
@@ -45,6 +50,7 @@ public class InvestissmentPdfexport {
     }
 
     private void writeTableData(PdfPTable table) {
+
         for (Investtisment investesment : listInvestesment) {
             User user = investesment.getInvestor();
             table.addCell(String.valueOf(investesment.getIdinvesttisment()));
@@ -63,12 +69,12 @@ public class InvestissmentPdfexport {
         document.open();
         // Add the Logo's img
 
-        Image image =Image.getInstance(new File("C:\\Users\\ZAITER\\Downloads\\growfund.jpg").getAbsolutePath());
+       // Image image =Image.getInstance(new File("C:\\Users\\ZAITER\\Downloads\\growfund.jpg").getAbsolutePath());
         Font font =FontFactory.getFont(FontFactory.COURIER_BOLD,14);
-        image.setAlignment(Element.ALIGN_LEFT);
-        image.getTransparency();
-        image.scaleToFit(50f, 50f);
-        document.add(image);
+        //image.setAlignment(Element.ALIGN_LEFT);
+        //image.getTransparency();
+        //image.scaleToFit(50f, 50f);
+        //document.add(image);
         Paragraph message =new Paragraph(new Paragraph(new SimpleDateFormat("dd/MM/yyyy").format(new Date())));
         message.setAlignment(Element.ALIGN_RIGHT);
         message.setSpacingBefore(20f);
