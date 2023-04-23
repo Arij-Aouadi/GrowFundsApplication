@@ -3,6 +3,7 @@ package tn.esprit.spring.Services.Classes;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import tn.esprit.spring.DAO.Entities.Complaint;
 import tn.esprit.spring.DAO.Repositories.ComplaintRepository;
 import tn.esprit.spring.Services.Interfaces.IComplaintService;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+
 public class ComplaintService implements IComplaintService {
     private ComplaintRepository complaintRepository;
 

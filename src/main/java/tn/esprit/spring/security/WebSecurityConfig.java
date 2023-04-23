@@ -54,10 +54,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).and()
-                .authorizeRequests().antMatchers("/convert/**","https://www.xe.com/currencyconverter/convert/","http://localhost:1005/product/AfficherProduct","http://arij123.pythonanywhere.com").authenticated()
-                .antMatchers("/api/test/**").authenticated().antMatchers("/api/auth/signin","/api/auth/signup").permitAll()
-                .antMatchers("/credit/predict").hasRole("AGENT").antMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll().
-                and().authorizeRequests()
+                .authorizeRequests()
+                //.antMatchers("/convert/**","https://www.xe.com/currencyconverter/convert/","http://localhost:1005/product/AfficherProduct","http://arij123.pythonanywhere.com").authenticated()
+                .antMatchers("/our-websocket/**").permitAll()
+                .antMatchers("/signin","/signup").permitAll()
+                .antMatchers("/swagger-ui/**","/v3/api-docs/**").permitAll()
+                .antMatchers("/admin/").hasRole("ADMIN")
+                .antMatchers("/client/").hasRole("CLIENT")
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

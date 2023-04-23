@@ -8,9 +8,6 @@ import tn.esprit.spring.Services.Interfaces.*;
 
 import java.util.*;
 import java.util.Collections;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 
 @AllArgsConstructor
 @Service
@@ -101,7 +98,7 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
             benefice = (credits.getAmount() * (credits.getInterestRate()/100) * period);
 
         }
-        for (Investtisment inves : iInvesttismentServices.selectAll()){
+        for (Investisment inves : iInvesttismentServices.selectAll()){
 
              beneficeinves = (float) (beneficeinves + inves.getAmount()* 0.3);
         }
@@ -127,7 +124,7 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
             crdits=crdits+credits.getAmount();
 
         }
-        for (Investtisment inves : iInvesttismentServices.selectAll()){
+        for (Investisment inves : iInvesttismentServices.selectAll()){
             invest=invest+inves.getAmount();
         }
         //ras el mel 3000000000

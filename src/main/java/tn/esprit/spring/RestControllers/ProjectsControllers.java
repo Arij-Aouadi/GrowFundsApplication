@@ -3,14 +3,10 @@ package tn.esprit.spring.RestControllers;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.DAO.Entities.Credits;
-import tn.esprit.spring.DAO.Entities.Investtisment;
 import tn.esprit.spring.DAO.Entities.Projects;
 import tn.esprit.spring.DAO.Entities.User;
-import tn.esprit.spring.DAO.Repositories.ProjectsRepository;
 import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController

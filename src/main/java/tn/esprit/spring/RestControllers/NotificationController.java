@@ -44,7 +44,7 @@ public class NotificationController {
         return iNotificationService.getNotificationsByUserId(id);
     }
 
-    @GetMapping("/notifications/")//showing notifications of a selected user {without pending notifications}
+    @GetMapping("/client/notifications/")//showing notifications of a selected user {without pending notifications}
     public List<Notification> getNotifications() {
         User connectedUser = userService.getConnectedUser();
         return iNotificationService.getSentNotificationsByUserId(connectedUser.getId());
@@ -115,14 +115,14 @@ public class NotificationController {
         return iNotificationService.edit(n);
     }
 
-    @PutMapping("/notifications/read/{id}") //editing notification by user {change status to Read }
+    @PutMapping("/client/notifications/read/{id}") //editing notification by user {change status to Read }
     public void markNotificationAsRead(@PathVariable long id) {
         User connectedUser = userService.getConnectedUser();
         Notification n = iNotificationService.selectById(id);
         if(n.getUser()==connectedUser)iNotificationService.markAsRead(id);
     }
 
-    @DeleteMapping("/admin/ notifications/n/{id}/delete") // deleting notification by admin
+    @DeleteMapping("/admin/notifications/n/{id}/delete") // deleting notification by admin
     public void deleteNotification(@RequestParam long id) {
         iNotificationService.delete(id);
     }

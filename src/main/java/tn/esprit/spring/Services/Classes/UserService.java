@@ -16,10 +16,11 @@ import java.util.List;
 
 @AllArgsConstructor
 @Service
-@AllArgsConstructor
 @NoArgsConstructor
 
 public class UserService implements IUserService {
+
+    @Autowired
     private UserRepository userRepository;
     @Override
     public List<User> selectall() {
@@ -64,14 +65,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public String getCurrentUser() {
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String currentUserName = authentication.getName();
             User user= userRepository.findByUsername(currentUserName).get();
-            return user.getCin();}
+            return user;}
         else {
-            return "no user";
+            return null;
         }
     }
 
@@ -84,6 +85,6 @@ public class UserService implements IUserService {
 
     //TO Be changed later
     public User getConnectedUser(){
-        return userRepository.findById(1L).get();
+        return this.selectById(2L);
     }
 }

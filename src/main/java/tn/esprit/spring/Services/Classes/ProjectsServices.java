@@ -3,11 +3,9 @@ package tn.esprit.spring.Services.Classes;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.DAO.Entities.Investtisment;
 import tn.esprit.spring.DAO.Entities.Projects;
 import tn.esprit.spring.DAO.Entities.User;
-import tn.esprit.spring.DAO.Entities.leTypeInvestor;
-import tn.esprit.spring.DAO.Repositories.InvesttismentRepository;
+import tn.esprit.spring.DAO.Entities.TypeInvestor;
 import tn.esprit.spring.DAO.Repositories.ProjectsRepository;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IProjectsServices;
@@ -92,10 +90,10 @@ public class ProjectsServices implements IProjectsServices {
 
 
         List<Projects> investments = projectsRepository.findByInvestor(investor);
-        Map<leTypeInvestor, Long> investmentTypeCounts = new HashMap<>();
+        Map<TypeInvestor, Long> investmentTypeCounts = new HashMap<>();
 
         for (Projects investment : investments) {
-            leTypeInvestor type = investment.getLeTypeInvestor();
+            TypeInvestor type = investment.getLeTypeInvestor();
             Long count = investmentTypeCounts.get(type);
             System.out.println(type);
             System.out.println(count);
@@ -105,10 +103,10 @@ public class ProjectsServices implements IProjectsServices {
             }
             investmentTypeCounts.put(type, count + 1);
         }
-        leTypeInvestor favoriteTypeInvestement = null;
+        TypeInvestor favoriteTypeInvestement = null;
         Long maxCount = 0L;
-        for (Map.Entry<leTypeInvestor, Long> entry : investmentTypeCounts.entrySet()) {
-            leTypeInvestor type = entry.getKey();
+        for (Map.Entry<TypeInvestor, Long> entry : investmentTypeCounts.entrySet()) {
+            TypeInvestor type = entry.getKey();
             Long count = entry.getValue();
             if (count > maxCount) {
                 favoriteTypeInvestement = type;

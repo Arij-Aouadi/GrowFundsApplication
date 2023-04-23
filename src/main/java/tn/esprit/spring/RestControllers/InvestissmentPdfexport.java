@@ -5,25 +5,21 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 
 import com.itextpdf.text.pdf.PdfWriter;
-import tn.esprit.spring.DAO.Entities.Investtisment;
+import tn.esprit.spring.DAO.Entities.Investisment;
 import tn.esprit.spring.DAO.Entities.User;
-import tn.esprit.spring.DAO.Repositories.InvesttismentRepository;
-import tn.esprit.spring.Services.Classes.InvesttismentServices;
-import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
 
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
 public class InvestissmentPdfexport {
-    private List<Investtisment> listInvestesment;
+    private List<Investisment> listInvestesment;
 
 
-    public InvestissmentPdfexport(List<Investtisment> listInvestesment) {
+    public InvestissmentPdfexport(List<Investisment> listInvestesment) {
         this.listInvestesment = listInvestesment;
     }
 
@@ -51,7 +47,7 @@ public class InvestissmentPdfexport {
 
     private void writeTableData(PdfPTable table) {
 
-        for (Investtisment investesment : listInvestesment) {
+        for (Investisment investesment : listInvestesment) {
             User user = investesment.getInvestor();
             table.addCell(String.valueOf(investesment.getIdinvesttisment()));
             table.addCell(String.valueOf(investesment.getTauxInvesttisment()));

@@ -16,7 +16,7 @@ import java.io.Serializable;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name= "investtisment")
 
-public class Investtisment implements Serializable {
+public class Investisment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int idinvesttisment ;
@@ -27,6 +27,6 @@ public class Investtisment implements Serializable {
     User investor ;
 
     @Enumerated(EnumType.STRING)
-    leTypeInvestor leTypeInvestor;
+    TypeInvestor leTypeInvestor;
 
 }

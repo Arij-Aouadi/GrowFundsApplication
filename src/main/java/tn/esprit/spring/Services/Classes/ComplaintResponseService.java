@@ -32,8 +32,11 @@ public class ComplaintResponseService implements IComplaintResponseService  {
     }
 
     @Override
-    public void delete(Long id){
+    public Complaint delete(Long id){
+
+        Complaint c = complaintResponseRepository.findById(id).get().getComplaint();
         complaintResponseRepository.deleteById(id);
+        return c;
     }
 
 

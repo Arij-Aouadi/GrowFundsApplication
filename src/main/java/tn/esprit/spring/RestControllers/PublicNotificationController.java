@@ -33,7 +33,7 @@ public class PublicNotificationController {
         return publicNotificationService.getAll();
     }
 
-    @GetMapping("/publicnotif")
+    @GetMapping("/client/publicnotif")
     public List<PublicNotification> getPublicNotifications (){
         User connectedUser= userService.getConnectedUser();
         return publicNotificationService.getSentPublicNotificationsByUserId(connectedUser.getId());

@@ -37,6 +37,6 @@ public class UserController {
 
     @GetMapping("/currentUser")
     public  String current (){
-        return iUserService.getCurrentUser();
+        return iUserService.getCurrentUser().getUsername();
     }
 }

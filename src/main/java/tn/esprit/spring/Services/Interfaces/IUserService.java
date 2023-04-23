@@ -17,5 +17,5 @@ public interface IUserService {
 
     User getById(long id);
 
-    String getCurrentUser();
+    User getCurrentUser();
 }

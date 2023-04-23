@@ -1,13 +1,9 @@
 package tn.esprit.spring.RestControllers;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import lombok.AllArgsConstructor;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.DAO.Entities.Investtisment;
+import tn.esprit.spring.DAO.Entities.Investisment;
 import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
 
 import javax.servlet.http.HttpServletResponse;
@@ -24,19 +20,19 @@ public class InvesttismentControllers {
 
 
     @GetMapping("/afficherInvesttisment")
-    public List<Investtisment> afficherInvesttisment()
+    public List<Investisment> afficherInvesttisment()
     {
 
         return iInvesttismentServices.selectAll();
     }
 
     @PostMapping("ajouterInvesttisment")
-    public Investtisment ajouterInvesttisment(@RequestBody Investtisment investtisment) {
+    public Investisment ajouterInvesttisment(@RequestBody Investisment investtisment) {
         return iInvesttismentServices.add(investtisment);
     }
 
     @GetMapping("afficherInvesttismentAvecId/{id}")
-    public Investtisment afficherInvesttismentAvecId(@PathVariable int id) {
+    public Investisment afficherInvesttismentAvecId(@PathVariable int id) {
         return iInvesttismentServices.selectById(id);
     }
 
@@ -44,12 +40,12 @@ public class InvesttismentControllers {
 
     @PostMapping("/ajouterallInvesttisment")
 
-    public List<Investtisment> addAllProjects ( @RequestBody List<Investtisment> list){
+    public List<Investisment> addAllProjects (@RequestBody List<Investisment> list){
 
         return iInvesttismentServices.addAll(list);
     }
     @PutMapping ("/modifierInvesttisment")
-    public Investtisment editInvesttisment(@RequestBody Investtisment Investtisment){
+    public Investisment editInvesttisment(@RequestBody Investisment Investtisment){
         return iInvesttismentServices.edit(Investtisment);}
 
     @DeleteMapping ("/deleteInvesttismentbyid")
@@ -59,7 +55,7 @@ public class InvesttismentControllers {
 
 
     @DeleteMapping ("/deleteInvesttisment")
-    public void deletebyobjectInvesttisment(@RequestBody Investtisment investtisment){
+    public void deletebyobjectInvesttisment(@RequestBody Investisment investtisment){
         iInvesttismentServices.delete(investtisment);}
 
   //  http://localhost:1006/CalculateAmoutOfInves/{{Investesment-id}}
@@ -86,7 +82,7 @@ public class InvesttismentControllers {
       String headerKey = "Content-Disposition";
         String headerValue = "Attachement;filename=inves_"+ currentDateTime + ".pdf";
          response.setHeader(headerKey,headerValue);
-         List<Investtisment> listInvestesment = iInvesttismentServices.selectAll();
+         List<Investisment> listInvestesment = iInvesttismentServices.selectAll();
         InvestissmentPdfexport exporter= new InvestissmentPdfexport(listInvestesment);
         exporter.export(response);
 

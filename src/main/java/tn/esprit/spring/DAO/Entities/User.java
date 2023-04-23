@@ -6,7 +6,6 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
-import javax.swing.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -68,7 +67,7 @@ public class User implements Serializable {
      List<Projects> projectsList;
     @JsonIgnore
      @OneToMany(mappedBy = "investor")
-    List<Investtisment> investtismentList;
+    List<Investisment> investtismentList;
      @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;

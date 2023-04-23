@@ -4,9 +4,11 @@ package tn.esprit.spring.RestControllers;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import tn.esprit.spring.DAO.Entities.*;
+import tn.esprit.spring.Services.Classes.ComplaintService;
 import tn.esprit.spring.Services.Classes.UserService;
 import tn.esprit.spring.Services.Interfaces.IChatgptService;
 import tn.esprit.spring.Services.Interfaces.IComplaintResponseService;
@@ -19,6 +21,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class ComplaintController {
 
     @Autowired
@@ -44,14 +48,14 @@ public class ComplaintController {
     }
 
 
-    @GetMapping("/complaints/")
+    @GetMapping("/client/complaints/")
     public List<Complaint> showAllUserComplaint() {
         User connectedUser = auth.getConnectedUser();
         List<Complaint> complaints = iComplaintService.getComplaintsByClient(connectedUser.getId());
         return complaints;
     }
 
-    @GetMapping("complaints/c/{id}")
+    @GetMapping("/client/complaints/c/{id}")
     public Complaint showUserComplaint(@PathVariable Long id) {
         User connectedUser = auth.getConnectedUser();
         Complaint c = iComplaintService.selectById(id);
@@ -65,7 +69,7 @@ public class ComplaintController {
 
     }
 
-    @PostMapping("complaints/add")
+    @PostMapping("/client/complaints/add")
     public Complaint addComplaint(@RequestParam String objet, @RequestParam String description) {
         Complaint c = new Complaint();
         User connectedUser = auth.getConnectedUser();
@@ -80,38 +84,32 @@ public class ComplaintController {
 
 
     @PutMapping("/admin/complaints/edit/{id}")
-    public Complaint updateComplaint(@RequestParam Long id, @RequestParam String priority, @RequestParam String status) {
-        Complaint c = iComplaintService.selectById(id);
-        c.setPriorityLevel(TypePriorityLevel.valueOf(priority));
-        c.setStatus(TypeComplaintStatus.valueOf(status));
+    public Complaint updateComplaint(@PathVariable Long id, @RequestBody Complaint c) {
         return iComplaintService.edit(c);
     }
 
     @DeleteMapping("/admin/complaints/delete/{id}")
     public void deleteComplaint(@PathVariable Long id) {
-        iComplaintService.deleteById(id);
+
+         iComplaintService.deleteById(id);
     }
+
 
 
     @PostMapping("/admin/complaints/c/{id}/addResponse")
-    public ComplaintResponse addAgentResponse(@PathVariable Long id, @RequestParam String description) {
-        Complaint c = iComplaintService.selectById(id);
-        ComplaintResponse cr = new ComplaintResponse();
-        User connectedUser = auth.getConnectedUser();
-        if (c.getStatus() != TypeComplaintStatus.RESOLVED && c.getStatus() != TypeComplaintStatus.CLOSED) {
-            cr.setDescription(description);
-            cr.setDateResponse(new Date());
-            cr.setComplaint(c);
-            cr.setUser(connectedUser);
-            return iComplaintResponseService.add(cr);
-        } else {
-            return null;
-        }
+    public Complaint addAgentResponse(@PathVariable Long id, @RequestBody ComplaintResponse cr) {
 
+        cr.setDateResponse(new Date());
+        cr.setComplaint(iComplaintService.selectById(id));
+        User connectedUser = auth.getConnectedUser();
+        cr.setUser(connectedUser);
+
+         iComplaintResponseService.add(cr);
+         return cr.getComplaint();
     }
 
 
-    @PostMapping("/complaints/c/{id}/addResponse")
+    @PostMapping("/client/complaints/c/{id}/addResponse")
     public ComplaintResponse addClientResponse(@PathVariable Long id, @RequestParam String description) {
         Complaint c = iComplaintService.selectById(id);
         ComplaintResponse cr = new ComplaintResponse();
@@ -129,8 +127,9 @@ public class ComplaintController {
     }
 
     @DeleteMapping("/admin/responses/delete/{id}")
-    public void deleteResponse(@PathVariable Long id) {
-        iComplaintResponseService.delete(id);
+    public Complaint deleteResponse(@PathVariable Long id) {
+
+        return iComplaintResponseService.delete(id);
     }
 
 
@@ -152,7 +151,7 @@ public class ComplaintController {
         Complaint c = iComplaintService.selectById(id);
         OutputDto out = null;
         try {
-            out = chatgptService.sendPrompt("translate this to french : " + c.getDescription());
+            out = chatgptService.sendPrompt("translate this to english : " + c.getDescription());
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -160,8 +159,8 @@ public class ComplaintController {
     }
 
 
-    @GetMapping("/admin/complaints/c/{id}/priority")
-    public String pickPriority(@PathVariable Long id) {
+    @GetMapping("/admin/complaints/priority/{id}")
+    public ResponseEntity<String> pickPriority(@PathVariable Long id) {
         Complaint c = iComplaintService.selectById(id);
         OutputDto out = null;
         try {
@@ -181,8 +180,8 @@ public class ComplaintController {
         }else if (answer.toUpperCase().contains("LOW")){
             c.setPriorityLevel(TypePriorityLevel.HIGH);
         }
-        iComplaintService.edit(c);
-        return out.getAnswer();
+        //iComplaintService.edit(c);
+        return ResponseEntity.ok(out.getAnswer());
     }
 
 

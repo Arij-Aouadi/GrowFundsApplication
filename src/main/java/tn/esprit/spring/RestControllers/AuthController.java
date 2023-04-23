@@ -32,7 +32,6 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Getter
 @Setter
-@RequestMapping("/api/auth")
 @RestController
 @AllArgsConstructor
 public class AuthController {

@@ -1,19 +1,19 @@
 package tn.esprit.spring.Services.Interfaces;
 
 
-import tn.esprit.spring.DAO.Entities.Investtisment;
+import tn.esprit.spring.DAO.Entities.Investisment;
 
 import java.util.List;
 
 public interface IInvesttismentServices {
-    Investtisment add(Investtisment i);
-    Investtisment edit(Investtisment i);
-    List<Investtisment> selectAll();
-    Investtisment selectById(int idinvesttisment);
+    Investisment add(Investisment i);
+    Investisment edit(Investisment i);
+    List<Investisment> selectAll();
+    Investisment selectById(int idinvesttisment);
     void deleteById(int idinvesttisment);
-    void delete(Investtisment i);
-    List<Investtisment> addAll(List<Investtisment> list);
-    void deleteAll(List<Investtisment> list);
+    void delete(Investisment i);
+    List<Investisment> addAll(List<Investisment> list);
+    void deleteAll(List<Investisment> list);
 
     void finalAmount();
     void CalculateAmoutOfInves(int idInvestesment);

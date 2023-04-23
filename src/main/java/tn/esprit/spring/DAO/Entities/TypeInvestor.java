@@ -1,6 +1,6 @@
 package tn.esprit.spring.DAO.Entities;
 
-public enum leTypeInvestor {
+public enum TypeInvestor {
 
     k,
     h
