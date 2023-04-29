@@ -3,14 +3,12 @@ package tn.esprit.spring.RestControllers;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.DAO.Entities.Notification;
-import tn.esprit.spring.DAO.Entities.TypeNotificationSection;
-import tn.esprit.spring.DAO.Entities.TypeNotificationStatus;
-import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.DAO.Entities.*;
 import tn.esprit.spring.Services.Classes.UserService;
 import tn.esprit.spring.Services.Classes.WSService;
 import tn.esprit.spring.Services.Interfaces.INotificationService;
 
+import javax.websocket.server.PathParam;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
@@ -24,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class NotificationController {
     @Autowired
     private INotificationService iNotificationService;
@@ -123,8 +123,10 @@ public class NotificationController {
     }
 
     @DeleteMapping("/admin/notifications/n/{id}/delete") // deleting notification by admin
-    public void deleteNotification(@RequestParam long id) {
+    public List<Notification> deleteNotification(@PathParam("id") long id) {
+
         iNotificationService.delete(id);
+        return iNotificationService.getAll();
     }
 
 

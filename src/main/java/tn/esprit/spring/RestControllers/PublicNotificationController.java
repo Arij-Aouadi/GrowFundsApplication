@@ -22,6 +22,8 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class PublicNotificationController {
     UserService userService;
     @Autowired
@@ -40,30 +42,22 @@ public class PublicNotificationController {
     }
 
     @PostMapping("/admin/addInstantPublicNotifi")
-    public PublicNotification addInstantNotification(@RequestParam String message ) {
-        PublicNotification n = new PublicNotification();
-        n.setMessage(message);
-        n.setSentDate(LocalDateTime.now().plusHours(1));
-        wsService.notifyFrontend(message);
-        return publicNotificationService.add(n);
+    public List<PublicNotification> addInstantNotification(@RequestBody PublicNotification n ) {
+        n.setSentDate(LocalDateTime.now());
+        wsService.notifyFrontend(n.getMessage());
+         publicNotificationService.add(n);
+        return publicNotificationService.getAll();
     }
     @PostMapping("/admin/addScheduledPublicNotif")
-    public PublicNotification addInstantPublicNotification(@RequestParam String message,@RequestParam String date ) {
-        PublicNotification n = new PublicNotification();
-        n.setMessage(message);
+    public List<PublicNotification> addInstantPublicNotification(@RequestBody PublicNotification n  ) {
+        System.out.println(n);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime newDate = null;
-        newDate = LocalDateTime.parse(date, formatter);
-
-
-        //Sending
         LocalDateTime now = LocalDateTime.now();
-        long secondsToWait = now.until(newDate, ChronoUnit.SECONDS);
+        long secondsToWait = now.until(n.getSentDate(), ChronoUnit.SECONDS);
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.schedule(() -> wsService.notifyFrontend(message), secondsToWait, TimeUnit.SECONDS);
-        newDate= newDate.plusHours(1);
-        n.setSentDate(newDate);
-        return publicNotificationService.add(n);
+        scheduler.schedule(() -> wsService.notifyFrontend(n.getMessage()), secondsToWait, TimeUnit.SECONDS);
+         publicNotificationService.add(n);
+         return publicNotificationService.getAll();
     }
 
 
@@ -80,7 +74,11 @@ public class PublicNotificationController {
         return publicNotificationService.edit(n);}
 
     @DeleteMapping ("/admin/publicnotif/n/{id}/delete")
-    public void deletePublicNotification (@RequestParam long id){
+    public List<PublicNotification> deletePublicNotification (@PathVariable long id){
+
         publicNotificationService.delete(id);
+
+            return publicNotificationService.getAll();
+
     }
 }
