@@ -1,6 +1,7 @@
 package tn.esprit.spring.RestControllers;
 
 import lombok.AllArgsConstructor;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.DAO.Entities.*;
@@ -14,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -47,86 +49,78 @@ public class NotificationController {
     @GetMapping("/client/notifications/")//showing notifications of a selected user {without pending notifications}
     public List<Notification> getNotifications() {
         User connectedUser = userService.getConnectedUser();
-        return iNotificationService.getSentNotificationsByUserId(connectedUser.getId());
+        List<Notification> notifs = iNotificationService.getSentNotificationsByUserId(connectedUser.getId());
+              notifs.sort(new Comparator<Notification>() {
+            public int compare(Notification n1, Notification n2) {
+                return n2.getSentDate().compareTo(n1.getSentDate());
+            }
+        });
+return notifs;
+
     }
 
 
-    @PostMapping("/admin/addInstantNotification")
-    public Notification addInstantNotification(
-            @RequestParam String message,
-            @RequestParam String section,
-            @RequestParam long userId
+    @PostMapping("/admin/addInstantNotification/{id}")
+    public List<Notification> addInstantNotification(
+            @RequestBody Notification n,
+            @PathVariable long id
     ) {
-        Notification n = new Notification();
-        n.setMessage(message);
-        n.setSection(TypeNotificationSection.valueOf(section));
         n.setStatus(TypeNotificationStatus.UNREAD);
-        n.setSentDate(LocalDateTime.now().plusHours(1));
-        User u =userService.getById(userId);
+        n.setSentDate(LocalDateTime.now());
+        User u = userService.getById(id);
         n.setUser(u);
-        wsService.notifyUser(userId + "", section + " - " + message);
-        return iNotificationService.add(n);
+        wsService.notifyUser(id + "", n.getSection() + " - " + n.getMessage());
+        iNotificationService.add(n);
+        return iNotificationService.getNotificationsByUserId(id);
     }
 
-    @PostMapping("/admin/addScheduledNotification")
-    public Notification addScheduledNotification(
-            @RequestParam String message,
-            @RequestParam String section,
-            @RequestParam String date,
-            @RequestParam long userId
+
+    @PostMapping("/admin/addScheduledNotification/{uid}")
+    public List<Notification> addScheduledNotification(
+            @RequestBody Notification n,
+            @PathVariable long uid
     ) {
-        Notification n = new Notification();
-        n.setMessage(message);
-        n.setSection(TypeNotificationSection.valueOf(section));
         n.setStatus(TypeNotificationStatus.PENDING);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime newDate = null;
-        newDate = LocalDateTime.parse(date, formatter);
-        User u =userService.getById(userId);
+        User u =userService.getById(uid);
         n.setUser(u);
-        //Sending
         LocalDateTime now = LocalDateTime.now();
-        long secondsToWait = now.until(newDate, ChronoUnit.SECONDS);
+        long secondsToWait = now.until(n.getSentDate(), ChronoUnit.SECONDS);
+        System.out.println(secondsToWait);
+
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> {
-            wsService.notifyUser(userId + "", section + " - " + message);
+            wsService.notifyUser(uid + "", n.getSection() + " - " + n.getMessage());
             n.setStatus(TypeNotificationStatus.UNREAD);
             iNotificationService.edit(n);
         }, secondsToWait, TimeUnit.SECONDS);
-
-
-        newDate= newDate.plusHours(1);
-        n.setSentDate(newDate);
-
-        return iNotificationService.add(n);
+         iNotificationService.add(n);
+         return iNotificationService.getNotificationsByUserId(uid);
     }
 
-    @PutMapping("/admin/notifications/n/{id}/edit") //editing notification by admin
-    public Notification editNotification(@PathVariable long id, @RequestParam String message, @RequestParam String section, @RequestParam String date) {
-        Notification n = iNotificationService.selectById(id);
-        n.setMessage(message);
-        n.setSection(TypeNotificationSection.valueOf(section));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    @PutMapping("/admin/notifications/edit") //editing notification by admin
+    public List<Notification>  editNotification(@RequestBody Notification n ) {
+        Notification not = iNotificationService.selectById(n.getIdNotification());
+        not.setMessage(n.getMessage());
+        not.setSection(n.getSection());
 
-        LocalDateTime newDate = null;
-        newDate = LocalDateTime.parse(date, formatter);
-        newDate= newDate.plusHours(1);
-        n.setSentDate(newDate);
-        return iNotificationService.edit(n);
+         iNotificationService.edit(not);
+        return iNotificationService.getNotificationsByUserId(not.getUser().getId());
+
     }
 
     @PutMapping("/client/notifications/read/{id}") //editing notification by user {change status to Read }
     public void markNotificationAsRead(@PathVariable long id) {
-        User connectedUser = userService.getConnectedUser();
         Notification n = iNotificationService.selectById(id);
-        if(n.getUser()==connectedUser)iNotificationService.markAsRead(id);
+        iNotificationService.markAsRead(id);
     }
-
     @DeleteMapping("/admin/notifications/n/{id}/delete") // deleting notification by admin
-    public List<Notification> deleteNotification(@PathParam("id") long id) {
-
+    public List<Notification> deleteNotification(@PathVariable("id") long id) {
+        long uid = iNotificationService.selectById(id).getUser().getId();
         iNotificationService.delete(id);
-        return iNotificationService.getAll();
+
+
+        return iNotificationService.getNotificationsByUserId(uid);
     }
 
 

@@ -172,7 +172,7 @@ public class ComplaintController {
         }else if (answer.toUpperCase().contains("LOW")){
             c.setPriorityLevel(TypePriorityLevel.HIGH);
         }
-        //iComplaintService.edit(c);
+        iComplaintService.edit(c);
         return ResponseEntity.ok(out.getAnswer());
     }
 

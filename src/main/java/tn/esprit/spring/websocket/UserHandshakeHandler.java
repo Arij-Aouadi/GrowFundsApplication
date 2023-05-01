@@ -24,6 +24,7 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
         final Long id =2L;
         LOG.info("User with ID '{}' opened the page", id);
 
+        System.out.println( new UserPrincipal(id+""));
         return new UserPrincipal(id+"");
     }
 }

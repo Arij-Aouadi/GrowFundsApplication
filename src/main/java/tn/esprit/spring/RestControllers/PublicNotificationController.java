@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -38,7 +39,15 @@ public class PublicNotificationController {
     @GetMapping("/client/publicnotif")
     public List<PublicNotification> getPublicNotifications (){
         User connectedUser= userService.getConnectedUser();
-        return publicNotificationService.getSentPublicNotificationsByUserId(connectedUser.getId());
+
+        List<PublicNotification> notifs = publicNotificationService.getSentPublicNotificationsByUserId(connectedUser.getId());
+        notifs.sort(new Comparator<PublicNotification>() {
+            public int compare(PublicNotification n1, PublicNotification n2) {
+                return n2.getSentDate().compareTo(n1.getSentDate());
+            }
+        });
+        return notifs;
+
     }
 
     @PostMapping("/admin/addInstantPublicNotifi")
@@ -50,10 +59,10 @@ public class PublicNotificationController {
     }
     @PostMapping("/admin/addScheduledPublicNotif")
     public List<PublicNotification> addInstantPublicNotification(@RequestBody PublicNotification n  ) {
-        System.out.println(n);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         long secondsToWait = now.until(n.getSentDate(), ChronoUnit.SECONDS);
+        System.out.println(secondsToWait);
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.schedule(() -> wsService.notifyFrontend(n.getMessage()), secondsToWait, TimeUnit.SECONDS);
          publicNotificationService.add(n);
