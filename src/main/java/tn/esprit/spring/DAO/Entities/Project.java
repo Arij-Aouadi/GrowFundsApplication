@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Getter
@@ -15,28 +16,19 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name= "Projects")
 
-public class Projects implements Serializable {
+public class Project implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int idProject ;
     String name;
-    String type;
+    String category                                           ;
      Float budget ;
-     @JsonIgnore
+      TypeProjectStatus status;
      @ManyToOne
-     User user ;
-    @JsonIgnore
-    @ManyToOne
-    User investor;
-
-     @ManyToOne
-     Investisment investtisment;
-
-    @Enumerated(EnumType.STRING)
-    TypeInvestor leTypeInvestor;
-
-
-
+     User founder ;
+     @OneToMany
+     List<Investisment> investisments;
+     @OneToMany
+    List<Revenue> revenues;
 }

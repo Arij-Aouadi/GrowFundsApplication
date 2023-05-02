@@ -62,9 +62,7 @@ public class User implements Serializable {
      Set<Role> role;
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-     List<Projects> projectsList;
+
     @JsonIgnore
      @OneToMany(mappedBy = "investor")
     List<Investisment> investtismentList;
@@ -75,8 +73,8 @@ public class User implements Serializable {
     Credits creditGuarant;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "investor")
-    List<Projects> projectsListI;
+    @OneToMany(mappedBy = "founder")
+    List<Project> projectsListI;
     public String getMail() {
         return email;
     }

@@ -4,7 +4,12 @@ import com.itextpdf.text.DocumentException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.DAO.Entities.Investisment;
+import tn.esprit.spring.DAO.Entities.Project;
+import tn.esprit.spring.DAO.Entities.TypeProjectStatus;
+import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
+import tn.esprit.spring.Services.Interfaces.IProjectsServices;
+import tn.esprit.spring.Services.Interfaces.IUserService;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -15,9 +20,27 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class InvesttismentControllers {
     private IInvesttismentServices iInvesttismentServices;
+    private IProjectsServices iProjectsServices;
 
+    @GetMapping("/client/investments")
+    public List<Investisment> getAllClientInvestments()
+    {
+        return iInvesttismentServices.selectByClient();
+    }
+    @PostMapping("/client/investments/{id}/add")
+    public Project ajouterInvesttisment(@PathVariable(value = "id") int id, @RequestBody Investisment investtisment) {
+        iInvesttismentServices.add(investtisment);
+        Project p = iProjectsServices.selectById(id);
+        p.getInvestisments().add(investtisment);
+        iProjectsServices.edit(p);
+        return p;
+    }
+    //client
+    /*
 
     @GetMapping("/afficherInvesttisment")
     public List<Investisment> afficherInvesttisment()
@@ -89,7 +112,7 @@ public class InvesttismentControllers {
     }
 
 
-
+*/
 
 
 

@@ -1,22 +1,40 @@
 package tn.esprit.spring.Services.Interfaces;
 
-import tn.esprit.spring.DAO.Entities.Projects;
+import tn.esprit.spring.DAO.Entities.Project;
+import tn.esprit.spring.DAO.Entities.Revenue;
 import tn.esprit.spring.DAO.Entities.User;
 
 import java.util.List;
 
 public interface IProjectsServices {
-    Projects add(Projects p,Long id);
-    Projects edit(Projects p);
-    List<Projects> selectAll();
-    Projects selectById(int idProjects);
+
+    public List<Project> getProjectsForFounder() ;
+    Project selectById(int idProjects);
+
+
+    Project addRevenue(Revenue r, int idProject);
+
+    Project add(Project p);
+
+    List<Project> selectAll();
+
+
+    Project edit(Project p);
+
+    /*
+
+
+    List<Project> selectAll();
+   ;
     void deleteById(int idProjects);
-    void delete(Projects p);
-    List<Projects> addAll(List<Projects> list);
-    void deleteAll(List<Projects> list);
+    void delete(Project p);
+    List<Project> addAll(List<Project> list);
+    void deleteAll(List<Project> list);
     //List<Projects> Get_projects_by_User(Long idUser) ;
-    public List<Projects> Searchprojects(String ch) ;
-    public List<Projects> getProjectsByInvestor(User investor) ;
+    public List<Project> Searchprojects(String ch) ;
+    public List<Project> getProjectsByInvestor(User investor) ;
 
 
-     Projects suggestInvestorsForProject(User investor);}
+     Project suggestInvestorsForProject(User investor);*/
+
+}

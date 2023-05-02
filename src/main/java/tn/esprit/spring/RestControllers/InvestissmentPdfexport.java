@@ -50,7 +50,6 @@ public class InvestissmentPdfexport {
         for (Investisment investesment : listInvestesment) {
             User user = investesment.getInvestor();
             table.addCell(String.valueOf(investesment.getIdinvesttisment()));
-            table.addCell(String.valueOf(investesment.getTauxInvesttisment()));
             table.addCell(String.valueOf(investesment.getAmount()));
             table.addCell(user.getUsername());
             table.addCell(user.getProfession());

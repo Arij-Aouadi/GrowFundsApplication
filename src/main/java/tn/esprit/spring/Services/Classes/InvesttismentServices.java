@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Investisment;
+import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.InvesttismentRepository;
 import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
 
@@ -14,9 +15,16 @@ import java.util.*;
 
 public class InvesttismentServices implements IInvesttismentServices {
     private InvesttismentRepository investtismentRepository;
+    private UserService userService;
 
     @Override
     public Investisment add(Investisment i) {
+
+
+        User u = userService.getConnectedUser();
+        Date d= new Date();
+        i.setInvestor(u);
+        i.setDateInvest(d);
         return investtismentRepository.save(i);
     }
 
@@ -31,7 +39,14 @@ public class InvesttismentServices implements IInvesttismentServices {
     }
 
     @Override
+    public List<Investisment> selectByClient() {
+        User u = userService.getConnectedUser();
+        return investtismentRepository.findAllByInvestor(u);
+    }
+
+    @Override
     public Investisment selectById(int idinvesttisment) {
+
         return investtismentRepository.findById(idinvesttisment).get();
     }
 
@@ -45,7 +60,7 @@ public class InvesttismentServices implements IInvesttismentServices {
     public void delete(Investisment i) {
         investtismentRepository.delete(i);
     }
-
+/*
     @Override
     public List<Investisment> addAll(List<Investisment> list) {
         return investtismentRepository.saveAll(list);
@@ -78,7 +93,7 @@ public class InvesttismentServices implements IInvesttismentServices {
     }
 
 
-
+*/
 
 }
 

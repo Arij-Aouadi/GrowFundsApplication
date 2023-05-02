@@ -3,42 +3,75 @@ package tn.esprit.spring.RestControllers;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tn.esprit.spring.DAO.Entities.Projects;
+import tn.esprit.spring.DAO.Entities.Project;
+import tn.esprit.spring.DAO.Entities.Revenue;
+import tn.esprit.spring.DAO.Entities.TypeProjectStatus;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class ProjectsControllers {
     private IProjectsServices iProjectsServices;
 
-    @GetMapping("/afficherProjects")
-    public List<Projects> afficherProjects() {
+    @GetMapping("/client/projects")
+    public List<Project> getProjectsByFounder() {
+        return iProjectsServices.getProjectsForFounder();
+    }
+    @GetMapping("/client/allprojects")
+    public List<Project> getAll() {
         return iProjectsServices.selectAll();
     }
 
-    @PostMapping("/ajouterProjects/{id}")
-    public Projects ajouterProjects(@RequestBody Projects projects, @PathVariable Long id) {
-        return iProjectsServices.add(projects,id);
-    }
+    @PostMapping("/client/project/add")
+    public Project addProject( @RequestBody Project p) {
+        p.setStatus(TypeProjectStatus.NOT_STARTED);
+        return iProjectsServices.add(p);
 
-    @GetMapping("afficherProjectsAvecId/{id}")
-    public Projects afficherProjectsAvecId(@PathVariable int id) {
+    }
+    @GetMapping("/client/project/{id}")
+    public Project getProjectById(@PathVariable int id) {
         return iProjectsServices.selectById(id);
 
     }
+    @PostMapping("/client/project/{id}/addRevenue")
+    public Project addRevenue(@PathVariable(value = "id")int id, @RequestBody Revenue r) {
+        Date d = new Date();
+        r.setDateDeclaration(d);
+        return iProjectsServices.addRevenue(r,id);
 
-    @PostMapping("/ajouterallProjects")
-
-    public List<Projects> addAllProjects ( @RequestBody List<Projects> list){
-
-        return iProjectsServices.addAll(list);
     }
-    @PutMapping ("/modifierProjects")
-    public Projects editProjects(@RequestBody Projects Projects){
-        return iProjectsServices.edit(Projects);}
+
+
+    @GetMapping("/admin/projects")
+    public List<Project> getAllProjects() {
+        return iProjectsServices.selectAll();
+    }
+
+    @PutMapping ("/admin/projects/edit")
+    public Project editProjects(@RequestBody Project p){
+
+        return iProjectsServices.edit(p);}
+
+
+    /*
+
+
+
+    @PostMapping("/ajouterProjects/{id}")
+    public Project ajouterProjects(@RequestBody Project projects, @PathVariable Long id) {
+        return iProjectsServices.add(projects,id);
+    }
+
+
+
+
+
 
     @DeleteMapping ("/deleteProjectsbyid")
     public void deletebyidProjects (@RequestParam int id){
@@ -46,17 +79,17 @@ public class ProjectsControllers {
 
 
     @DeleteMapping ("/deleteProjects")
-    public void deletebyobjectProjects (@RequestBody Projects projects){
+    public void deletebyobjectProjects (@RequestBody Project projects){
         iProjectsServices.delete(projects);}
     /*@GetMapping("/findByUser/{idUser}")
     public List<Projects> GetProjectByUser(@PathVariable Long idUser){
 
         return iProjectsServices.Get_projects_by_User(idUser);
-    }*/
+    }
     //http://localhost:1009/search
     @GetMapping("/search")
-    public ResponseEntity<List<Projects>> searchPosts(@RequestParam("query") String query) {
-        List<Projects> matchingPosts = iProjectsServices.Searchprojects(query);
+    public ResponseEntity<List<Project>> searchPosts(@RequestParam("query") String query) {
+        List<Project> matchingPosts = iProjectsServices.Searchprojects(query);
         if (matchingPosts.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -65,14 +98,14 @@ public class ProjectsControllers {
     }
     //http://localhost:1009/getProjectsByInvestor/{{investorId}}
     @GetMapping("/getProjectsByInvestor/{investorId}")
-    public List<Projects> getProjectsByInvestor(@PathVariable Long investorId) {
+    public List<Project> getProjectsByInvestor(@PathVariable Long investorId) {
         User investor = new User();
         investor.setId(investorId);
         return iProjectsServices.getProjectsByInvestor(investor);
     }//http://localhost:1009/suggestInvestorsForProject/{{investor}}
     @GetMapping("/suggestInvestorsForProject/{investor}")
-    public Projects suggestInvestorsForProject(@PathVariable User investor) {
+    public Project suggestInvestorsForProject(@PathVariable User investor) {
         return iProjectsServices.suggestInvestorsForProject(investor);
-    }
+    }*/
 
 }
