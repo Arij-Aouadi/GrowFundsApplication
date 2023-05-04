@@ -13,8 +13,5 @@ public class GrowFundsApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GrowFundsApplication.class, args);
-
-
-
-}
+    }
 }

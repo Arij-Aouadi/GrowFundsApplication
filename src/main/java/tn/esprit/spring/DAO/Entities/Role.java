@@ -20,7 +20,7 @@ import java.util.List;
 public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int idRole ;
+    Long idRole ;
     @Enumerated(EnumType.STRING)
     TypeRole typeRole ;
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,7 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 @Getter
-
+@Slf4j
 @Setter
 public class UserDetailsImpl implements UserDetails {
     private static final long serialVersionUID = 1L;
@@ -25,7 +26,6 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
 
     private String username;
-
     private String email;
 
     @JsonIgnore
@@ -35,6 +35,7 @@ public class UserDetailsImpl implements UserDetails {
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
+
         this.email = email;
         this.password = password;
         this.authorities = authorities;
@@ -46,6 +47,10 @@ public class UserDetailsImpl implements UserDetails {
                 .map(role -> new SimpleGrantedAuthority(role.getTypeRole().name()))
                 .collect(Collectors.toList());
 
+        // Ajouter le log suivant pour vérifier les rôles récupérés à partir de l'utilisateur
+        log.info("Roles récupérés à partir de l'utilisateur : {}", authorities);
+
+
         return new UserDetailsImpl(
                 user.getId(),
                 user.getUsername(),
@@ -53,6 +58,8 @@ public class UserDetailsImpl implements UserDetails {
                 user.getPassword(),
                 authorities);
     }
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
        return  this.authorities;

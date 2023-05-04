@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import tn.esprit.spring.security.services.UserDetailsImpl;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -41,8 +43,9 @@ public class User implements Serializable {
      String relationWithClient ;
      String Profession ;
      String NewQuestions;
-     String TypeProjets;
+     String typeProjets;
      String TheuserNumber;
+
 
 
     @JsonIgnore
@@ -59,7 +62,10 @@ public class User implements Serializable {
 
 
      @ManyToMany(cascade = CascadeType.PERSIST,fetch = FetchType.EAGER)
-     Set<Role> role;
+     private Set<Role> role = new HashSet<>();
+
+
+     @JsonIgnore
      @OneToMany(mappedBy = "user")
      List<Account> accountList ;
     @JsonIgnore
@@ -71,6 +77,7 @@ public class User implements Serializable {
      @JsonIgnore
     @OneToMany(mappedBy = "user")
     List<Complaint> complaintList ;
+     @JsonIgnore
     @OneToOne(mappedBy = "guarant")
     Credits creditGuarant;
 
