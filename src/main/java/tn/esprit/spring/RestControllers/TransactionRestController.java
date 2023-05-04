@@ -2,10 +2,13 @@ package tn.esprit.spring.RestControllers;
 
 import com.lowagie.text.DocumentException;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import tn.esprit.spring.DAO.Entities.Transactions;
+import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.Services.Classes.PDFGenerator;
 import tn.esprit.spring.Services.Classes.TransactionPdfExporter;
+import tn.esprit.spring.Services.Classes.UserService;
 import tn.esprit.spring.Services.Interfaces.ITransactionService;
 
 import javax.mail.MessagingException;
@@ -16,22 +19,33 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-@RequestMapping("/Transaction")
+
+@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
 @AllArgsConstructor
+
 public class TransactionRestController {
     private ITransactionService iTransactionService;
+    @Autowired
+    UserService auth;
 
-    @GetMapping("/afficherTransaction")
+    @GetMapping("/admin/transactions/Retrieve_All_Transactions")
     public List<Transactions> afficher() {
         return iTransactionService.selectAll();
+    }
+
+    @GetMapping("/client/transactions")
+    public List<Transactions> getClientTransactions() {
+        User connectedUser = auth.getConnectedUser();
+        return iTransactionService.getTranscationsByClient(connectedUser.getId());
     }
 //    @PostMapping("/ajouterTransaction")
 //    public Transactions ajouter(@RequestBody Transactions transactions){
 //        return iTransactionService.addTransaction(transactions);
 
    // }
-    @GetMapping("/afficherTransactionAvecId/{id}")
+    @GetMapping("/admin/transactions/c/{id}")
     public Transactions afficherTransactionAvecId(@PathVariable int id)
     {
         return iTransactionService.selectById(id);
@@ -45,8 +59,8 @@ public class TransactionRestController {
     //public Transactions edit(@RequestBody Transactions transaction){
         //return iTransactionService.edit(transaction);}
 
-    @DeleteMapping ("/deleteTransactionbyid")
-    public void deletebyid (@RequestParam int id){
+    @DeleteMapping ("/admin/transaction/delete/{id}")
+    public void deletebyid (@PathVariable int id){
         iTransactionService.deleteById(id);}
 
 
@@ -72,14 +86,8 @@ public class TransactionRestController {
         int code = iTransactionService.sendAttachmentEmail(mail) ;
         return code ;
     }
-    @PostMapping("/app-Transaction-ANGULAR")
-    @ResponseBody
-    public String approveTransaction(@RequestBody Transactions o, long code) throws MessagingException
-    {
-        String Transaction = iTransactionService.approveTransactionAng(o,code) ;
-        return Transaction ;
-    }
-    @PostMapping("/ajouterTransaction")
+
+    @PostMapping("/client/transaction/add")
     public int addTransaction(@RequestBody Transactions o ) throws MessagingException
     {
         int Transaction = iTransactionService.addTransaction(o) ;
@@ -103,9 +111,24 @@ public class TransactionRestController {
 //        generator.generate(response);
 //
 //    }
+@PostMapping("/client/transaction/aa/{id}/{code}")
+@ResponseBody
+public int approveTransactionAng(@PathVariable("id") int id ,@PathVariable("code") Long code ) throws MessagingException
+{
+    int Transaction = iTransactionService.approveTransactionAng(id,code);
+    return Transaction ;
+}
+    @PostMapping("/client/transaction/{code}")
+    @ResponseBody
+    public int approveTransactionAng2(@PathVariable("code") Long code ) throws MessagingException
+    {
+        int Transaction = iTransactionService.approveTransactionAng2(code);
+        return Transaction ;
+    }
 
-    @GetMapping("/export/pdf")
-    public void exportToPDF(HttpServletResponse response , @RequestBody long rib) throws DocumentException, IOException {
+
+    @GetMapping("/export/pdf/{rib}")
+    public void exportToPDF(HttpServletResponse response , @PathVariable long rib) throws DocumentException, IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -117,8 +140,8 @@ public class TransactionRestController {
         exporter.export(response);
     }
 
-    @GetMapping("/export-to-pdf")
-    public void generatePdfFile(HttpServletResponse response ,@RequestParam long rib) throws DocumentException, IOException
+    @GetMapping("/client/transaction/export-to-pdf/{rib}")
+    public void generatePdfFile(HttpServletResponse response ,@PathVariable long rib) throws DocumentException, IOException
     {
         response.setContentType("application/pdf");
         DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");

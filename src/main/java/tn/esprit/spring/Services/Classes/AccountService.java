@@ -3,6 +3,7 @@ package tn.esprit.spring.Services.Classes;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Account;
+import tn.esprit.spring.DAO.Entities.Complaint;
 import tn.esprit.spring.DAO.Repositories.AccountRepository;
 import tn.esprit.spring.Services.Interfaces.IAccountService;
 
@@ -42,8 +43,8 @@ public class AccountService implements IAccountService {
     }
 
     @Override
-    public Account update(Account a, long rib) {
-               Account  account = accountRepository.findByRib(rib);
+    public Account update(Account a, int num) {
+        Account  account = accountRepository.findByAccountNum(num);
         account.setSolde(a.getSolde());
         account.setCin(a.getCin());
         account.setState(a.getState());
@@ -92,4 +93,10 @@ public class AccountService implements IAccountService {
         return u;
 
     }*/
+    @Override
+    public List<Account> getAccountsByClient(Long idClient) {
+        return accountRepository.getAccountByClient(idClient);
+    }
+
+
 }

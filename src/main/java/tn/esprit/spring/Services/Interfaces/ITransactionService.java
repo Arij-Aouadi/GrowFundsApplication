@@ -1,5 +1,6 @@
 package tn.esprit.spring.Services.Interfaces;
 
+import tn.esprit.spring.DAO.Entities.Complaint;
 import tn.esprit.spring.DAO.Entities.Transactions;
 
 import javax.mail.MessagingException;
@@ -20,6 +21,11 @@ public interface ITransactionService {
     //String  approveTransaction(Transactions s) throws MessagingException;
     int sendAttachmentEmail(String ReciverEmail) throws MessagingException;
 
-    String  approveTransactionAng(Transactions s, Long code ) throws MessagingException;
+    int  approveTransactionAng(int s1, Long code ) throws MessagingException;
+    int  approveTransactionAng2(Long code1 ) throws MessagingException;
+
+
+    List<Transactions> getTranscationsByClient(Long idClient);
+
 
 }
