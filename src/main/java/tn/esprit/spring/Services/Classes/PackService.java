@@ -22,7 +22,8 @@ public class PackService implements IPacksService {
 
     @Override
     public Packs add(Packs a) {
-        return packRepository.save(a);
+
+    return    packRepository.save(a);
     }
 
     @Override
@@ -48,13 +49,17 @@ public class PackService implements IPacksService {
     @Override
     public Packs toggleLike(Packs a) {
         User u = userService.getConnectedUser();
-        if (a.getLikedByUsers().contains(u)){
-            a.getLikedByUsers().remove(u);
+        Packs p=packRepository.findById(a.getIdPacks()).get();
+        if (p.getLikedByUsers().contains(u)){
+            p.getLikedByUsers().remove(u);
+            u.getLikedPackages().remove(p);
         }else{
-            a.getLikedByUsers().add(u);
+            p.getLikedByUsers().add(u);
+            u.getLikedPackages().add(p);
         }
-        packRepository.save(a);
-        return a;
+        packRepository.save(p);
+        userService.edit(u);
+        return p;
     }
 
   /*  @Override

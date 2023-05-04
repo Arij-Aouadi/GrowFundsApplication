@@ -6,6 +6,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -28,7 +29,4 @@ public class Product implements Serializable {
     String category;
     String imgUrl;
     float interest;
-    @JsonIgnore
-    @ManyToMany(mappedBy="product_pack", cascade = CascadeType.ALL)
-    private List<Packs> packs;
 }
