@@ -37,30 +37,4 @@ public class ProductService implements IProductService {
 
     }
 
-    @Override
-    public void delete(Product a) {
-        productRepository.delete(a);
-
-    }
-
-
-    @Override
-    public List<Product> addAll(List<Product> list) {
-        return productRepository.saveAll(list);
-    }
-
-    @Override
-    public void deleteAll(List<Product> list) {
-         productRepository.saveAll(list);
-    }
-
-    @Override
-    public List<Product> selectbynom(String nom) {
-        return productRepository.findByNameProdcut(nom);
-    }
-
-    @Override
-    public List<Product> selectbyprice(Float a, Float b) {
-        return productRepository.findByPriceProductBetween(a,b);
-    }
 }

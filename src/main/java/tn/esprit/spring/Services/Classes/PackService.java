@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Packs;
 import tn.esprit.spring.DAO.Entities.Product;
+import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.PackRepository;
 import tn.esprit.spring.DAO.Repositories.ProductRepository;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IPacksService;
+import tn.esprit.spring.Services.Interfaces.IUserService;
 
 import java.util.*;
 
@@ -16,7 +18,7 @@ import java.util.*;
 public class PackService implements IPacksService {
     private PackRepository packRepository ;
   private ProductRepository productRepository;
-  private UserRepository userRepository;
+  private IUserService userService;
 
     @Override
     public Packs add(Packs a) {
@@ -44,6 +46,18 @@ public class PackService implements IPacksService {
     }
 
     @Override
+    public Packs toggleLike(Packs a) {
+        User u = userService.getConnectedUser();
+        if (a.getLikedByUsers().contains(u)){
+            a.getLikedByUsers().remove(u);
+        }else{
+            a.getLikedByUsers().add(u);
+        }
+        packRepository.save(a);
+        return a;
+    }
+
+  /*  @Override
     public void delete(Packs a) {
         packRepository.delete(a);
 
@@ -156,6 +170,6 @@ public class PackService implements IPacksService {
         // Récupérer tous les packs avec le typePack donné
         return packRepository.findByTypepack(typePack);
     }
-
+*/
 
 }

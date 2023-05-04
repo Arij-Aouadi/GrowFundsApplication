@@ -22,9 +22,12 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
     int idProduct;
-    String nameProdcut;
-    Float priceProduct;
-    int Quantity ;
+    String name;
+    String description;
+    float price;
+    String category;
+    String imgUrl;
+    float interest;
     @JsonIgnore
     @ManyToMany(mappedBy="product_pack", cascade = CascadeType.ALL)
     private List<Packs> packs;

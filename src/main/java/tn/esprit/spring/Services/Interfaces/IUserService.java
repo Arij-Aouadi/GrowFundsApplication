@@ -18,4 +18,5 @@ public interface IUserService {
     User getById(long id);
 
     User getCurrentUser();
+    public User getConnectedUser();
 }

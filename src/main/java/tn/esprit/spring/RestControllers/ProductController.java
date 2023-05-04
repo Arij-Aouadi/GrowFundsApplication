@@ -10,30 +10,56 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/product")
+@CrossOrigin(origins = "http://localhost:4200")
 
 public class ProductController {
     private IProductService iProductService;
 
-    @GetMapping("/AfficherProduct")
-    public List<Product> afficher() {
+    //admin
+
+    @GetMapping("/admin/product/all")
+    public List<Product> getAllProductsAdmin() {
         return iProductService.selectAll();
     }
-    @GetMapping("/AfficherProductAvecId/{id}")
-    public Product afficherAccountAvecId(@PathVariable int id)
-    {
+    @PostMapping("/admin/product/add")
+    public Product addProduct(@RequestBody Product product){
+        return iProductService.add(product);
+    }
+    @PutMapping ("/admin/product/edit")
+    public Product editProduct(@RequestBody Product p){
+        return iProductService.edit(p);
+    }
+
+    @DeleteMapping ("/admin/product/{id}/delete")
+    public List<Product> deletebyid (@PathVariable int id){
+        iProductService.deleteById(id);
+        return iProductService.selectAll();
+    }
+
+    @GetMapping("/admin/product/{id}")
+    public Product getProdcutForAdmin(@PathVariable int id) {
         return iProductService.selectById(id);
     }
+//Client
 
-    @PostMapping("/AjouterProduct")
-    public Product ajouter(@RequestBody Product product){
-        return iProductService.add(product);
-
+    @GetMapping("/client/product/all")
+    public List<Product> getAllProductsClient() {
+        return iProductService.selectAll();
     }
-    @DeleteMapping ("/DeleteProductById")
-    public void deletebyid (@RequestParam int id){
-        iProductService.deleteById(id);}
 
+    @GetMapping("/client/product/{id}")
+    public Product getProdcutForClient(@PathVariable int id) {
+        return iProductService.selectById(id);
+    }
+    //visitor
+
+    @GetMapping("/product/all")
+    public List<Product> getAllProductsVisitor() {
+        return iProductService.selectAll();
+    }
+
+
+/*
     @DeleteMapping ("/DeleteAllProduct")
     public void deleteAll (List<Product> list) {
         iProductService.deleteAll(list);
@@ -60,6 +86,6 @@ public class ProductController {
     @PostMapping("/AddAll")
     public List<Product> affichertout(@RequestBody List<Product> products) {return iProductService.addAll(products);}
 
-
+*/
 
 }

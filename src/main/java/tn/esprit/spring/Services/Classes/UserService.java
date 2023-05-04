@@ -84,6 +84,7 @@ public class UserService implements IUserService {
 
 
     //TO Be changed later
+    @Override
     public User getConnectedUser(){
         return this.selectById(2L);
     }

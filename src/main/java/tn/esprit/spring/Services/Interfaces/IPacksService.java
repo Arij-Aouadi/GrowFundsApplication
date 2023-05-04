@@ -12,7 +12,10 @@ public interface IPacksService {
     List<Packs> selectAll();
     Packs selectById(int idPack);
     void deleteById(int idPack);
-    void delete(Packs a);
+
+    Packs toggleLike(Packs a);
+
+    /*void delete(Packs a);
     List<Packs> addAll(List<Packs> list);
     void deleteAll(List<Packs> list);
     List<Packs> selectBytypepack (String type);
@@ -21,5 +24,5 @@ public interface IPacksService {
     Boolean createandaffect(int pr, Map<Integer, Integer> products);
      List<Packs> getRecommendedPacks(int userId);
      String getFavoriteTypePack(int userId);
-     List<Packs> getPacksByTypePack(String typePack);
+     List<Packs> getPacksByTypePack(String typePack);*/
 }

@@ -21,19 +21,15 @@ import java.util.Set;
 public class Packs implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int idPack ;
+    int idPacks ;
     String name;
-    String typepack ;
-    String descriptionpack;
-    Float price ;
-    @ManyToMany
-    List<Credits> creditsList;
-    @JsonIgnore
+    String description ;
+    float price ;
+    String category;
+    String imgUrl;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    private Set<Product> product_pack;
-    @JsonIgnore
-
+    private List<Product> product_pack;
     @ManyToMany(mappedBy = "likedPackages")
     private List<User> likedByUsers;
 

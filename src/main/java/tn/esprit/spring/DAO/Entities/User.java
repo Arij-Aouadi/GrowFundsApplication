@@ -47,10 +47,6 @@ public class User implements Serializable {
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(
-            name = "Likes",
-            joinColumns = @JoinColumn(name = "userId"),
-            inverseJoinColumns = @JoinColumn(name = "packageId"))
     private List<Packs> likedPackages;
 
      @NotNull
