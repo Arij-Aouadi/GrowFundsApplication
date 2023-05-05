@@ -22,11 +22,17 @@ public class ProductController {
         return iProductService.selectAll();
     }
     @PostMapping("/admin/product/add")
-    public Product addProduct(@RequestBody Product product){
-        return iProductService.add(product);
+    public Product addProduct(@RequestBody Product p){
+        float a,b;
+
+        a= p.getPrice();
+        b= p.getInterest();
+        p.setPrice(a+a*b);
+        return iProductService.add(p);
     }
     @PutMapping ("/admin/product/edit")
     public Product editProduct(@RequestBody Product p){
+
         return iProductService.edit(p);
     }
 

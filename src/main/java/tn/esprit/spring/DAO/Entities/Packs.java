@@ -32,6 +32,8 @@ public class Packs implements Serializable {
     private List<Product> product_pack;
     @ManyToMany(mappedBy = "likedPackages")
     private List<User> likedByUsers;
+    @Column(name = "dr_code")
+    private String drCode;
 
 
 }
