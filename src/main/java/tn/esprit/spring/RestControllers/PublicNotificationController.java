@@ -36,9 +36,9 @@ public class PublicNotificationController {
         return publicNotificationService.getAll();
     }
 
-    @GetMapping("/client/publicnotif")
-    public List<PublicNotification> getPublicNotifications (){
-        User connectedUser= userService.getConnectedUser();
+    @GetMapping("/client/publicnotif/client/{cid}")
+    public List<PublicNotification> getPublicNotifications (@PathVariable long cid){
+        User connectedUser= userService.getById(cid);
 
         List<PublicNotification> notifs = publicNotificationService.getSentPublicNotificationsByUserId(connectedUser.getId());
         notifs.sort(new Comparator<PublicNotification>() {

@@ -46,9 +46,9 @@ public class NotificationController {
         return iNotificationService.getNotificationsByUserId(id);
     }
 
-    @GetMapping("/client/notifications/")//showing notifications of a selected user {without pending notifications}
-    public List<Notification> getNotifications() {
-        User connectedUser = userService.getConnectedUser();
+    @GetMapping("/client/notifications/client/{cid}")//showing notifications of a selected user {without pending notifications}
+    public List<Notification> getNotifications(@PathVariable long cid) {
+        User connectedUser = userService.getById(cid);
         List<Notification> notifs = iNotificationService.getSentNotificationsByUserId(connectedUser.getId());
               notifs.sort(new Comparator<Notification>() {
             public int compare(Notification n1, Notification n2) {

@@ -71,7 +71,7 @@ public class UserController {
     public void affecterRoleToUser(@RequestParam Long idRole,@RequestParam Long id) {
         iUserService.affecterRoleToUser(idRole, id);
     }
-    @GetMapping("/admin/currentUsers")
+    @GetMapping("currentUsers")
     public  User current (){
         return iUserService.getCurrentUser();
     }

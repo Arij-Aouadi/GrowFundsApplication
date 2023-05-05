@@ -1,6 +1,7 @@
 package tn.esprit.spring.Services.Interfaces;
 
 import tn.esprit.spring.DAO.Entities.Packs;
+import tn.esprit.spring.DAO.Entities.User;
 
 import java.util.List;
 import java.util.Map;
@@ -13,7 +14,7 @@ public interface IPacksService {
     Packs selectById(int idPack);
     void deleteById(int idPack);
 
-    Packs toggleLike(Packs a);
+    Packs toggleLike(Packs a, User u);
 
     /*void delete(Packs a);
     List<Packs> addAll(List<Packs> list);

@@ -27,6 +27,7 @@ import java.util.UUID;
 public class PackController {
 
     private IPacksService iPacksService;
+    private IUserService auth;
 
     //Admin
     @PersistenceContext
@@ -76,9 +77,10 @@ public List<Packs> getAllPacksClient() {
     return iPacksService.selectAll();
 }
 
-    @PutMapping ("/client/packs/like")
-    public Packs toggleLikePack(@RequestBody Packs packs){
-        return iPacksService.toggleLike(packs);
+    @PutMapping ("/client/packs/like/{cid}")
+    public Packs toggleLikePack(@RequestBody Packs packs,@PathVariable long cid){
+        User u = auth.getById(cid);
+        return iPacksService.toggleLike(packs,u);
 
     }
     @GetMapping("/client/packs/{id}")

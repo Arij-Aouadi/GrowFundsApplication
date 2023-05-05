@@ -48,30 +48,24 @@ public class ComplaintController {
     }
 
 
-    @GetMapping("/client/complaints")
-    public List<Complaint> showAllUserComplaint() {
-        User connectedUser = auth.getConnectedUser();
-        List<Complaint> complaints = iComplaintService.getComplaintsByClient(connectedUser.getId());
+    @GetMapping("/client/complaints/client/{cid}")
+    public List<Complaint> showAllUserComplaint(@PathVariable long cid) {
+        //User connectedUser = auth.getConnectedUser();
+        List<Complaint> complaints = iComplaintService.getComplaintsByClient(cid);
         return complaints;
     }
 
     @GetMapping("/client/complaints/c/{id}")
     public Complaint showUserComplaint(@PathVariable Long id) {
-        User connectedUser = auth.getConnectedUser();
         Complaint c = iComplaintService.selectById(id);
 
-        if (c.getUser().getId() == connectedUser.getId()) return c;
-        else {
-            throw new ResponseStatusException(
-                    HttpStatus.NOT_FOUND, "Complaint Not Found!"
-            );
-        }
+        return c;
 
     }
 
-    @PostMapping("/client/complaints/add")
-    public Complaint addComplaint(@RequestBody Complaint c) {
-        User connectedUser = auth.getConnectedUser();
+    @PostMapping("/client/complaints/add/client/{cid}")
+    public Complaint addComplaint(@RequestBody Complaint c,@PathVariable long cid) {
+        User connectedUser = auth.getById(cid);
         c.setUser(connectedUser);
         c.setDateComplaint(new Date());
         c.setPriorityLevel(TypePriorityLevel.LOW);
@@ -93,12 +87,12 @@ public class ComplaintController {
 
 
 
-    @PostMapping("/admin/complaints/c/{id}/addResponse")
-    public Complaint addAgentResponse(@PathVariable Long id, @RequestBody ComplaintResponse cr) {
+    @PostMapping("/admin/complaints/c/{id}/addResponse/client/{cid}")
+    public Complaint addAgentResponse(@PathVariable Long id, @RequestBody ComplaintResponse cr,@PathVariable long cid) {
 
         cr.setDateResponse(new Date());
         cr.setComplaint(iComplaintService.selectById(id));
-        User connectedUser = auth.getConnectedUser();
+        User connectedUser = auth.getById(cid);
         cr.setUser(connectedUser);
 
          iComplaintResponseService.add(cr);
@@ -106,11 +100,11 @@ public class ComplaintController {
     }
 
 
-    @PostMapping("/client/complaints/c/{id}/addResponse")
-    public Complaint addClientResponse(@PathVariable Long id,  @RequestBody ComplaintResponse cr) {
+    @PostMapping("/client/complaints/c/{id}/addResponse/client/{cid}")
+    public Complaint addClientResponse(@PathVariable Long id,  @RequestBody ComplaintResponse cr,@PathVariable long cid) {
         cr.setDateResponse(new Date());
         cr.setComplaint(iComplaintService.selectById(id));
-        User connectedUser = auth.getConnectedUser();
+        User connectedUser = auth.getById(cid);
         cr.setUser(connectedUser);
 
         iComplaintResponseService.add(cr);

@@ -47,8 +47,7 @@ public class PackService implements IPacksService {
     }
 
     @Override
-    public Packs toggleLike(Packs a) {
-        User u = userService.getConnectedUser();
+    public Packs toggleLike(Packs a,User u) {
         Packs p=packRepository.findById(a.getIdPacks()).get();
         if (p.getLikedByUsers().contains(u)){
             p.getLikedByUsers().remove(u);

@@ -21,7 +21,7 @@ public class UserHandshakeHandler extends DefaultHandshakeHandler {
     protected Principal determineUser(ServerHttpRequest request, WebSocketHandler wsHandler, Map<String, Object> attributes) {
 //        userServ  ice=new UserService();
 //        final Long id = userService.getConnectedUser().getId();
-        final Long id =2L;
+        final Long id =4L;
         LOG.info("User with ID '{}' opened the page", id);
 
         System.out.println( new UserPrincipal(id+""));
