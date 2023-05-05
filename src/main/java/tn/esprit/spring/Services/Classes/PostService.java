@@ -58,16 +58,14 @@ public class PostService implements IPostService {
         ResponseEntity<PostModel> result= restTemplate.postForEntity("http://arij123.pythonanywhere.com", httpEntity,PostModel.class);
         credit.setJudgment(result.toString());
 
-        if (Objects.requireNonNull(result.getBody()).getDefaultProba()>=50){
+        if (result.getBody().getDefaultProba()>=50){
             credit.setJudgment("DENIED : High default probability");
-            credit.setStatus("DENIED");
         }
-        if (Objects.requireNonNull(result.getBody()).getDefaultProba()<50){
-            credit.setJudgment("APPROVED : Low default probability");
-            credit.setStatus("APPROVED");
+        if (result.getBody().getDefaultProba()<50){
+            credit.setJudgment("Low default probability Here is the proposed Interest Rate");
             credit.setInterestRate((float)(result.getBody().getDefaultProba()*40)/50);
+            creditsRepository.save(credit);
         }
-
 
 
 

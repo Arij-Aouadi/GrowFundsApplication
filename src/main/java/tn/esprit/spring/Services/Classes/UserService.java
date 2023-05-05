@@ -7,7 +7,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tn.esprit.spring.DAO.Entities.Account;
+import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.DAO.Repositories.AccountRepository;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IUserService;
 
@@ -22,6 +25,8 @@ public class UserService implements IUserService {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AccountRepository accountRepository;
     @Override
     public List<User> selectall() {
         return userRepository.findAll();
@@ -74,6 +79,15 @@ public class UserService implements IUserService {
         else {
             return null;
         }
+    }
+
+    @Override
+    public User assignAccountToUser(long userId, int accountNum) {
+        Account account= accountRepository.findAccountByAccountNum(accountNum);
+        User user=userRepository.findUserById(userId);
+        user.getAccountList().add(account);
+        account.setUser(user);
+        return userRepository.save(user);
     }
 
     @Override

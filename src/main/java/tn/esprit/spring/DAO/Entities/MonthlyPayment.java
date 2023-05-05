@@ -27,7 +27,6 @@ public class MonthlyPayment {
     Date paymentSupposedDate;
     @Temporal(TemporalType.DATE )
     Date paymentDate;
-    @JsonIgnore
     @ManyToOne
     Credits credit;
 }

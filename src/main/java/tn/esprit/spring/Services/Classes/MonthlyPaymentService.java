@@ -90,4 +90,9 @@ public class MonthlyPaymentService implements IMonthlyPayment {
         return numberOfLateDays;
     }
 
+    @Override
+    public List<MonthlyPayment> getCreditMonthlyPayment(int idCredit) {
+        return monthlyPaymentRepository.getCredit_DuesHistory(idCredit);
+    }
+
 }
