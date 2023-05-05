@@ -32,24 +32,21 @@ public class Account implements Serializable {
     Long rib;
     @Temporal(TemporalType.DATE )
     Date date;
-
-    @JsonIgnore
-
+@JsonIgnore//
     @ManyToOne
     User user ;
-
     @OneToMany(mappedBy = "account")
 
     @JsonIgnore
     List<Credits> creditsList ;
-    @JsonIgnore
+    @JsonIgnore//
     @OneToMany(mappedBy = "account")
     List<PaymentMethod> paymentMethodList;
+    @JsonIgnore
     @ManyToMany(mappedBy = "accountList")
 
-    @JsonIgnore
-    List<Transactions> virement;
 
+    List<Transactions> virement;
     @OneToMany(mappedBy = "account")
 
     @JsonIgnore

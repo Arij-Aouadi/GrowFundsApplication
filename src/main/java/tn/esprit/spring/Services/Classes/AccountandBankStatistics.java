@@ -138,9 +138,9 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
     }
 
     @Override
-    public String mostprofitableloans() {
+    public List<Float> mostprofitableloans() {
         List<Float> profits = new ArrayList<Float>();
-        //List<Float> creditpercentage = new ArrayList<Float>();
+        List<Float> re = new ArrayList<Float>();
         //float s0=0;float s1=0;float s2=0;float s3=0;float s4=0;float s5=0;
         float total=0;float cash=0;float bill=0;float hybrid=0;float product=0;float school=0; float payday=0;
 
@@ -174,9 +174,11 @@ public class AccountandBankStatistics implements IAccountandBankStatistics {
         //creditpercentage.addAll(Arrays.asList((s0*100)/total,(s1*100)/total,(s2*100)/total,(s3*100)/total,(s4*100)/total,(s5*100)/total));
         profits.addAll(Arrays.asList(cash,bill,hybrid,product,school,payday));
         String max = String.valueOf(Collections.max(profits));
-        int index = profits.indexOf(max)+1;
-        return "The most profitable loans are:  "+ typecredit.get(index)+" With "+max +" Benefits "    ;
-        //return Collections.max(profits);
+        float index = profits.indexOf(max)+1;
+        re.add(Collections.max(profits));
+        re.add(index);
+        //return "The most profitable loans are:  "+ typecredit.get(index)+" With "+max +" Benefits "    ;
+        return re;
     }
 
     @Override

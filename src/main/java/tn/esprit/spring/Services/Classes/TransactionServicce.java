@@ -1,6 +1,7 @@
 package tn.esprit.spring.Services.Classes;
 
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -76,16 +77,17 @@ public class TransactionServicce implements ITransactionService {
     }
 
     @Override
-    public int addTransaction(Transactions s) throws MessagingException{
-        int code_tr = 0;
+    public int addTransaction(Transactions s ) throws MessagingException{
+
+         int code_tr = 0;
         //Account acc_emet = accountRepository.findById((s.getRibsource())).orElse(null);
         //Account acc_dest = accountRepository.findById(s.getRibrecipient()).orElse(null);
         for (Account account :  iAccountService.selectAll()) {
             //if (s.getAmount() < account.getSolde()) {
             if (account.getRib() == s.getRibsource()) {
                 //accountRepository.findByAccountNum(account.getAccountNum()).getEmail()
-                String mail=userRepository.retrieveEmailByAccounNum(account.getAccountNum());
-
+                 String mail=userRepository.retrieveEmailByAccounNum(account.getAccountNum());
+                 //String mail = connectedUser.getEmail();
 
                 code_tr = sendAttachmentEmail(mail);
                 //this.code=code_tr;
@@ -137,6 +139,7 @@ public class TransactionServicce implements ITransactionService {
                     + "<img src='http://www.apache.org/images/asf_logo_wide.gif'>"
                     + randomWithSecureRandomWithinARange;
 
+
             message.setContent(htmlMsg, "text/html");
             helper.setTo(ReciverEmail);
             helper.setSubject("GrowFunds Transaction endorsment ");
@@ -150,17 +153,36 @@ public class TransactionServicce implements ITransactionService {
 
 
     @Override
-    public String approveTransactionAng(Transactions s, Long code) throws MessagingException {
-        if(addTransaction(s)==code)
+    public int approveTransactionAng(int s1, Long code) throws MessagingException {
+        //Transactions s =transactionRepository.findById(s1).get();
+        if(s1==code)
         {
-            transactionRepository.save(s);
-            return "transaction approuvée " ;
+
+            return 1  ;
         }
         else
         {
-            return "Transaction non approuvée" ;
+            return 0;
         }
     }
+
+    @Override
+    public int approveTransactionAng2(Long code1) throws MessagingException {
+        if(code1==498688)
+        {
+            //transactionRepository.save(s);
+            return 1 ;
+        }
+        else
+        {
+            return 0 ;
+        }
+    }
+
+    public List<Transactions> getTranscationsByClient(Long idClient){
+        return transactionRepository.getallbyclientid(idClient);
+    }
+
 //    public Transactions addTransaction(Transactions s) {
 //        Long source = s.getRibsource();
 //        Long des = s.getRibrecipient();
@@ -181,6 +203,8 @@ public class TransactionServicce implements ITransactionService {
 //
 //        return transactionRepository.save(s);
 //    }
+
+
 
 
 }

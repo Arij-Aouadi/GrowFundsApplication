@@ -36,8 +36,9 @@ public class TransactionPdfExporter  {
         table.addCell(cell);
         cell.setPhrase(new Phrase("Rib_Source", font));
         table.addCell(cell);
-        //cell.setPhrase(new Phrase("Transaction_Date", font));
-        //table.addCell(cell);
+        cell.setPhrase(new Phrase("Transaction_Date", font));
+
+        table.addCell(cell);
         cell.setPhrase(new Phrase("Type_Transaction", font));
         table.addCell(cell);
 

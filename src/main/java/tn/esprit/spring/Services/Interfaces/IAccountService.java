@@ -15,5 +15,6 @@ public interface IAccountService {
     void delete(Account a);
     List<Account> addAll(List<Account> list);
     void deleteAll(List<Account> list);
-    Account assignCreditToAccount(int idCredit, int accountNum);
+    List<Account> getAccountsByClient(Long idClient);
+
 }

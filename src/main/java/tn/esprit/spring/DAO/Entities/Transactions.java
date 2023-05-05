@@ -32,12 +32,14 @@ public class Transactions implements Serializable {
     Typetrans typetrans;
     @Enumerated(EnumType.STRING)
     Category category ;
-    @ManyToMany
     @JsonIgnore
+    @ManyToMany
+
     List<Account> accountList;
+    @JsonIgnore
     @ManyToOne
 
-    @JsonIgnore
+
     Account account ;
 
 }

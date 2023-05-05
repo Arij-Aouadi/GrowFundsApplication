@@ -9,7 +9,7 @@ public interface IAccountandBankStatistics  {
     double returnOnAssets();
     double netincome();
     double avergetotalassets();
-    String mostprofitableloans();
+    List<Float> mostprofitableloans();
     float Loan_to_Deposit_Ratio();
 
             //Revenus totaux =benefice of loans + pourcentage de amount investment
