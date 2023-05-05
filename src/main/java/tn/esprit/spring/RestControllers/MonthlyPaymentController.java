@@ -10,6 +10,8 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class MonthlyPaymentController {
     private IMonthlyPayment iMonthlyPayment;
 
@@ -33,6 +35,12 @@ public class MonthlyPaymentController {
 
         return iMonthlyPayment.addAll(list);
     }
+    @GetMapping("admin/getCreditMonthlyPayments/{id}")
+    public List<MonthlyPayment> afficherMPAvecId(@PathVariable int id){
+        return iMonthlyPayment.getCreditMonthlyPayment(id);
+    }
+
+
     @PutMapping ("/modifierpayementmensuel")
     public MonthlyPayment editPayment (@RequestBody MonthlyPayment monthlyPayment){
         return iMonthlyPayment.edit(monthlyPayment);}
@@ -48,9 +56,9 @@ public class MonthlyPaymentController {
         iMonthlyPayment.delete(monthlyPayment);}
 
 
-    @GetMapping("/getLateDays")
-    public int LateDays (@RequestParam int idCredit){
-        return iMonthlyPayment.calculateLateDays(idCredit);
+    @GetMapping("/getLateDays/{id}")
+    public int LateDays (@PathVariable int id){
+        return iMonthlyPayment.calculateLateDays(id);
     }
 
 }

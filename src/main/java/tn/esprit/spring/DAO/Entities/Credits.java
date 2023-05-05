@@ -31,6 +31,8 @@ public class Credits implements Serializable {
     Date dateFin;
     Float paymentMounthly ;
     Float interestRate ;
+
+
     String status ;
     @Enumerated(EnumType.STRING)
     TypeCredit typeCredit ;
@@ -142,13 +144,17 @@ public class Credits implements Serializable {
 	     3 : skilled employee / official
 	     4 : management/ self-employed/ highly qualified employee/ officer */
     int job;
+
+
     @ManyToOne
     Account account ;
+    @JsonIgnore
     @ManyToMany
     List<Packs> packsList;
     @JsonIgnore
     @OneToMany(mappedBy = "credit")
     List<MonthlyPayment> monthlyPaymentList;
+    @JsonIgnore
     @OneToOne
     User guarant;
 

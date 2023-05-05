@@ -8,6 +8,8 @@ import tn.esprit.spring.DAO.Entities.User;
 
 public interface AccountRepository extends JpaRepository<Account,Integer> {
    Account findByAccountNum(int numAcc);
+
+   Account findAccountByAccountNum(int numAccount);
    Account findByRib(long rib);
 //   @Query(value = "SELECT account_num from Account a join Transactions t on a.account_num = t.account_account_num where t.ribsource=:rib", nativeQuery = true)
 //   int retrieveAccount_numByAccounNum(@Param("rib") int rib );

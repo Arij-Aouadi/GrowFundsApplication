@@ -11,6 +11,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User,Long> {
     //select user selon username
     Optional<User> findByUsername (String userName);
+
     //select user where id =....
    // List<User> findById(Long id);
 
@@ -19,6 +20,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
     boolean existsUserByUsername(String userName);
     boolean existsUserByEmail(String email);
 
+    User findUserById(long id);
+
+    @Query(value = " SELECT * from user u join account a on a.user_id=u.id JOIN credits c ON a.account_num=c.account_account_num WHERE c.id_credit=?1", nativeQuery = true)
+    User returnUserofCredit(int idCredit);
 
     //@Query(value = "SELECT u.* FROM user u join role r on u.role_id_role=r.id_role ",nativeQuery = true)
     //List<User> selectUsersByRoleType(Long idRole);

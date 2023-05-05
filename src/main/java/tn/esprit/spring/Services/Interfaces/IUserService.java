@@ -1,5 +1,6 @@
 package tn.esprit.spring.Services.Interfaces;
 
+import tn.esprit.spring.DAO.Entities.Account;
 import tn.esprit.spring.DAO.Entities.ChatBot;
 import tn.esprit.spring.DAO.Entities.User;
 
@@ -18,5 +19,7 @@ public interface IUserService {
     User getById(long id);
 
     User getCurrentUser();
+    User assignAccountToUser(long userId, int accountNum);
+
     public User getConnectedUser();
 }

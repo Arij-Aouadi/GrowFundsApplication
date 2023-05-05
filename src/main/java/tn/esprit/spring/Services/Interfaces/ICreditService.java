@@ -27,6 +27,8 @@ public interface ICreditService {
     List<Credits> GetCreditsByStatus (String status);
     boolean CreditExists (int accountNum);
 
+    List<Credits> clientCredits(int accountNUm);
+
     float calculeMonthlyPayment(int credit);
 
     void export(HttpServletResponse response,int idCredit) throws IOException;
