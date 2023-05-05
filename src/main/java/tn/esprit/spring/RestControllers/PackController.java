@@ -6,39 +6,73 @@ import org.springframework.web.bind.annotation.*;
 
 import tn.esprit.spring.DAO.Entities.Packs;
 
+import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.Services.Interfaces.IPacksService;
+import tn.esprit.spring.Services.Interfaces.IUserService;
 
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/Packs")
-
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class PackController {
+
     private IPacksService iPacksService;
 
-    @GetMapping("/AfficherPack")
-    public List<Packs> afficher() {
+    //Admin
+    @GetMapping("/admin/packs/all")
+    public List<Packs> getAllPackssAdmin() {
         return iPacksService.selectAll();
     }
-    @GetMapping("/AfficherPackAvecId/{id}")
-    public Packs afficherAccountAvecId(@PathVariable int idPack)
-    {
-        return iPacksService.selectById(idPack);
-    }
 
-    @PostMapping("/AjouterPack")
-    public Packs ajouter(@RequestBody Packs packs){
+    @PostMapping("/admin/packs/add")
+    public Packs addPacks(@RequestBody Packs packs){
         return iPacksService.add(packs);
-
     }
-    @DeleteMapping ("/DeletePackById")
-    public void deletebyid (@RequestParam int id){
+    @PutMapping ("/admin/packs/edit")
+    public Packs editPacks(@RequestBody Packs packs){
+        return iPacksService.edit(packs);}
+
+    @GetMapping("/admin/packs/{id}")
+    public Packs getPacksByIdAdmin(@PathVariable int id)
+    {
+        return iPacksService.selectById(id);
+    }
+
+    @DeleteMapping ("/admin/packs/{id}/delete")
+    public void deletPacks (@PathVariable int id){
         iPacksService.deleteById(id);}
 
-    @DeleteMapping ("/DeleteAllPacks")
+
+//client
+@GetMapping("/client/packs/all")
+public List<Packs> getAllPacksClient() {
+    return iPacksService.selectAll();
+}
+
+    @PutMapping ("/client/packs/like")
+    public Packs toggleLikePack(@RequestBody Packs packs){
+        return iPacksService.toggleLike(packs);
+
+    }
+    @GetMapping("/client/packs/{id}")
+    public Packs getPacksByIdClient(@PathVariable int id)
+    {
+        return iPacksService.selectById(id);
+    }
+
+    //visitor
+
+    @GetMapping("/packs/all")
+    public List<Packs> getAllPacksVisitor() {
+        return iPacksService.selectAll();
+    }
+
+
+   /*@DeleteMapping ("/DeleteAllPacks")
     public void deleteAll (List<Packs> list) {
         iPacksService.deleteAll(list);
     }
@@ -53,9 +87,7 @@ public class PackController {
     public List<Packs> afficheravectypepay(@RequestParam String type){
         return iPacksService.selectBytypepack(type);
     }
-    @PutMapping ("/ModifierPack")
-    public Packs edit(@RequestBody Packs packs){
-        return iPacksService.edit(packs);}
+
 
     @PostMapping("/AddAll")
     public List<Packs> affichertout(@RequestBody List<Packs> packs) {return iPacksService.addAll(packs);}
@@ -83,5 +115,5 @@ public class PackController {
         return iPacksService.getRecommendedPacks(userId);
     }
 
-
+*/
 }

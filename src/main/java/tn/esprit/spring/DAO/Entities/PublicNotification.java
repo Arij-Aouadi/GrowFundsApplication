@@ -17,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name= "PublicNotification")
+
 public class PublicNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )

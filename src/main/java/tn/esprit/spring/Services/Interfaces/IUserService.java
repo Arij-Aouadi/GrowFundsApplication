@@ -21,4 +21,5 @@ public interface IUserService {
     User getCurrentUser();
     User assignAccountToUser(long userId, int accountNum);
 
+    public User getConnectedUser();
 }

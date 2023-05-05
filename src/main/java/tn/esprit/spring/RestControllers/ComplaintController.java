@@ -48,7 +48,7 @@ public class ComplaintController {
     }
 
 
-    @GetMapping("/client/complaints/")
+    @GetMapping("/client/complaints")
     public List<Complaint> showAllUserComplaint() {
         User connectedUser = auth.getConnectedUser();
         List<Complaint> complaints = iComplaintService.getComplaintsByClient(connectedUser.getId());
@@ -70,13 +70,10 @@ public class ComplaintController {
     }
 
     @PostMapping("/client/complaints/add")
-    public Complaint addComplaint(@RequestParam String objet, @RequestParam String description) {
-        Complaint c = new Complaint();
+    public Complaint addComplaint(@RequestBody Complaint c) {
         User connectedUser = auth.getConnectedUser();
         c.setUser(connectedUser);
         c.setDateComplaint(new Date());
-        c.setObjet(objet);
-        c.setDescription(description);
         c.setPriorityLevel(TypePriorityLevel.LOW);
         c.setStatus(TypeComplaintStatus.NEW);
         return iComplaintService.add(c);
@@ -110,19 +107,14 @@ public class ComplaintController {
 
 
     @PostMapping("/client/complaints/c/{id}/addResponse")
-    public ComplaintResponse addClientResponse(@PathVariable Long id, @RequestParam String description) {
-        Complaint c = iComplaintService.selectById(id);
-        ComplaintResponse cr = new ComplaintResponse();
+    public Complaint addClientResponse(@PathVariable Long id,  @RequestBody ComplaintResponse cr) {
+        cr.setDateResponse(new Date());
+        cr.setComplaint(iComplaintService.selectById(id));
         User connectedUser = auth.getConnectedUser();
-        if (c.getStatus() != TypeComplaintStatus.RESOLVED && c.getStatus() != TypeComplaintStatus.CLOSED && c.getUser() == connectedUser) {
-            cr.setDescription(description);
-            cr.setDateResponse(new Date());
-            cr.setComplaint(c);
-            cr.setUser(connectedUser);
-            return iComplaintResponseService.add(cr);
-        } else {
-            return null;
-        }
+        cr.setUser(connectedUser);
+
+        iComplaintResponseService.add(cr);
+        return cr.getComplaint();
 
     }
 
@@ -180,7 +172,7 @@ public class ComplaintController {
         }else if (answer.toUpperCase().contains("LOW")){
             c.setPriorityLevel(TypePriorityLevel.HIGH);
         }
-        //iComplaintService.edit(c);
+        iComplaintService.edit(c);
         return ResponseEntity.ok(out.getAnswer());
     }
 

@@ -3,10 +3,12 @@ package tn.esprit.spring.Services.Classes;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.DAO.Entities.Projects;
+import tn.esprit.spring.DAO.Entities.Project;
+import tn.esprit.spring.DAO.Entities.Revenue;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Entities.TypeInvestor;
 import tn.esprit.spring.DAO.Repositories.ProjectsRepository;
+import tn.esprit.spring.DAO.Repositories.RevenueRepository;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 
@@ -16,12 +18,52 @@ import java.util.*;
 @AllArgsConstructor
 public class ProjectsServices implements IProjectsServices {
     private ProjectsRepository projectsRepository;
-    private UserRepository userRepository;
-    @Autowired
+    private RevenueRepository revenueRepository;
+    private UserService userService;
     private  Smsservice smsservice;
 
     @Override
-    public Projects add(Projects p , Long id) {
+    public List<Project> getProjectsForFounder() {
+        User u = userService.getConnectedUser();
+        return projectsRepository.findByFounder(u);
+    }
+    @Override
+    public Project selectById(int idProjects) {
+        return projectsRepository.findById(idProjects).get();
+    }
+
+    @Override
+    public Project addRevenue(Revenue r, int idProject) {
+        Project p =projectsRepository.findById(idProject).get();
+        revenueRepository.save(r);
+        p.getRevenues().add(r);
+        projectsRepository.save(p);
+        return p;
+
+    }
+    @Override
+    public Project add(Project p ) {
+        User u = userService.getConnectedUser();
+        p.setFounder(u);
+        String phoneNumber = u.getTheuserNumber();
+        String message = "Hello , your project " + p.getName() + " has been added successfully and you will get our answer as soon as possible.";
+        smsservice.sendSms(phoneNumber, message);
+        projectsRepository.save(p);
+        return p;
+    }
+
+    @Override
+    public List<Project> selectAll() {
+        return projectsRepository.findAll();
+    }
+
+    @Override
+    public Project edit(Project p) {
+        return projectsRepository.save(p);
+    }
+
+    /*@Override
+    public Project add(Project p , Long id) {
         projectsRepository.save(p);
         User user = userRepository.getReferenceById(id);
         p.setUser(user);
@@ -33,20 +75,11 @@ public class ProjectsServices implements IProjectsServices {
         return p;
     }
 
-    @Override
-    public Projects edit(Projects p) {
-        return projectsRepository.save(p);
-    }
 
-    @Override
-    public List<Projects> selectAll() {
-        return projectsRepository.findAll();
-    }
 
-    @Override
-    public Projects selectById(int idProjects) {
-        return projectsRepository.findById(idProjects).get();
-    }
+
+
+
 
     @Override
     public void deleteById(int idProjects) {
@@ -55,24 +88,24 @@ public class ProjectsServices implements IProjectsServices {
     }
 
     @Override
-    public void delete(Projects p) {
+    public void delete(Project p) {
         projectsRepository.delete(p);
     }
 
     @Override
-    public List<Projects> addAll(List<Projects> list) {
+    public List<Project> addAll(List<Project> list) {
         return projectsRepository.saveAll(list);
     }
 
     @Override
-    public void deleteAll(List<Projects> list) {
+    public void deleteAll(List<Project> list) {
         projectsRepository.deleteAll(list);
     }
 
 
-    public List<Projects> Searchprojects(String ch) {
-        List<Projects> matchingPosts = new ArrayList<>();
-        for (Projects projects : projectsRepository.findAll()) {
+    public List<Project> Searchprojects(String ch) {
+        List<Project> matchingPosts = new ArrayList<>();
+        for (Project projects : projectsRepository.findAll()) {
             if (projects.getName().contains(ch) || projects.getType().contains(ch)) {
                 matchingPosts.add(projects);
             }
@@ -81,18 +114,18 @@ public class ProjectsServices implements IProjectsServices {
     }
 
     @Override
-    public List<Projects> getProjectsByInvestor(User investor) {
+    public List<Project> getProjectsByInvestor(User investor) {
         return projectsRepository.findByInvestor(investor);
     }
 
  @Override
-    public Projects suggestInvestorsForProject(User investor) {
+    public Project suggestInvestorsForProject(User investor) {
 
 
-        List<Projects> investments = projectsRepository.findByInvestor(investor);
+        List<Project> investments = projectsRepository.findByInvestor(investor);
         Map<TypeInvestor, Long> investmentTypeCounts = new HashMap<>();
 
-        for (Projects investment : investments) {
+        for (Project investment : investments) {
             TypeInvestor type = investment.getLeTypeInvestor();
             Long count = investmentTypeCounts.get(type);
             System.out.println(type);
@@ -114,18 +147,18 @@ public class ProjectsServices implements IProjectsServices {
             }
         }
 
-        List<Projects> allProjects = projectsRepository.findAll();
+        List<Project> allProjects = projectsRepository.findAll();
 
-        List<Projects> favoriteProjects = new ArrayList<>();
+        List<Project> favoriteProjects = new ArrayList<>();
 
-        for (Projects project : allProjects) {
+        for (Project project : allProjects) {
             if (project.getLeTypeInvestor().equals(favoriteTypeInvestement)) {
                 favoriteProjects.add(project);
             }
         }
         int index = new Random().nextInt(favoriteProjects.size());
         return favoriteProjects.get(index);
-    }
+    }*/
 }
 
 

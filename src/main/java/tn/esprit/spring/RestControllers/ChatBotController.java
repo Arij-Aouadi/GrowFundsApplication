@@ -1,30 +1,43 @@
 package tn.esprit.spring.RestControllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import tn.esprit.spring.DAO.Entities.ChatBot;
-import tn.esprit.spring.DAO.Entities.Role;
-import tn.esprit.spring.DAO.Entities.TypeRole;
-import tn.esprit.spring.DAO.Entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.DAO.Entities.*;
 
 import tn.esprit.spring.Services.Interfaces.IChatbotService;
+import tn.esprit.spring.Services.Interfaces.IChatgptService;
 import tn.esprit.spring.Services.Interfaces.IUserService;
+import tn.esprit.spring.openai.OutputDto;
 
 import java.util.List;
 import java.util.Set;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/Packs")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class ChatBotController {
 
     private IChatbotService iChatBotservice;
     private IUserService userService;
+    @Autowired
+    private IChatgptService chatgptService;
 
-   @PostMapping("/chatbot")
+
+    @GetMapping("/admin/livechat/{question}")
+    public String summarizeComplaint(@PathVariable String question) {
+        OutputDto out = null;
+        try {
+            out = chatgptService.sendPrompt("we are  a bank assisstance service for a bank called 'GrowFunds' and our website is 'www.growfunds.com' try to play the role of a bank agent that answer for client question. Answer this is the question : " + question);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return out.getAnswer();
+    }
+
+/*
+    @PostMapping("/chatbot")
     public String handleChatBotRequest(@RequestParam("msg") String msg) {
 
 
@@ -74,6 +87,6 @@ public class ChatBotController {
         }
 
     }
-
+*/
 
 }

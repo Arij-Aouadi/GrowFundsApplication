@@ -11,9 +11,11 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class UserController {
     private IUserService iUserService;
-    @GetMapping("/afficherUser")
+    @GetMapping("/admins/user/showall")
     public List<User> afficherUser() {
 
         List <User> list= iUserService.selectAll();

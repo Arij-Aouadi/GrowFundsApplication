@@ -3,7 +3,10 @@ package tn.esprit.spring.DAO.Entities;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -14,20 +17,11 @@ import java.util.Date;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-@FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name= "investtisment")
-
-public class Investisment implements Serializable {
+public class Revenue implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY )
-    int idinvesttisment ;
+    int id ;
 
-    Float amount ;
-    @ManyToOne
-    User investor ;
-
-    @Temporal(TemporalType.DATE)
-    Date dateInvest ;
-
-
+    Date dateDeclaration;
+    float revenue;
 }
