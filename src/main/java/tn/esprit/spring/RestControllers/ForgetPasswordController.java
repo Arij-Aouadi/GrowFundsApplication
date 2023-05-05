@@ -12,7 +12,7 @@ import javax.mail.MessagingException;
 
 public class ForgetPasswordController {
 UserService userService;
-	@PostMapping("/testsendattachementemail")
+	@PostMapping("/testsendattachementemailtoresetPassword")
 	@ResponseBody
 	public int sendAttachmentEmaill(String receiverEmail, String resetUrl) throws MessagingException
 	{

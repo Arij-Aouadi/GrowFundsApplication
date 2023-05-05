@@ -8,7 +8,7 @@ public interface IAccountService {
     Account add(Account a);
     void alimenteAcc ( long rib , float amount ) ;
     Account edit(Account a);
-    Account update(Account a ,long rib);
+    Account update(Account a ,int num);
     List<Account> selectAll();
     Account selectById(int idAccount);
     void deleteById(int idAccount);
