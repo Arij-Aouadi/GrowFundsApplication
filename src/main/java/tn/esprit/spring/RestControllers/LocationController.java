@@ -15,8 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class LocationController {
     ILocationService iLocationService;
-    @GetMapping("/getClosestAgency")
-    public Location myClosestAgency(@PathParam("latitude") double latitude,@PathParam("longitude") double longitude ){
+    @GetMapping("/getClosestAgency/{latitude}/{longitude}")
+    public Location myClosestAgency(@PathVariable double latitude,@PathVariable double longitude ){
         Location clientLocation= new Location();
         clientLocation.setLatitude(latitude);
         clientLocation.setLongitude(longitude);
