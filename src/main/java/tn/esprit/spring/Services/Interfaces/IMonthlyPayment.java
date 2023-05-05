@@ -19,4 +19,6 @@ public interface IMonthlyPayment {
 
     int calculateLateDays (int idCredit);
 
+    List<MonthlyPayment> getCreditMonthlyPayment(int idCredit);
+
 }

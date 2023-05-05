@@ -3,7 +3,9 @@ package tn.esprit.spring.Services.Classes;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tn.esprit.spring.DAO.Entities.Account;
+import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Repositories.AccountRepository;
+import tn.esprit.spring.DAO.Repositories.CreditsRepository;
 import tn.esprit.spring.Services.Interfaces.IAccountService;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
 
 public class AccountService implements IAccountService {
     private AccountRepository accountRepository ;
+    private CreditsRepository creditsRepository;
 
     @Override
     public Account add(Account a) { return accountRepository.save(a);
@@ -92,4 +95,13 @@ public class AccountService implements IAccountService {
         return u;
 
     }*/
+
+    @Override
+    public Account assignCreditToAccount(int idCredit, int accountNum) {
+        Credits credit=creditsRepository.findCreditsByIdCredit(idCredit);
+        Account account=accountRepository.findByAccountNum(accountNum);
+        account.getCreditsList().add(credit);
+        credit.setAccount(account);
+        return accountRepository.save(account);
+    }
 }

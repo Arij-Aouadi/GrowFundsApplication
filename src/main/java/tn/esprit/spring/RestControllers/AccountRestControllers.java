@@ -67,5 +67,9 @@ public class AccountRestControllers {
     public void deleteAll (List<Account>list) {
         iAccountService.deleteAll(list);
     }
+    @GetMapping("/assignCreditToAccount/{id}/{num}")
+    public Account assignSkierToPiste(@PathVariable int id,@PathVariable int num){
+        return iAccountService.assignCreditToAccount(id,num);
+    }
 
 }

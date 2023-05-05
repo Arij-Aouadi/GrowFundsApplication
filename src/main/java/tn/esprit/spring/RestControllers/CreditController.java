@@ -11,6 +11,8 @@ import org.springframework.web.client.RestTemplate;
 import tn.esprit.spring.DAO.Entities.Amortisement;
 import tn.esprit.spring.DAO.Entities.Credits;
 import tn.esprit.spring.DAO.Entities.PostModel;
+import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.DAO.Repositories.UserRepository;
 import tn.esprit.spring.Services.Classes.PostService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
 import tn.esprit.spring.Services.Interfaces.ICreditService;
@@ -25,30 +27,40 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/credit")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class CreditController {
     private ICreditService iCreditService;
-    @GetMapping("/showAllCredits")
+    private UserRepository userRepository;
+    @GetMapping("/admin/showAllCredits")
     public List<Credits> showCredits()
     {
         return iCreditService.selectAll();
     }
 
-    @GetMapping("/mensuelPayment")
-    public float calculateMonthlyPayment(@RequestParam int idCredit) {
-        return iCreditService.calculeMonthlyPayment(idCredit);
+    @GetMapping("/admin/mensuelPayment/{id}")
+    public float calculateMonthlyPayment(@PathVariable int id) {
+        return iCreditService.calculeMonthlyPayment(id);
+    }
+    @GetMapping("/admin/returnCreditUser/{id}")
+    public User returnUser(@PathVariable int id) {
+        return userRepository.returnUserofCredit(id);
     }
 
     private PostService postService;
-    @PostMapping("/predictClientClassAndSetInterestRate")
-    public PostModel showPredictions(@RequestParam int idCredit) {
-        PostModel predictions= postService.getPredictionByCreditId(idCredit);
+    @GetMapping("/admin/predictClientClassAndSetInterestRate/{id}")
+    public PostModel showPredictions(@PathVariable int id) {
+        PostModel predictions= postService.getPredictionByCreditId(id);
         return predictions;
     }
 
     @GetMapping("/showCreditByStatus")
     public List<Credits> showCreditByStatus(@RequestParam String status) {
         return iCreditService.GetCreditsByStatus(status);
+    }
+    @GetMapping("/getClientCredits/{num}")
+    public List<Credits> showClientCredit(@PathVariable int num) {
+        return iCreditService.clientCredits(num);
     }
 
     @GetMapping("/selectCreditByAccountNum")
@@ -61,16 +73,16 @@ public class CreditController {
         return iCreditService.amortisement(idCredit);
     }
 
-    @GetMapping("/pdf/generateAmortissement")
-    public void generatePdf(HttpServletResponse response, int idCredit) throws IOException {
+    @GetMapping("/pdf/generateAmortissement/{id}")
+    public void generatePdf(HttpServletResponse response,@PathVariable int id) throws IOException {
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
 
         String headerKey ="Content-Disposition";
-        String headerValue ="attachment; filename=Tableau_Credit_N_"+idCredit+".pdf";
+        String headerValue ="attachment; filename=Tableau_Credit_N_"+id+".pdf";
         response.setHeader(headerKey, headerValue);
-        iCreditService.export(response,idCredit);
+        iCreditService.export(response,id);
     }
 
     @PostMapping("/addCredit")
@@ -78,7 +90,7 @@ public class CreditController {
         return iCreditService.add(credits);
 
     }
-    @GetMapping("/selectCreditById/{id}")
+    @GetMapping("/admin/selectCreditById/{id}")
     public Credits selectCreditById(@PathVariable int id){
         return iCreditService.selectById(id);
     }
@@ -89,7 +101,7 @@ public class CreditController {
 
         return iCreditService.addAll(list);
     }
-    @PutMapping ("/updateCredit")
+    @PutMapping ("admin/updateCredit")
     public Credits editCredit (@RequestBody Credits credits){
         return iCreditService.edit(credits);}
 

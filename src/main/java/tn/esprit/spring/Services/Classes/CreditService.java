@@ -8,10 +8,8 @@ import com.lowagie.text.pdf.PdfWriter;
 import io.swagger.v3.core.util.Json;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import tn.esprit.spring.DAO.Entities.Amortisement;
-import tn.esprit.spring.DAO.Entities.Credits;
-import tn.esprit.spring.DAO.Entities.Packs;
-import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.DAO.Entities.*;
+import tn.esprit.spring.DAO.Repositories.AccountRepository;
 import tn.esprit.spring.DAO.Repositories.CreditsRepository;
 import java.io.BufferedReader;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
@@ -33,6 +31,8 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
 
     private CreditsRepository creditsRepository;
     private UserRepository userRepository;
+
+    private AccountRepository accountRepository;
     @Override
     public Credits add(Credits c){
         return  creditsRepository.save(c);
@@ -83,6 +83,11 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
     @Override
     public boolean CreditExists(int accountNum) {
         return creditsRepository.existsCreditsByAccount_AccountNum(accountNum);
+    }
+
+    @Override
+    public List<Credits> clientCredits(int accountNum) {
+        return creditsRepository.findCreditsByAccount_AccountNum(accountNum);
     }
 
     @Override
@@ -164,6 +169,7 @@ public class CreditService implements tn.esprit.spring.Services.Interfaces.ICred
 
         document.close();
     }
+
 
 
 }

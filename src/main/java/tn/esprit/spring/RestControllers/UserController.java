@@ -2,9 +2,11 @@ package tn.esprit.spring.RestControllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import tn.esprit.spring.DAO.Entities.Account;
 import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.Services.Interfaces.IUserService;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 @RestController
@@ -40,5 +42,10 @@ public class UserController {
     @GetMapping("/currentUser")
     public  String current (){
         return iUserService.getCurrentUser().getUsername();
+    }
+
+    @PutMapping("/assignAccountToUser/{id}/{num}")
+    public User assignSkierToPiste(@PathVariable long id, @PathVariable int num){
+        return iUserService.assignAccountToUser(id,num);
     }
 }
