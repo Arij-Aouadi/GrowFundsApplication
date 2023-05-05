@@ -7,6 +7,7 @@ import tn.esprit.spring.DAO.Entities.Investisment;
 import tn.esprit.spring.DAO.Entities.Project;
 import tn.esprit.spring.DAO.Entities.TypeProjectStatus;
 import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.Services.Classes.UserService;
 import tn.esprit.spring.Services.Interfaces.IInvesttismentServices;
 import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 import tn.esprit.spring.Services.Interfaces.IUserService;
@@ -24,16 +25,19 @@ import java.util.List;
 
 public class InvesttismentControllers {
     private IInvesttismentServices iInvesttismentServices;
+    private UserService userService;
     private IProjectsServices iProjectsServices;
 
-    @GetMapping("/client/investments")
-    public List<Investisment> getAllClientInvestments()
+    @GetMapping("/client/investments/client/{cid}")
+    public List<Investisment> getAllClientInvestments(@PathVariable long cid)
     {
-        return iInvesttismentServices.selectByClient();
+        User u = userService.getById(cid);
+        return iInvesttismentServices.selectByClient(u);
     }
-    @PostMapping("/client/investments/{id}/add")
-    public Project ajouterInvesttisment(@PathVariable(value = "id") int id, @RequestBody Investisment investtisment) {
-        iInvesttismentServices.add(investtisment);
+    @PostMapping("/client/investments/{id}/add/client/{cid}")
+    public Project ajouterInvesttisment(@PathVariable(value = "id") int id, @RequestBody Investisment investtisment,@PathVariable long cid) {
+        User u = userService.getById(cid);
+        iInvesttismentServices.add(investtisment,u);
         Project p = iProjectsServices.selectById(id);
         p.getInvestisments().add(investtisment);
         iProjectsServices.edit(p);

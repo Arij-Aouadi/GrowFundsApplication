@@ -7,6 +7,7 @@ import tn.esprit.spring.DAO.Entities.Project;
 import tn.esprit.spring.DAO.Entities.Revenue;
 import tn.esprit.spring.DAO.Entities.TypeProjectStatus;
 import tn.esprit.spring.DAO.Entities.User;
+import tn.esprit.spring.Services.Classes.UserService;
 import tn.esprit.spring.Services.Interfaces.IProjectsServices;
 
 import java.util.Date;
@@ -18,20 +19,23 @@ import java.util.List;
 
 public class ProjectsControllers {
     private IProjectsServices iProjectsServices;
-
-    @GetMapping("/client/projects")
-    public List<Project> getProjectsByFounder() {
-        return iProjectsServices.getProjectsForFounder();
+    private UserService userService;
+    @GetMapping("/client/projects/client/{cid}")
+    public List<Project> getProjectsByFounder(@PathVariable long cid) {
+        User u = userService.getById(cid);
+        return iProjectsServices.getProjectsForFounder(u);
     }
     @GetMapping("/client/allprojects")
     public List<Project> getAll() {
         return iProjectsServices.selectAll();
     }
 
-    @PostMapping("/client/project/add")
-    public Project addProject( @RequestBody Project p) {
+    @PostMapping("/client/project/add/client/{cid}")
+    public Project addProject( @RequestBody Project p,@PathVariable long cid) {
+        User u = userService.getById(cid);
+
         p.setStatus(TypeProjectStatus.NOT_STARTED);
-        return iProjectsServices.add(p);
+        return iProjectsServices.add(p,u);
 
     }
     @GetMapping("/client/project/{id}")

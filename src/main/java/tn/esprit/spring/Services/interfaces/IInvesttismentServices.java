@@ -7,11 +7,11 @@ import tn.esprit.spring.DAO.Entities.User;
 import java.util.List;
 
 public interface IInvesttismentServices {
-    Investisment add(Investisment i);
+    Investisment add(Investisment i,User u);
 
     Investisment edit(Investisment i);
     List<Investisment> selectAll();
-    List<Investisment> selectByClient();
+    List<Investisment> selectByClient(User u);
     Investisment selectById(int idinvesttisment);
     void deleteById(int idinvesttisment);
     void delete(Investisment i);

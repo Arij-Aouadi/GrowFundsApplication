@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface IProjectsServices {
 
-    public List<Project> getProjectsForFounder() ;
+    public List<Project> getProjectsForFounder(User u) ;
     Project selectById(int idProjects);
 
 
     Project addRevenue(Revenue r, int idProject);
 
-    Project add(Project p);
+    Project add(Project p,User u);
 
     List<Project> selectAll();
 

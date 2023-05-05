@@ -23,8 +23,7 @@ public class ProjectsServices implements IProjectsServices {
     private  Smsservice smsservice;
 
     @Override
-    public List<Project> getProjectsForFounder() {
-        User u = userService.getConnectedUser();
+    public List<Project> getProjectsForFounder(User u) {
         return projectsRepository.findByFounder(u);
     }
     @Override
@@ -42,8 +41,7 @@ public class ProjectsServices implements IProjectsServices {
 
     }
     @Override
-    public Project add(Project p ) {
-        User u = userService.getConnectedUser();
+    public Project add(Project p ,User u) {
         p.setFounder(u);
         String phoneNumber = u.getTheuserNumber();
         String message = "Hello , your project " + p.getName() + " has been added successfully and you will get our answer as soon as possible.";

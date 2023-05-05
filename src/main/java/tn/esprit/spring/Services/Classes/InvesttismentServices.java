@@ -18,10 +18,9 @@ public class InvesttismentServices implements IInvesttismentServices {
     private UserService userService;
 
     @Override
-    public Investisment add(Investisment i) {
+    public Investisment add(Investisment i,User u) {
 
 
-        User u = userService.getConnectedUser();
         Date d= new Date();
         i.setInvestor(u);
         i.setDateInvest(d);
@@ -39,8 +38,7 @@ public class InvesttismentServices implements IInvesttismentServices {
     }
 
     @Override
-    public List<Investisment> selectByClient() {
-        User u = userService.getConnectedUser();
+    public List<Investisment> selectByClient(User u) {
         return investtismentRepository.findAllByInvestor(u);
     }
 
