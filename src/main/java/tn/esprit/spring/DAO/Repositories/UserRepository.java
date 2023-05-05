@@ -43,11 +43,11 @@ public interface UserRepository extends JpaRepository<User,Long> {
 //    @Query (value = "SELECT profession from User u join Account a on u.cin = a.user_id where a.rib=:num", nativeQuery = true)
 //    String retrieveProfessionByAccounNum(@Param("num") long num );
 
-    @Query(value ="SELECT u.* FROM user u JOIN role r on u.role_id_role=r.id_role WHERE r.id_role=1" ,nativeQuery = true)
+    @Query(value ="SELECT u.* FROM user u JOIN user_role r on u.id=r.user_id WHERE r.role_id_role =1" ,nativeQuery = true)
     List<User> findAgents();
-    @Query(value ="SELECT u.* FROM user u JOIN role r on u.role_id_role=r.id_role WHERE r.id_role=2" ,nativeQuery = true)
+    @Query(value ="SELECT u.* FROM user u JOIN user_role r on u.id=r.user_id WHERE r.role_id_role =2" ,nativeQuery = true)
     List<User> findAdmins();
-    @Query(value ="SELECT u.* FROM user u JOIN role r on u.role_id_role=r.id_role WHERE r.id_role=3" ,nativeQuery = true)
+    @Query(value ="SELECT u.* FROM user u JOIN user_role r on u.id=r.user_id WHERE r.role_id_role =3" ,nativeQuery = true)
     List<User> findClients();
 @Query(value = "SELECT r.* FROM user u JOIN role r on u.role_id_role=r.id_role WHERE u.id=?1", nativeQuery = true)
 Set<Role> getRoleByIdd(Long id);

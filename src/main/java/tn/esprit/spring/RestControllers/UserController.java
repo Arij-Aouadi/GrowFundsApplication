@@ -72,8 +72,8 @@ public class UserController {
         iUserService.affecterRoleToUser(idRole, id);
     }
     @GetMapping("/admin/currentUsers")
-    public  String current (){
-        return iUserService.getCurrentUser().getUsername();
+    public  User current (){
+        return iUserService.getCurrentUser();
     }
 
     @PutMapping("/assignAccountToUser/{id}/{num}")

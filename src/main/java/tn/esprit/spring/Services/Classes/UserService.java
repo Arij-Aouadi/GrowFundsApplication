@@ -16,6 +16,7 @@ import tn.esprit.spring.DAO.Entities.User;
 import tn.esprit.spring.DAO.Repositories.AccountRepository;
 import tn.esprit.spring.DAO.Repositories.RoleRepository;
 import tn.esprit.spring.DAO.Repositories.UserRepository;
+import tn.esprit.spring.Services.Interfaces.IAccountService;
 import tn.esprit.spring.Services.Interfaces.IUserService;
 
 import javax.mail.MessagingException;
@@ -37,6 +38,9 @@ public class UserService implements IUserService {
     private RoleRepository roleRepository;
     @Autowired
     public JavaMailSender emailSender;
+
+    @Autowired
+    public AccountRepository accountRepository;
     @Override
     public List<User> selectall() {
         return userRepository.findAll();
@@ -159,11 +163,6 @@ public class UserService implements IUserService {
 
         return randomCode;
     }
-
-
-
-
-
 
 
     //TO Be changed later

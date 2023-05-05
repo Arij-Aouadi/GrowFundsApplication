@@ -111,7 +111,7 @@ public class AuthController {
         u.setAddress(user.getAddress());
         u.setEmail(user.getEmail());
         u.setSalary(user.getSalary());
-        u.setRole(userRepository.getRoleByIdd(user.getId()));
+        //u.setRole(userRepository.getRoleByIdd(user.getId()));
 
 
         //Create new user's account
